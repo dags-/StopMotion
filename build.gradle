@@ -1,0 +1,41 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "4.0.2"
+    id "org.spongepowered.plugin" version "0.8.1"
+    id "java"
+}
+
+group "me.dags"
+version "0.0.1"
+def spongeAPI = "7.2.0"
+def spongeChannel = "SNAPSHOT"
+
+sponge {
+    plugin.id = "portal"
+    plugin.meta {
+        name = "Portal"
+        version = rootProject.version
+        description = "A simple portal plugin"
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile "org.spongepowered:spongeapi:${spongeAPI}-${spongeChannel}"
+    shadow "com.github.dags-:Pitaya:0.0.7"
+}
+
+shadowJar {
+    minimize()
+    configurations = [project.configurations.shadow]
+    relocate "me.dags.pitaya.", "${project.group}.${sponge.plugin.id}.libs.pitaya."
+    archivesBaseName  = "${sponge.plugin.meta.name}-${spongeAPI}"
+    classifier = null
+}
+
+build {
+    dependsOn(shadowJar)
+}
