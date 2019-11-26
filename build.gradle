@@ -10,9 +10,9 @@ def spongeAPI = "7.2.0"
 def spongeChannel = "SNAPSHOT"
 
 sponge {
-    plugin.id = "portal"
+    plugin.id = "animations"
     plugin.meta {
-        name = "Portal"
+        name = "Animations"
         version = rootProject.version
         description = "A simple portal plugin"
     }

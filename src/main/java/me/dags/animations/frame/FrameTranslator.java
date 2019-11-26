@@ -1,0 +1,47 @@
+package me.dags.animations.frame;
+
+import com.google.common.reflect.TypeToken;
+import me.dags.animations.util.Translators;
+import me.dags.animations.util.duration.Duration;
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.DataView;
+import org.spongepowered.api.data.persistence.DataTranslator;
+import org.spongepowered.api.data.persistence.InvalidDataException;
+import org.spongepowered.api.world.schematic.Schematic;
+
+public class FrameTranslator implements DataTranslator<Frame> {
+
+    private static final TypeToken<Frame> TOKEN = TypeToken.of(Frame.class);
+    private static final DataQuery DURATION = DataQuery.of("Duration");
+    private static final DataQuery SCHEMATIC = DataQuery.of("Schematic");
+
+    @Override
+    public TypeToken<Frame> getToken() {
+        return TOKEN;
+    }
+
+    @Override
+    public Frame translate(DataView view) throws InvalidDataException {
+        Schematic frame = Translators.get(view, SCHEMATIC, Translators.SCHEMATIC);
+        Duration duration = Translators.get(view, DURATION, Translators.DURATION);
+        return new Frame(frame, duration);
+    }
+
+    @Override
+    public DataContainer translate(Frame frame) throws InvalidDataException {
+        return DataContainer.createNew()
+                .set(DURATION, Translators.DURATION.translate(frame.getDuration()))
+                .set(SCHEMATIC, Translators.SCHEMATIC.translate(frame.getSchematic()));
+    }
+
+    @Override
+    public String getId() {
+        return "frame";
+    }
+
+    @Override
+    public String getName() {
+        return "frame";
+    }
+}
