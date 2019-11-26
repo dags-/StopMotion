@@ -8,10 +8,7 @@ import me.dags.animations.trigger.type.Distance;
 import me.dags.animations.trigger.type.Interact;
 import me.dags.animations.trigger.type.Message;
 import me.dags.animations.util.recorder.PosRecorder;
-import me.dags.pitaya.command.annotation.Command;
-import me.dags.pitaya.command.annotation.Join;
-import me.dags.pitaya.command.annotation.Permission;
-import me.dags.pitaya.command.annotation.Src;
+import me.dags.pitaya.command.annotation.*;
 import me.dags.pitaya.command.fmt.Fmt;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -29,12 +26,14 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
 
     @Command("trigger wand")
     @Permission("animation.command.trigger.wand")
+    @Description("Create a position selection tool to create triggers with")
     public void wand(@Src Player player) {
         PosRecorder.create(player, must(player).pos()).ifPresent(recorder -> Fmt.info("Created new wand").tell(player));
     }
 
     @Command("trigger message <message...>")
     @Permission("animation.command.trigger.message")
+    @Description("Create a trigger that listens for the given message in chat")
     public void message(@Src Player player, @Join String message) {
         must(player).add(new Message(message));
         Fmt.info("Added new message trigger").tell(player);
@@ -42,6 +41,7 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
 
     @Command("trigger distance <radius>")
     @Permission("animation.command.trigger.distance")
+    @Description("Create a trigger that checks proximity to given position")
     public void distance(@Src Player player, int radius) {
         Optional<PosRecorder> recorder = PosRecorder.lookup(player);
         if (recorder.isPresent()) {
@@ -55,6 +55,7 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
 
     @Command("trigger distance <position> <radius>")
     @Permission("animation.command.trigger.distance")
+    @Description("Create a trigger that checks proximity to given position")
     public void distance(@Src Player player, Vector3i position, int radius) {
         must(player).add(new Distance(position, radius));
         Fmt.info("Added new distance trigger").tell(player);
@@ -62,6 +63,7 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
 
     @Command("trigger interact")
     @Permission("animation.command.trigger.interact")
+    @Description("Create a trigger that checks interactions with blocks in a certain area")
     public void interact(@Src Player player) {
         Optional<PosRecorder> recorder = PosRecorder.lookup(player);
         if (recorder.isPresent()) {
@@ -75,6 +77,7 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
 
     @Command("trigger interact <pos1> <pos2>")
     @Permission("animation.command.trigger.interact")
+    @Description("Create a trigger that checks interactions with blocks in a certain area")
     public void interact(@Src Player player, Vector3i pos1, Vector3i pos2) {
         must(player).add(new Interact(pos1, pos2));
         Fmt.info("Added interaction trigger").tell(player);
@@ -82,6 +85,7 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
 
     @Command("trigger save <name>")
     @Permission("animation.command.trigger.save")
+    @Description("Save and register the trigger with the given name")
     public void save(@Src Player player, String name) {
         drain(player, builder -> {
             NamedTrigger named = builder.build(name);
