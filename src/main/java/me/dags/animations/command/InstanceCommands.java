@@ -47,10 +47,10 @@ public class InstanceCommands extends BuilderCommand<InstanceBuilder> {
         Fmt.info("Set animation triggers").tell(player);
     }
 
-    @Command("animation|anim timeline <directions...>")
-    @Permission("animation.command.animation.timeline")
+    @Command("animation|anim direction <directions...>")
+    @Permission("animation.command.animation.direction")
     @Description("Set the directions that the animation will play in")
-    public void timeline(@Src Player player, Direction... directions) {
+    public void direction(@Src Player player, Direction... directions) {
         must(player).add(directions);
         Fmt.info("Set timeline").tell(player);
     }

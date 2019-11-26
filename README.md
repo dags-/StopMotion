@@ -29,5 +29,5 @@ An animation instance combines the timeline created in step 1, and the trigger(s
 1. `/anim origin 50 65 50` - Sets the paste position for the animation at `Position(50, 65, 50)`
 2. `/anim animation example` - Select the `"example"` animation created in step 1
 3. `/anim trigger sesame` - Select the `"sesame"` trigger created in step 2
-4. `/anim timeline FORWARD BACKWARD` - Set the animation to play forward once, then backward once
+4. `/anim direction FORWARD BACKWARD` - Set the animation to play forward once, then backward once
 5. `/anim save <name>` - Save & register the animation instance
