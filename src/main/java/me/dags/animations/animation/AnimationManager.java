@@ -1,7 +1,10 @@
 package me.dags.animations.animation;
 
+import me.dags.animations.util.duration.Duration;
 import me.dags.pitaya.command.fmt.Fmt;
+import me.dags.pitaya.util.PluginUtils;
 import org.spongepowered.api.registry.CatalogRegistryModule;
+import org.spongepowered.api.scheduler.Task;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,38 +13,62 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
-public class AnimationManager implements CatalogRegistryModule<AnimationRef> {
+public class AnimationManager implements CatalogRegistryModule<Animation> {
 
     private final Path directory;
-    private final Map<String, AnimationRef> registry = new HashMap<>();
+    private final Duration expiration;
+    private final Map<String, Animation> registry = new HashMap<>();
+
+    private Task task = null;
 
     public AnimationManager(Path directory) {
         this.directory = directory;
+        this.expiration = Duration.mins(10);
     }
 
     @Override
-    public Optional<AnimationRef> getById(String id) {
+    public Optional<Animation> getById(String id) {
         return Optional.ofNullable(registry.get(id));
     }
 
     @Override
-    public Collection<AnimationRef> getAll() {
+    public Collection<Animation> getAll() {
         return registry.values();
     }
 
-    @Override
-    public void registerDefaults() {
+    public void delete(String name) {
+        getById(name).ifPresent(animation -> {
+            try {
+                registry.remove(name);
+                Files.delete(animation.getPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void load() {
+        if (task != null) {
+            task.cancel();
+        }
+
+        task = Task.builder()
+                .execute(this::tick)
+                .delay(1, TimeUnit.MINUTES)
+                .interval(1, TimeUnit.MINUTES)
+                .submit(PluginUtils.getCurrentPluginInstance());
+
         try {
             registry.clear();
             Files.createDirectories(directory);
 
             Files.newDirectoryStream(directory).forEach(path -> {
                 String fileName = path.getFileName().toString();
-                Fmt.info("Found file ").stress(fileName).log();
                 if (fileName.endsWith(".nbt")) {
                     String name = fileName.replace(".nbt", "");
-                    registry.put(name, new AnimationRef(path, name));
+                    registry.put(name, new Animation(path, name, expiration));
                     Fmt.info("Registered animation ").stress(name).log();
                 }
             });
@@ -50,9 +77,18 @@ public class AnimationManager implements CatalogRegistryModule<AnimationRef> {
         }
     }
 
-    public void register(Animation animation) {
-        Path path = directory.resolve(animation.getId() + ".nbt");
-        Animation.save(animation, path);
-        registry.put(animation.getName(), new AnimationRef(path, animation));
+    public void register(AnimationData animation) {
+        Path path = directory.resolve(animation.getName() + ".nbt");
+        AnimationData.save(animation, path);
+        registry.put(animation.getName(), new Animation(path, animation, expiration));
+    }
+
+    private void tick() {
+        long now = System.currentTimeMillis();
+        for (Animation ref : registry.values()) {
+            if (ref.hasExpired(now)) {
+                ref.expire();
+            }
+        }
     }
 }

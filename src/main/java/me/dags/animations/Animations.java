@@ -2,19 +2,22 @@ package me.dags.animations;
 
 import com.google.inject.Inject;
 import me.dags.animations.animation.AnimationManager;
-import me.dags.animations.animation.AnimationRef;
-import me.dags.animations.command.AnimationCommands;
+import me.dags.animations.animation.Animation;
 import me.dags.animations.command.FrameCommands;
 import me.dags.animations.command.InstanceCommands;
+import me.dags.animations.command.TriggerCommands;
 import me.dags.animations.instance.Instance;
 import me.dags.animations.instance.InstanceManager;
+import me.dags.animations.trigger.NamedTrigger;
+import me.dags.animations.trigger.TriggerListener;
+import me.dags.animations.trigger.TriggerManager;
 import me.dags.pitaya.command.CommandBus;
 import me.dags.pitaya.config.Config;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.GameReloadEvent;
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.event.world.UnloadWorldEvent;
@@ -30,50 +33,44 @@ import java.util.stream.Collectors;
 @Plugin(id = "animations")
 public class Animations {
 
+    private final TriggerManager triggers;
     private final InstanceManager instances;
     private final AnimationManager animations;
     private final PlaybackManager playback = new PlaybackManager();
-    private final Map<UUID, WorldListener> listeners = new HashMap<>();
+    private final Map<UUID, TriggerListener> listeners = new HashMap<>();
 
     @Inject
     public Animations(@ConfigDir(sharedRoot = false) Path dir) {
         animations = new AnimationManager(dir.resolve("animations"));
+        triggers = new TriggerManager(Config.must(dir, "triggers.conf"));
         instances = new InstanceManager(Config.must(dir, "instances.conf"));
     }
 
     @Listener
-    public void pre(GamePreInitializationEvent event) {
+    public void init(GameInitializationEvent event) {
         Sponge.getRegistry().registerModule(Instance.class, instances);
-        Sponge.getRegistry().registerModule(AnimationRef.class, animations);
+        Sponge.getRegistry().registerModule(NamedTrigger.class, triggers);
+        Sponge.getRegistry().registerModule(Animation.class, animations);
         CommandBus.create()
                 .register(new FrameCommands(this))
+                .register(new TriggerCommands(this))
                 .register(new InstanceCommands(this))
-                .register(new AnimationCommands(this))
                 .submit();
-    }
-
-    @Listener
-    public void post(GamePostInitializationEvent event) {
-        // instances need to load after animations
-        instances.load();
-        // sets up world listeners
-        refreshListeners();
+        reload(null);
     }
 
     @Listener
     public void reload(GameReloadEvent event) {
-        // load animations first
-        animations.registerDefaults();
-        // instances need to load after animations
+        triggers.load();
+        animations.load();
         instances.load();
-        // sets up world listeners
         refreshListeners();
     }
 
     @Listener
     public void unload(UnloadWorldEvent event) {
         // unregister listener for the given world
-        WorldListener listener = listeners.remove(event.getTargetWorld().getUniqueId());
+        TriggerListener listener = listeners.remove(event.getTargetWorld().getUniqueId());
         if (listener != null) {
             Sponge.getEventManager().unregisterListeners(listener);
         }
@@ -84,12 +81,16 @@ public class Animations {
         getPlaybackManager().cancelAll();
     }
 
-    public AnimationManager getAnimations() {
-        return animations;
+    public TriggerManager getTriggers() {
+        return triggers;
     }
 
     public InstanceManager getInstances() {
         return instances;
+    }
+
+    public AnimationManager getAnimations() {
+        return animations;
     }
 
     public PlaybackManager getPlaybackManager() {
@@ -107,7 +108,7 @@ public class Animations {
         // register listener for each world, assuming the world exists
         for (Map.Entry<String, List<Instance>> entry : instances.entrySet()) {
             Sponge.getServer().getWorld(entry.getKey()).ifPresent(world -> {
-                WorldListener listener = new WorldListener(this, world.getUniqueId(), entry.getValue());
+                TriggerListener listener = new TriggerListener(this, world.getUniqueId(), entry.getValue());
                 Sponge.getEventManager().registerListeners(this, listener);
                 listeners.put(world.getUniqueId(), listener);
             });

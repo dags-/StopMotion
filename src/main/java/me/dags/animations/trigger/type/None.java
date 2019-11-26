@@ -6,6 +6,12 @@ import me.dags.animations.trigger.TriggerType;
 import me.dags.pitaya.config.Node;
 
 public class None implements Trigger {
+
+    @Override
+    public boolean isPresent() {
+        return false;
+    }
+
     @Override
     public boolean test(Context context) {
         return false;

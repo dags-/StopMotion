@@ -7,13 +7,13 @@ import me.dags.animations.trigger.TriggerType;
 import me.dags.animations.util.Translators;
 import me.dags.pitaya.config.Node;
 
-public class Radius implements Trigger {
+public class Distance implements Trigger {
 
     private final int radius;
     private final int radius2;
     private final Vector3i position;
 
-    public Radius(Vector3i position, int radius) {
+    public Distance(Vector3i position, int radius) {
         this.radius = radius;
         this.position = position;
         this.radius2 = radius * radius;
@@ -21,12 +21,12 @@ public class Radius implements Trigger {
 
     @Override
     public TriggerType getType() {
-        return TriggerType.RADIUS;
+        return TriggerType.DISTANCE;
     }
 
     @Override
     public Trigger fromNode(Node node) {
-        return new Radius(
+        return new Distance(
                 Translators.vec3i(node.node("center")),
                 node.get("radius", 0)
         );
@@ -35,7 +35,7 @@ public class Radius implements Trigger {
     @Override
     public void toNode(Node node) {
         node.set("radius", radius);
-        Translators.vec3i(node.node("center"), position);
+        node.set("center", Translators.vec3i(position));
     }
 
     @Override

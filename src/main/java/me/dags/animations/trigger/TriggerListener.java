@@ -1,9 +1,8 @@
-package me.dags.animations;
+package me.dags.animations.trigger;
 
 import com.flowpowered.math.vector.Vector3i;
+import me.dags.animations.Animations;
 import me.dags.animations.instance.Instance;
-import me.dags.animations.trigger.Context;
-import me.dags.animations.trigger.Trigger;
 import me.dags.animations.util.region.RegionMap;
 import me.dags.pitaya.command.annotation.Src;
 import org.spongepowered.api.entity.living.player.Player;
@@ -17,17 +16,17 @@ import org.spongepowered.api.world.Locatable;
 import java.util.List;
 import java.util.UUID;
 
-public class WorldListener {
+public class TriggerListener {
 
     private final UUID world;
     private final Animations plugin;
-    private final RegionMap<Instance> regions = new RegionMap<>(5);
+    private final RegionMap<Instance> regions = new RegionMap<>(7);
 
-    public WorldListener(Animations plugin, UUID world, List<Instance> instances) {
+    public TriggerListener(Animations plugin, UUID world, List<Instance> instances) {
         this.world = world;
         this.plugin = plugin;
         for (Instance instance : instances) {
-            regions.add(instance, 2);
+            regions.add(instance, 1);
         }
     }
 

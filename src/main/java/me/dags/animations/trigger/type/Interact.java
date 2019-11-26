@@ -14,7 +14,7 @@ public class Interact implements Trigger {
 
     public Interact(Vector3i min, Vector3i max) {
         this.min = min.min(max);
-        this.max = max.max(min);
+        this.max = min.max(max);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class Interact implements Trigger {
 
     @Override
     public void toNode(Node node) {
-        Translators.vec3i(node.node("min"), min);
-        Translators.vec3i(node.node("max"), max);
+        node.set("min", Translators.vec3i(min));
+        node.set("max", Translators.vec3i(max));
     }
 
     @Override

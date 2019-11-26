@@ -1,7 +1,6 @@
 package me.dags.animations.util.worker;
 
 import me.dags.pitaya.util.PluginUtils;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.scheduler.Task;
 
 import java.util.concurrent.atomic.AtomicBoolean;

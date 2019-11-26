@@ -1,65 +1,33 @@
 package me.dags.animations.instance;
 
 import com.flowpowered.math.vector.Vector3i;
-import me.dags.animations.animation.AnimationRef;
-import me.dags.animations.trigger.Trigger;
-import me.dags.animations.trigger.TriggerType;
-import me.dags.animations.trigger.type.And;
-import me.dags.animations.trigger.type.Or;
+import me.dags.animations.animation.Animation;
+import me.dags.animations.trigger.NamedTrigger;
 import me.dags.animations.util.iterator.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 public class InstanceBuilder {
 
     public String name;
     public String world;
     public Vector3i origin;
-    public AnimationRef animation;
-    public List<Trigger> triggers;
-    public List<Direction> timeline;
-
-    private ListBuilder<Trigger> triggerBuilder;
+    public Animation animation;
+    public List<NamedTrigger> triggers = new LinkedList<>();
+    public List<Direction> timeline = new LinkedList<>();
 
     public void origin(Location<World> origin) {
         this.world = origin.getExtent().getName();
         this.origin = origin.getBlockPosition();
     }
 
-    public ListBuilder<Trigger> triggers() {
-        if (triggerBuilder == null) {
-            triggerBuilder = new ListBuilder<>();
-        }
-        return triggerBuilder;
-    }
-
-    public void add(TriggerType type) {
-        if (triggerBuilder == null) {
-            return;
-        }
-
-        if (type == TriggerType.AND) {
-            List<Trigger> triggers = triggerBuilder.build();
-            Trigger trigger = new And(triggers);
-            if (triggers == null) {
-                triggers = new LinkedList<>();
-            }
-            triggers.add(trigger);
-            triggerBuilder = new ListBuilder<>();
-            return;
-        }
-
-        if (type == TriggerType.OR) {
-            List<Trigger> triggers = triggerBuilder.build();
-            Trigger trigger = new Or(triggers);
-            if (triggers == null) {
-                triggers = new LinkedList<>();
-            }
-            triggers.add(trigger);
-            triggerBuilder = new ListBuilder<>();
-        }
+    public void trigger(NamedTrigger... trigger) {
+        Collections.addAll(triggers, trigger);
     }
 
     public void add(Direction... directions) {
@@ -87,18 +55,5 @@ public class InstanceBuilder {
         }
         this.name = name;
         return Optional.of(new Instance(this));
-    }
-
-    public static class ListBuilder<T> {
-
-        private final List<T> list = new LinkedList<>();
-
-        public void add(T t) {
-            list.add(t);
-        }
-
-        public List<T> build() {
-            return new ArrayList<>(list);
-        }
     }
 }

@@ -1,8 +1,8 @@
 package me.dags.animations.instance;
 
 import com.flowpowered.math.vector.Vector3i;
-import me.dags.animations.animation.AnimationRef;
-import me.dags.animations.trigger.Trigger;
+import me.dags.animations.animation.Animation;
+import me.dags.animations.trigger.NamedTrigger;
 import me.dags.animations.util.BiOptional;
 import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.util.region.Positioned;
@@ -21,8 +21,8 @@ public class Instance implements CatalogType, Positioned {
     private final String name;
     private final String world;
     private final Vector3i origin;
-    private final AnimationRef animation;
-    private final List<Trigger> triggers;
+    private final Animation animation;
+    private final List<NamedTrigger> triggers;
     private final List<Direction> timeline;
 
     public Instance(InstanceBuilder builder) {
@@ -65,7 +65,7 @@ public class Instance implements CatalogType, Positioned {
         return Sponge.getServer().getWorld(getWorld()).map(world -> world.getLocation(getOrigin()));
     }
 
-    public List<Trigger> getTriggers() {
+    public List<NamedTrigger> getTriggers() {
         return triggers;
     }
 

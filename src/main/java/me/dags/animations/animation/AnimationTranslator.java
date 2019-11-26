@@ -10,26 +10,26 @@ import org.spongepowered.api.data.persistence.InvalidDataException;
 
 import java.util.List;
 
-public class AnimationTranslator implements org.spongepowered.api.data.persistence.DataTranslator<Animation> {
+public class AnimationTranslator implements org.spongepowered.api.data.persistence.DataTranslator<AnimationData> {
 
-    private static final TypeToken<Animation> TOKEN = TypeToken.of(Animation.class);
+    private static final TypeToken<AnimationData> TOKEN = TypeToken.of(AnimationData.class);
     private static final DataQuery NAME = DataQuery.of("Name");
     private static final DataQuery FRAMES = DataQuery.of("Frames");
 
     @Override
-    public TypeToken<Animation> getToken() {
+    public TypeToken<AnimationData> getToken() {
         return TOKEN;
     }
 
     @Override
-    public Animation translate(DataView view) throws InvalidDataException {
+    public AnimationData translate(DataView view) throws InvalidDataException {
         String name = Translators.getString(view, NAME);
         List<Frame> frames = Translators.getList(view, FRAMES, Translators.FRAME);
-        return new Animation(name, frames);
+        return new AnimationData(name, frames);
     }
 
     @Override
-    public DataContainer translate(Animation animation) throws InvalidDataException {
+    public DataContainer translate(AnimationData animation) throws InvalidDataException {
         return DataContainer.createNew()
                 .set(NAME, animation.getName())
                 .set(FRAMES, Translators.toList(animation.getFrames(), Translators.FRAME));

@@ -1,73 +1,92 @@
 package me.dags.animations.command;
 
 import me.dags.animations.Animations;
-import me.dags.animations.animation.Animation;
-import me.dags.animations.frame.FrameRecorder;
+import me.dags.animations.animation.AnimationData;
+import me.dags.animations.frame.FrameBuilder;
 import me.dags.animations.util.duration.Duration;
+import me.dags.animations.util.recorder.PosRecorder;
 import me.dags.pitaya.command.annotation.Command;
+import me.dags.pitaya.command.annotation.Permission;
 import me.dags.pitaya.command.annotation.Src;
 import me.dags.pitaya.command.fmt.Fmt;
-import me.dags.pitaya.util.cache.IdCache;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.concurrent.TimeUnit;
 
-public class FrameCommands {
+public class FrameCommands extends BuilderCommand<FrameBuilder> {
 
     private final Animations plugin;
-    private final IdCache<FrameRecorder> cache = new IdCache<>(60, TimeUnit.MINUTES);
 
     public FrameCommands(Animations plugin) {
+        super(30, TimeUnit.MINUTES, FrameBuilder::new);
         this.plugin = plugin;
     }
 
+    @Command("frame wand")
+    @Permission("animation.command.frame.wand")
+    public void wand(@Src Player player) {
+        PosRecorder.create(player, must(player).pos).ifPresent(r -> Fmt.info("Created new frame wand").tell(player));
+    }
+
     @Command("frame pos1")
+    @Permission("animation.command.frame.pos")
     public void pos1(@Src Player player) {
-        FrameRecorder recorder = cache.compute(player, FrameRecorder::new);
-        recorder.pos1 = player.getLocation().getBlockPosition();
-        recorder.world = player.getLocation().getExtent().getName();
-        Fmt.info("Set pos1 ").stress(recorder.pos1).tell(player);
+        FrameBuilder builder = must(player);
+        builder.pos.pos1 = player.getLocation().getBlockPosition();
+        builder.pos.world = player.getLocation().getExtent().getName();
+        Fmt.info("Set pos1 ").stress(builder.pos.pos1).tell(player);
     }
 
     @Command("frame pos2")
+    @Permission("animation.command.frame.pos")
     public void pos2(@Src Player player) {
-        FrameRecorder recorder = cache.compute(player, FrameRecorder::new);
-        recorder.pos2 = player.getLocation().getBlockPosition();
-        recorder.world = player.getLocation().getExtent().getName();
-        Fmt.info("Set pos2 ").stress(recorder.pos2).tell(player);
+        FrameBuilder builder = must(player);
+        builder.pos.pos2 = player.getLocation().getBlockPosition();
+        builder.pos.world = player.getLocation().getExtent().getName();
+        Fmt.info("Set pos2 ").stress(builder.pos.pos2).tell(player);
     }
 
     @Command("frame add <ticks>")
+    @Permission("animation.command.frame.add")
+    public void add(@Src Player player) {
+        add(player, 1);
+    }
+
+    @Command("frame add <ticks>")
+    @Permission("animation.command.frame.add")
     public void add(@Src Player player, int ticks) {
         add(player, ticks * 50, TimeUnit.MILLISECONDS);
     }
 
     @Command("frame add <duration> <unit>")
+    @Permission("animation.command.frame.add")
     public void add(@Src Player player, int duration, TimeUnit unit) {
-        FrameRecorder recorder = cache.compute(player, FrameRecorder::new);
-        recorder.add(new Duration(duration, unit));
-        Fmt.info("Added frame: #").stress(recorder.frames.size()).tell(player);
+        FrameBuilder builder = must(player);
+        builder.add(new Duration(duration, unit));
+        Fmt.info("Added frame: #").stress(builder.frames.size()).tell(player);
+    }
+
+    @Command("frame undo <count>")
+    @Permission("animation.command.frame.undo")
+    public void undo(@Src Player player, int count) {
+        must(player).undo(player.getWorld(), count);
+        Fmt.info("Undid ").stress(count).tell(player);
     }
 
     @Command("frame save <name>")
+    @Permission("animation.command.frame.save")
     public void save(@Src Player player, String name) {
-        cache.get(player).ifPresent(recorder -> {
-            Animation animation = recorder.create(name);
+        drain(player, builder -> {
+            AnimationData animation = builder.build(name);
             plugin.getAnimations().register(animation);
             Fmt.info("Saved animation ").stress(name).tell(player);
         });
     }
 
-    @Command("frame test")
-    public void test(@Src Player player) {
-        cache.compute(player, FrameRecorder::new).test();
-        Fmt.info("Started test animation").tell(player);
-    }
-
-    @Command("frame reset")
-    public void reset(@Src Player player) {
-        FrameRecorder recorder = cache.compute(player, FrameRecorder::new);
-        recorder.reset();
-        Fmt.info("Started test animation").tell(player);
+    @Command("frame delete <name>")
+    @Permission("animation.command.frame.delete")
+    public void delete(@Src Player player, String name) {
+        plugin.getAnimations().delete(name);
+        Fmt.info("Deleted animation ").stress(name).tell(player);
     }
 }

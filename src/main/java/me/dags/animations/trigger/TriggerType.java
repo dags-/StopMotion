@@ -7,11 +7,11 @@ import me.dags.pitaya.config.Node;
 import java.util.Collections;
 
 public enum TriggerType {
-    NONE(new None()),
+    NONE(Trigger.NONE),
+    NAMED(new NamedTrigger("named", new None())),
     AND(new And(Collections.emptyList())),
-    OR(new Or(Collections.emptyList())),
     MESSAGE(new Message("")),
-    RADIUS(new Radius(Vector3i.ZERO, 0)),
+    DISTANCE(new Distance(Vector3i.ZERO, 0)),
     INTERACT(new Interact(Vector3i.ZERO, Vector3i.ZERO)),
     ;
 
