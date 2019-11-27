@@ -2,7 +2,7 @@ package me.dags.animations.command;
 
 import me.dags.animations.Animations;
 import me.dags.animations.animation.Animation;
-import me.dags.animations.animation.AnimationData;
+import me.dags.animations.animation.Timeline;
 import me.dags.animations.frame.FrameBuilder;
 import me.dags.animations.util.duration.Duration;
 import me.dags.animations.util.recorder.PosRecorder;
@@ -82,18 +82,18 @@ public class FrameCommands extends BuilderCommand<FrameBuilder> {
         Fmt.info("Undid ").stress(count).tell(player);
     }
 
-    @Command("frame save <name>")
-    @Permission("animation.command.frame.save")
-    @Description("Save your current list of frames to an animation")
+    @Command("timeline create <name>")
+    @Permission("animation.command.timeline.create")
+    @Description("Save your current list of frames to an animation timeline")
     public void save(@Src Player player, String name) {
         drain(player, builder -> {
-            AnimationData animation = builder.build(name);
-            plugin.getAnimations().register(animation);
+            Timeline timeline = builder.build(name);
+            plugin.getAnimations().register(timeline);
             Fmt.info("Saved animation ").stress(name).tell(player);
         });
     }
 
-    @Command("frame delete <name>")
+    @Command("timeline delete <name>")
     @Permission("animation.command.frame.delete")
     @Description("Delete the given animation frames")
     public void delete(@Src Player player, Animation animation) {

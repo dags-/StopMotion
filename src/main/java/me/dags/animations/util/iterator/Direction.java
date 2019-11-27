@@ -2,19 +2,24 @@ package me.dags.animations.util.iterator;
 
 import me.dags.pitaya.config.Node;
 
+import java.util.List;
+
 public enum Direction {
-    FORWARD,
+    FORWARD {
+        @Override
+        public <T> Iterator<T> iterate(List<T> list) {
+            return new ForwardIterator<>(list);
+        }
+    },
     BACKWARD {
         @Override
-        public <T> Iterator<T> wrap(Iterator<T> timeline) {
-            return timeline.reverse();
+        public <T> Iterator<T> iterate(List<T> list) {
+            return new BackwardIterator<>(list);
         }
     }
     ;
 
-    public <T> Iterator<T> wrap(Iterator<T> timeline) {
-        return timeline;
-    }
+    public abstract <T> Iterator<T> iterate(List<T> list);
 
     public static Direction deserialize(Node node) {
         return Direction.valueOf(node.get(""));

@@ -1,9 +1,9 @@
 package me.dags.animations.trigger;
 
 import com.flowpowered.math.vector.Vector3i;
-import me.dags.animations.trigger.type.And;
-import me.dags.animations.trigger.type.Distance;
-import me.dags.animations.trigger.type.Interact;
+import me.dags.animations.trigger.rule.And;
+import me.dags.animations.trigger.rule.Distance;
+import me.dags.animations.trigger.rule.Interact;
 import me.dags.animations.util.recorder.PosRecord;
 
 import java.util.LinkedList;
@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public class TriggerBuilder {
 
     private final PosRecord pos = new PosRecord();
-    private final LinkedList<Trigger> triggers = new LinkedList<>();
+    private final LinkedList<Rule> triggers = new LinkedList<>();
 
     public PosRecord pos() {
         return pos;
@@ -35,18 +35,18 @@ public class TriggerBuilder {
         return false;
     }
 
-    public TriggerBuilder add(Trigger trigger) {
+    public TriggerBuilder add(Rule trigger) {
         triggers.add(trigger);
         return this;
     }
 
-    public NamedTrigger build(String name) {
+    public Trigger build(String name) {
         if (triggers.size() == 1) {
-            return new NamedTrigger(name, triggers.getFirst());
+            return new Trigger(name, triggers.getFirst());
         }
         if (triggers.size() > 1) {
-            return new NamedTrigger(name, new And(triggers));
+            return new Trigger(name, new And(triggers));
         }
-        return NamedTrigger.NONE;
+        return Trigger.NONE;
     }
 }

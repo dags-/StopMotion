@@ -1,13 +1,13 @@
-package me.dags.animations.trigger.type;
+package me.dags.animations.trigger.rule;
 
 import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.trigger.Context;
-import me.dags.animations.trigger.Trigger;
-import me.dags.animations.trigger.TriggerType;
+import me.dags.animations.trigger.Rule;
+import me.dags.animations.trigger.RuleType;
 import me.dags.animations.util.Translators;
 import me.dags.pitaya.config.Node;
 
-public class Distance implements Trigger {
+public class Distance implements Rule {
 
     private final int radius;
     private final int radius2;
@@ -20,22 +20,23 @@ public class Distance implements Trigger {
     }
 
     @Override
-    public TriggerType getType() {
-        return TriggerType.DISTANCE;
+    public RuleType getType() {
+        return RuleType.DISTANCE;
     }
 
     @Override
-    public Trigger fromNode(Node node) {
+    public Rule fromNode(Node node) {
         return new Distance(
-                Translators.vec3i(node.node("center")),
+                Translators.vec3i(node.node("position")),
                 node.get("radius", 0)
         );
     }
 
     @Override
     public void toNode(Node node) {
+        Rule.super.toNode(node);
         node.set("radius", radius);
-        node.set("center", Translators.vec3i(position));
+        Translators.vec3i(node.node("position"), position);
     }
 
     @Override
@@ -45,8 +46,8 @@ public class Distance implements Trigger {
 
     @Override
     public String toString() {
-        return "Radius{"
-                + "center=" + position
+        return "Distance{"
+                + "position=" + position
                 + ", radius=" + radius
                 + "}";
     }

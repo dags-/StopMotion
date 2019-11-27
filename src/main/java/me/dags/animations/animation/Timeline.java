@@ -17,21 +17,20 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-public class AnimationData {
+public class Timeline {
 
     private final String name;
     private final List<Frame> frames;
 
-    public AnimationData(String name, List<Frame> frames) {
+    public Timeline(String name, List<Frame> frames) {
         this.name = name;
-        this.frames = new ArrayList<>(frames);
+        this.frames = frames;
     }
 
     public String getName() {
@@ -42,17 +41,7 @@ public class AnimationData {
         return frames;
     }
 
-    public Worker getTimeline(Location<World> origin, List<Direction> timeline) {
-        List<Worker> workers = new LinkedList<>();
-        Iterator<Frame> iterator = new ForwardIterator<>(frames);
-        for (Direction direction : timeline) {
-            FrameWorker worker = new FrameWorker(origin, direction.wrap(iterator));
-            workers.add(worker);
-        }
-        return new QueueWorker(workers);
-    }
-
-    public static Optional<AnimationData> load(Path path) {
+    public static Optional<Timeline> load(Path path) {
         try (InputStream stream = new BufferedInputStream(new GZIPInputStream(Files.newInputStream(path)))) {
             DataView dataView = DataFormats.NBT.readFrom(stream);
             return Optional.of(Translators.ANIMATION.translate(dataView));
@@ -62,7 +51,7 @@ public class AnimationData {
         return Optional.empty();
     }
 
-    public static void save(AnimationData animation, Path path) {
+    public static void save(Timeline animation, Path path) {
         try (OutputStream stream = new BufferedOutputStream(new GZIPOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE)))) {
             DataView dataView = Translators.ANIMATION.translate(animation);
             DataFormats.NBT.writeTo(stream, dataView);

@@ -1,7 +1,8 @@
 package me.dags.animations.instance;
 
 import me.dags.animations.animation.Animation;
-import me.dags.animations.trigger.NamedTrigger;
+import me.dags.animations.animation.AnimationMode;
+import me.dags.animations.trigger.Trigger;
 import me.dags.animations.util.Registry;
 import me.dags.animations.util.Translators;
 import me.dags.animations.util.iterator.Direction;
@@ -29,7 +30,8 @@ public class InstanceManager extends Registry<Instance> {
             builder.world = node.get("world", "");
             builder.origin = Translators.vec3i(node.node("origin"));
             builder.triggers = getList(node.node("triggers"));
-            builder.timeline = node.node("timeline").getList(Direction::deserialize);
+            builder.directions = node.node("timeline").getList(Direction::deserialize);
+            builder.mode = AnimationMode.valueOf(node.get("mode", ""));
             return new Instance(builder);
         });
     }
@@ -38,15 +40,16 @@ public class InstanceManager extends Registry<Instance> {
     protected void serialize(Node node, Instance value) {
         node.set("name", value.getId());
         node.set("world", value.getWorld());
-        node.set("origin", Translators.vec3i(value.getOrigin()));
-        node.set("animation", value.getAnimation());
-        node.set("triggers", value.getTriggers().stream().map(NamedTrigger::getId).collect(Collectors.toList()));
-        node.set("timeline", value.getTimeline().stream().map(Direction::toString).collect(Collectors.toList()));
+        Translators.vec3i(node.node("origin"), value.getOrigin());
+        node.set("animation", value.getAnimation().getId());
+        node.set("mode", value.getAnimationType().toString());
+        node.set("triggers", value.getTriggers().stream().map(Trigger::getId).collect(Collectors.toList()));
+        node.set("timeline", value.getDirections().stream().map(Direction::toString).collect(Collectors.toList()));
     }
 
-    private static List<NamedTrigger> getList(Node node) {
-        List<NamedTrigger> list = new LinkedList<>();
-        node.iterate(value -> Sponge.getRegistry().getType(NamedTrigger.class, value.get("")).ifPresent(list::add));
+    private static List<Trigger> getList(Node node) {
+        List<Trigger> list = new LinkedList<>();
+        node.iterate(value -> Sponge.getRegistry().getType(Trigger.class, value.get("")).ifPresent(list::add));
         return list;
     }
 }

@@ -13,7 +13,7 @@ public class Context {
     public final Vector3i position;
     public final Cancellable event;
 
-    public String message = "~";
+    public String message = "";
     public Vector3i clicked = Vector3i.ZERO;
 
     public Context(Cancellable event, Player player) {

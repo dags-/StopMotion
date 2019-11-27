@@ -2,11 +2,12 @@ package me.dags.animations.command;
 
 import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.Animations;
-import me.dags.animations.trigger.NamedTrigger;
+import me.dags.animations.trigger.Trigger;
 import me.dags.animations.trigger.TriggerBuilder;
-import me.dags.animations.trigger.type.Distance;
-import me.dags.animations.trigger.type.Interact;
-import me.dags.animations.trigger.type.Message;
+import me.dags.animations.trigger.rule.Distance;
+import me.dags.animations.trigger.rule.Interact;
+import me.dags.animations.trigger.rule.Message;
+import me.dags.animations.trigger.rule.Perm;
 import me.dags.animations.util.recorder.PosRecorder;
 import me.dags.pitaya.command.annotation.*;
 import me.dags.pitaya.command.fmt.Fmt;
@@ -25,74 +26,90 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
     }
 
     @Command("trigger wand")
-    @Permission("animation.command.trigger.wand")
+    @Permission("animation.command.rule.wand")
     @Description("Create a position selection tool to create triggers with")
     public void wand(@Src Player player) {
         PosRecorder.create(player, must(player).pos()).ifPresent(recorder -> Fmt.info("Created new wand").tell(player));
     }
 
-    @Command("trigger message <message...>")
-    @Permission("animation.command.trigger.message")
-    @Description("Create a trigger that listens for the given message in chat")
+    @Command("rule message <message...>")
+    @Permission("animation.command.rule.message")
+    @Description("Create a rule that listens for the given message in chat")
     public void message(@Src Player player, @Join String message) {
         must(player).add(new Message(message));
-        Fmt.info("Added new message trigger").tell(player);
+        Fmt.info("Added new message rule").tell(player);
     }
 
-    @Command("trigger distance <radius>")
-    @Permission("animation.command.trigger.distance")
-    @Description("Create a trigger that checks proximity to given position")
+    @Command("rule permission <name>")
+    @Permission("animation.command.rule.permission")
+    @Description("Create a rule that checks for a permission node")
+    public void permission(@Src Player player, String name) {
+        must(player).add(new Perm(name));
+        Fmt.info("Added new permission rule").tell(player);
+    }
+
+    @Command("rule distance <radius>")
+    @Permission("animation.command.rule.distance")
+    @Description("Create a rule that checks proximity to given position")
     public void distance(@Src Player player, int radius) {
         Optional<PosRecorder> recorder = PosRecorder.lookup(player);
         if (recorder.isPresent()) {
             if (must(player).distance(radius)) {
-                Fmt.info("Added distance trigger").tell(player);
+                Fmt.info("Added distance rule").tell(player);
                 return;
             }
         }
         distance(player, player.getLocation().getBlockPosition(), radius);
     }
 
-    @Command("trigger distance <position> <radius>")
-    @Permission("animation.command.trigger.distance")
-    @Description("Create a trigger that checks proximity to given position")
+    @Command("rule distance <position> <radius>")
+    @Permission("animation.command.rule.distance")
+    @Description("Create a rule that checks proximity to given position")
     public void distance(@Src Player player, Vector3i position, int radius) {
         must(player).add(new Distance(position, radius));
-        Fmt.info("Added new distance trigger").tell(player);
+        Fmt.info("Added new distance rule").tell(player);
     }
 
-    @Command("trigger interact")
-    @Permission("animation.command.trigger.interact")
-    @Description("Create a trigger that checks interactions with blocks in a certain area")
+    @Command("rule interact")
+    @Permission("animation.command.rule.interact")
+    @Description("Create a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player) {
         Optional<PosRecorder> recorder = PosRecorder.lookup(player);
         if (recorder.isPresent()) {
             if (must(player).interact()) {
-                Fmt.info("Added interaction trigger").tell(player);
+                Fmt.info("Added interaction rule").tell(player);
                 return;
             }
         }
         Fmt.error("You must specify two points for this type of trigger").tell(player);
     }
 
-    @Command("trigger interact <pos1> <pos2>")
-    @Permission("animation.command.trigger.interact")
-    @Description("Create a trigger that checks interactions with blocks in a certain area")
+    @Command("rule interact <pos1> <pos2>")
+    @Permission("animation.command.rule.interact")
+    @Description("Create a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player, Vector3i pos1, Vector3i pos2) {
         must(player).add(new Interact(pos1, pos2));
-        Fmt.info("Added interaction trigger").tell(player);
+        Fmt.info("Added interaction rule").tell(player);
     }
 
-    @Command("trigger save <name>")
-    @Permission("animation.command.trigger.save")
-    @Description("Save and register the trigger with the given name")
+    @Command("trigger create <name>")
+    @Permission("animation.command.trigger.create")
+    @Description("Create a trigger using the rules you've just made")
     public void save(@Src Player player, String name) {
         drain(player, builder -> {
-            NamedTrigger named = builder.build(name);
+            Trigger named = builder.build(name);
             if (named.isPresent()) {
                 plugin.getTriggers().register(named);
                 Fmt.info("Registered trigger ").stress(named.getName()).tell(player);
             }
         });
+    }
+
+    @Command("trigger delete <name>")
+    @Permission("animation.command.trigger.delete")
+    @Description("Delete the given trigger")
+    public void delete(@Src Player player, Trigger trigger) {
+        plugin.getTriggers().delete(trigger.getId());
+        Fmt.info("Deleted trigger ").stress(trigger.getId()).tell(player);
     }
 }

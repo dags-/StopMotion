@@ -13,7 +13,7 @@ public class Animation implements CatalogType {
     private final Duration duration;
 
     private long timeout = 0L;
-    private AnimationData reference = null;
+    private Timeline reference = null;
 
     public Animation(Path path, String name, Duration duration) {
         this.path = path;
@@ -21,7 +21,7 @@ public class Animation implements CatalogType {
         this.duration = duration;
     }
 
-    public Animation(Path path, AnimationData animation, Duration duration) {
+    public Animation(Path path, Timeline animation, Duration duration) {
         this.path = path;
         this.duration = duration;
         this.reference = animation;
@@ -54,10 +54,10 @@ public class Animation implements CatalogType {
         return now > timeout;
     }
 
-    public Optional<AnimationData> getAnimation() {
+    public Optional<Timeline> getTimeline() {
         refresh();
         if (reference == null) {
-            Optional<AnimationData> animation = AnimationData.load(path);
+            Optional<Timeline> animation = Timeline.load(path);
             animation.ifPresent(a -> reference = a);
             return animation;
         }

@@ -1,9 +1,11 @@
 package me.dags.animations.instance;
 
 import com.flowpowered.math.vector.Vector3i;
+import com.google.common.collect.ImmutableList;
 import me.dags.animations.animation.Animation;
-import me.dags.animations.trigger.NamedTrigger;
-import me.dags.animations.util.BiOptional;
+import me.dags.animations.animation.AnimationMode;
+import me.dags.animations.animation.AnimationState;
+import me.dags.animations.trigger.Trigger;
 import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.util.region.Positioned;
 import me.dags.animations.util.worker.Worker;
@@ -12,7 +14,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,16 +23,23 @@ public class Instance implements CatalogType, Positioned {
     private final String world;
     private final Vector3i origin;
     private final Animation animation;
-    private final List<NamedTrigger> triggers;
+    private final List<Trigger> triggers;
     private final List<Direction> timeline;
+    private transient final AnimationState state;
 
     public Instance(InstanceBuilder builder) {
         this.name = builder.name;
         this.world = builder.world;
         this.origin = builder.origin;
         this.animation = builder.animation;
-        this.triggers = new ArrayList<>(builder.triggers);
-        this.timeline = new ArrayList<>(builder.timeline);
+        this.state = new AnimationState(builder.mode);
+        this.triggers = ImmutableList.copyOf(builder.triggers);
+        this.timeline = ImmutableList.copyOf(builder.directions);
+    }
+
+    @Override
+    public String toString() {
+        return "Instance{" + getId() + "}";
     }
 
     @Override
@@ -53,8 +61,12 @@ public class Instance implements CatalogType, Positioned {
         return world;
     }
 
-    public String getAnimation() {
-        return animation.getId();
+    public Animation getAnimation() {
+        return animation;
+    }
+
+    public AnimationMode getAnimationType() {
+        return state.getMode();
     }
 
     public Vector3i getOrigin() {
@@ -65,16 +77,15 @@ public class Instance implements CatalogType, Positioned {
         return Sponge.getServer().getWorld(getWorld()).map(world -> world.getLocation(getOrigin()));
     }
 
-    public List<NamedTrigger> getTriggers() {
+    public List<Trigger> getTriggers() {
         return triggers;
     }
 
-    public List<Direction> getTimeline() {
+    public List<Direction> getDirections() {
         return timeline;
     }
 
     public Optional<Worker> compile() {
-        return BiOptional.of(getLocation(), animation.getAnimation())
-                .map((origin, animation) -> animation.getTimeline(origin, getTimeline()));
+        return state.nextWorker(this);
     }
 }

@@ -1,6 +1,5 @@
 package me.dags.animations.util.iterator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ForwardIterator<T> implements Iterator<T> {
@@ -8,15 +7,16 @@ public class ForwardIterator<T> implements Iterator<T> {
     private final List<T> values;
     private final int max;
     private final int start;
-    private int index = 0;
+
+    private int index;
 
     public ForwardIterator(List<T> values) {
-        this(values, -1);
+        this(values, 0);
     }
 
     public ForwardIterator(List<T> values, int start) {
-        this.values = new ArrayList<>(values);
         this.start = start;
+        this.values = values;
         this.max = values.size() - 1;
         this.index = Math.max(-1, start - 1);
     }
@@ -38,6 +38,6 @@ public class ForwardIterator<T> implements Iterator<T> {
 
     @Override
     public Iterator<T> reverse() {
-        return new BackwardIterator<>(values, values.size());
+        return new BackwardIterator<>(values);
     }
 }

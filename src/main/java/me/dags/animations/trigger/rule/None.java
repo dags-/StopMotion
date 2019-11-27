@@ -1,11 +1,11 @@
-package me.dags.animations.trigger.type;
+package me.dags.animations.trigger.rule;
 
 import me.dags.animations.trigger.Context;
-import me.dags.animations.trigger.Trigger;
-import me.dags.animations.trigger.TriggerType;
+import me.dags.animations.trigger.Rule;
+import me.dags.animations.trigger.RuleType;
 import me.dags.pitaya.config.Node;
 
-public class None implements Trigger {
+public class None implements Rule {
 
     @Override
     public boolean isPresent() {
@@ -18,12 +18,12 @@ public class None implements Trigger {
     }
 
     @Override
-    public TriggerType getType() {
-        return TriggerType.NONE;
+    public RuleType getType() {
+        return RuleType.NONE;
     }
 
     @Override
-    public Trigger fromNode(Node node) {
+    public Rule fromNode(Node node) {
         return this;
     }
 

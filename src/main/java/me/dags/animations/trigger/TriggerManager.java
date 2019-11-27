@@ -6,15 +6,15 @@ import me.dags.pitaya.config.Node;
 
 import java.util.Optional;
 
-public class TriggerManager extends Registry<NamedTrigger> {
+public class TriggerManager extends Registry<Trigger> {
 
     public TriggerManager(Config storage) {
         super(storage, storage);
     }
 
     @Override
-    protected Optional<NamedTrigger> deserialize(Node node) {
-        NamedTrigger trigger = NamedTrigger.NONE.fromNode(node);
+    protected Optional<Trigger> deserialize(Node node) {
+        Trigger trigger = Trigger.NONE.fromNode(node);
         if (trigger.isAbsent()) {
             return Optional.empty();
         }
@@ -22,7 +22,7 @@ public class TriggerManager extends Registry<NamedTrigger> {
     }
 
     @Override
-    protected void serialize(Node node, NamedTrigger value) {
+    protected void serialize(Node node, Trigger value) {
         value.toNode(node);
     }
 }

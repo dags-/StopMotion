@@ -1,31 +1,64 @@
 package me.dags.animations.trigger;
 
-import me.dags.animations.trigger.type.None;
 import me.dags.pitaya.config.Node;
-import me.dags.pitaya.util.OptionalValue;
+import org.spongepowered.api.CatalogType;
 
-public interface Trigger extends Node.Value<Trigger>, OptionalValue {
+public class Trigger implements Rule, CatalogType {
 
-    Trigger NONE = new None();
+    static final Trigger NONE = new Trigger("none", Rule.NONE);
 
-    boolean test(Context context);
+    private final String name;
+    private final Rule trigger;
 
-    TriggerType getType();
+    public Trigger(String name, Rule trigger) {
+        this.name = name.toLowerCase();
+        this.trigger = trigger;
+    }
 
     @Override
-    default boolean isPresent() {
-        return true;
+    public boolean isPresent() {
+        return trigger.isPresent();
     }
 
-    static Trigger deserialize(Node node) {
-        String type = node.get("type", "");
-        return TriggerType.fromName(type).serializer().fromNode(node);
+    @Override
+    public String getId() {
+        return getName();
     }
 
-    static Node serialize(Trigger trigger) {
-        Node node = Node.create();
-        node.set("type", trigger.getType());
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean test(Context context) {
+        return trigger.test(context);
+    }
+
+    @Override
+    public RuleType getType() {
+        return RuleType.NAMED;
+    }
+
+    @Override
+    public Trigger fromNode(Node node) {
+        String name = node.get("name", "");
+        Rule trigger = RuleType.deserialize(node);
+        return new Trigger(name, trigger);
+    }
+
+    @Override
+    public void toNode(Node node) {
+        Rule.super.toNode(node);
+        node.set("name", getName());
         trigger.toNode(node);
-        return node;
+    }
+
+    @Override
+    public String toString() {
+        return "Trigger{"
+                + "name=" + name
+                + ", rule=" + trigger
+                + "}";
     }
 }

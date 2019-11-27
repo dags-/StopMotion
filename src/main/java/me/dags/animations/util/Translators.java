@@ -1,6 +1,7 @@
 package me.dags.animations.util;
 
 import com.flowpowered.math.vector.Vector3i;
+import com.google.common.collect.ImmutableList;
 import me.dags.animations.animation.AnimationTranslator;
 import me.dags.animations.frame.FrameTranslator;
 import me.dags.animations.util.duration.DurationTranslator;
@@ -31,12 +32,10 @@ public class Translators {
         return new Vector3i(x, y, z);
     }
 
-    public static Node vec3i(Vector3i vec) {
-        Node node = Node.create();
+    public static void vec3i(Node node, Vector3i vec) {
         node.set("x", vec.getX());
         node.set("y", vec.getY());
         node.set("z", vec.getZ());
-        return node;
     }
 
     public static String getString(DataView view, DataQuery path) throws InvalidDataException {
@@ -59,11 +58,11 @@ public class Translators {
 
     public static <T> List<T> getList(DataView view, DataQuery path, DataTranslator<T> translator) throws InvalidDataException {
         List<DataView> data = view.getViewList(path).orElseThrow(() -> err(path));
-        List<T> list = new ArrayList<>(data.size());
+        List<T> list = new LinkedList<>();
         for (DataView dataView : data) {
             list.add(translator.translate(dataView));
         }
-        return list;
+        return ImmutableList.copyOf(list);
     }
 
     public static <T> List<DataContainer> toList(List<T> list, DataTranslator<T> translator) {

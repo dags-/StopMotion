@@ -1,7 +1,8 @@
 package me.dags.animations.animation;
 
+import me.dags.animations.Animations;
+import me.dags.animations.util.Registry;
 import me.dags.animations.util.duration.Duration;
-import me.dags.pitaya.command.fmt.Fmt;
 import me.dags.pitaya.util.PluginUtils;
 import org.spongepowered.api.registry.CatalogRegistryModule;
 import org.spongepowered.api.scheduler.Task;
@@ -69,17 +70,18 @@ public class AnimationManager implements CatalogRegistryModule<Animation> {
                 if (fileName.endsWith(".nbt")) {
                     String name = fileName.replace(".nbt", "");
                     registry.put(name, new Animation(path, name, expiration));
-                    Fmt.info("Registered animation ").stress(name).log();
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Animations.log("Registry load complete. Registry: {}, Size: {}", Registry.getTypeName(this), registry.size());
     }
 
-    public void register(AnimationData animation) {
+    public void register(Timeline animation) {
         Path path = directory.resolve(animation.getName() + ".nbt");
-        AnimationData.save(animation, path);
+        Timeline.save(animation, path);
         registry.put(animation.getName(), new Animation(path, animation, expiration));
     }
 

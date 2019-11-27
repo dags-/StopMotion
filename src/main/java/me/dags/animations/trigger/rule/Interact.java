@@ -1,13 +1,13 @@
-package me.dags.animations.trigger.type;
+package me.dags.animations.trigger.rule;
 
 import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.trigger.Context;
-import me.dags.animations.trigger.Trigger;
-import me.dags.animations.trigger.TriggerType;
+import me.dags.animations.trigger.Rule;
+import me.dags.animations.trigger.RuleType;
 import me.dags.animations.util.Translators;
 import me.dags.pitaya.config.Node;
 
-public class Interact implements Trigger {
+public class Interact implements Rule {
 
     private final Vector3i min;
     private final Vector3i max;
@@ -23,12 +23,12 @@ public class Interact implements Trigger {
     }
 
     @Override
-    public TriggerType getType() {
-        return TriggerType.INTERACT;
+    public RuleType getType() {
+        return RuleType.INTERACT;
     }
 
     @Override
-    public Trigger fromNode(Node node) {
+    public Rule fromNode(Node node) {
         return new Interact(
                 Translators.vec3i(node.node("min")),
                 Translators.vec3i(node.node("max"))
@@ -37,8 +37,9 @@ public class Interact implements Trigger {
 
     @Override
     public void toNode(Node node) {
-        node.set("min", Translators.vec3i(min));
-        node.set("max", Translators.vec3i(max));
+        Rule.super.toNode(node);
+        Translators.vec3i(node.node("min"), min);
+        Translators.vec3i(node.node("min"), max);
     }
 
     @Override

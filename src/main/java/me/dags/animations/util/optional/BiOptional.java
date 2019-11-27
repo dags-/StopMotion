@@ -1,4 +1,4 @@
-package me.dags.animations.util;
+package me.dags.animations.util.optional;
 
 import java.util.Optional;
 import java.util.function.BiConsumer;
