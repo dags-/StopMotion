@@ -42,7 +42,7 @@ public class InstanceManager extends Registry<Instance> {
         node.set("world", value.getWorld());
         Translators.vec3i(node.node("origin"), value.getOrigin());
         node.set("animation", value.getAnimation().getId());
-        node.set("mode", value.getAnimationType().toString());
+        node.set("mode", value.getAnimationMode().toString());
         node.set("triggers", value.getTriggers().stream().map(Trigger::getId).collect(Collectors.toList()));
         node.set("timeline", value.getDirections().stream().map(Direction::toString).collect(Collectors.toList()));
     }

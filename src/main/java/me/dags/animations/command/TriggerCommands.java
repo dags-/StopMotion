@@ -4,10 +4,7 @@ import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.Animations;
 import me.dags.animations.trigger.Trigger;
 import me.dags.animations.trigger.TriggerBuilder;
-import me.dags.animations.trigger.rule.Distance;
-import me.dags.animations.trigger.rule.Interact;
-import me.dags.animations.trigger.rule.Message;
-import me.dags.animations.trigger.rule.Perm;
+import me.dags.animations.trigger.rule.*;
 import me.dags.animations.util.recorder.PosRecorder;
 import me.dags.pitaya.command.annotation.*;
 import me.dags.pitaya.command.fmt.Fmt;
@@ -68,6 +65,14 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
     public void distance(@Src Player player, Vector3i position, int radius) {
         must(player).add(new Distance(position, radius));
         Fmt.info("Added new distance rule").tell(player);
+    }
+
+    @Command("rule time <min> <max>")
+    @Permission("animation.command.rule.time")
+    @Description("Create a rule that checks for a min and max time")
+    public void time(@Src Player player, long min, long max) {
+        must(player).add(new Time(min, max));
+        Fmt.info("Added new time rule").tell(player);
     }
 
     @Command("rule interact")

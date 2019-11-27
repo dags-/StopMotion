@@ -11,6 +11,7 @@ public enum RuleType {
     NAMED(new Trigger("named", new None())),
     AND(new And(Collections.emptyList())),
     MESSAGE(new Message("")),
+    TIME(new Time(0L, 0L)),
     PERMISSION(new Perm("")),
     DISTANCE(new Distance(Vector3i.ZERO, 0)),
     INTERACT(new Interact(Vector3i.ZERO, Vector3i.ZERO)),

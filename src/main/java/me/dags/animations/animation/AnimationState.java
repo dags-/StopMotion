@@ -1,7 +1,5 @@
 package me.dags.animations.animation;
 
-import me.dags.animations.animation.AnimationMode;
-import me.dags.animations.animation.Timeline;
 import me.dags.animations.frame.Frame;
 import me.dags.animations.instance.Instance;
 import me.dags.animations.util.iterator.Direction;
@@ -20,20 +18,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AnimationState {
 
-    private final AnimationMode mode;
     private final AtomicInteger state = new AtomicInteger();
-
-    public AnimationState(AnimationMode mode) {
-        this.mode = mode;
-    }
-
-    public AnimationMode getMode() {
-        return mode;
-    }
 
     public Optional<Worker> nextWorker(Instance instance) {
         return BiOptional.of(instance.getLocation(), instance.getAnimation().getTimeline()).map((origin, timeline) -> {
-            if (mode == AnimationMode.PUSH_PULL) {
+            if (instance.getAnimationMode() == AnimationMode.PUSH_PULL) {
                 int stateValue = state.get();
                 if (stateValue == 0) {
                     state.set(1);

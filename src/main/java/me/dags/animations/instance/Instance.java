@@ -23,16 +23,18 @@ public class Instance implements CatalogType, Positioned {
     private final String world;
     private final Vector3i origin;
     private final Animation animation;
+    private final AnimationMode mode;
     private final List<Trigger> triggers;
     private final List<Direction> timeline;
-    private transient final AnimationState state;
+
+    private transient final AnimationState state = new AnimationState();
 
     public Instance(InstanceBuilder builder) {
         this.name = builder.name;
         this.world = builder.world;
         this.origin = builder.origin;
         this.animation = builder.animation;
-        this.state = new AnimationState(builder.mode);
+        this.mode = builder.mode;
         this.triggers = ImmutableList.copyOf(builder.triggers);
         this.timeline = ImmutableList.copyOf(builder.directions);
     }
@@ -65,8 +67,8 @@ public class Instance implements CatalogType, Positioned {
         return animation;
     }
 
-    public AnimationMode getAnimationType() {
-        return state.getMode();
+    public AnimationMode getAnimationMode() {
+        return mode;
     }
 
     public Vector3i getOrigin() {
@@ -85,7 +87,7 @@ public class Instance implements CatalogType, Positioned {
         return timeline;
     }
 
-    public Optional<Worker> compile() {
+    public Optional<Worker> getWorker() {
         return state.nextWorker(this);
     }
 }

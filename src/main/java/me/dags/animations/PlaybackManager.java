@@ -27,7 +27,7 @@ public class PlaybackManager {
 
     public synchronized void play(Instance instance) {
         if (!playback.containsKey(instance.getId())) {
-            instance.compile().ifPresent(worker -> play(instance.getName(), worker));
+            instance.getWorker().ifPresent(worker -> play(instance.getName(), worker));
         }
     }
 
