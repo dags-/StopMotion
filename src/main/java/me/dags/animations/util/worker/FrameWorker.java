@@ -1,9 +1,10 @@
 package me.dags.animations.util.worker;
 
 import me.dags.animations.frame.Frame;
-import me.dags.animations.util.iterator.Iterator;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
+
+import java.util.Iterator;
 
 public class FrameWorker implements Worker {
 
@@ -47,6 +48,6 @@ public class FrameWorker implements Worker {
             frame.apply(origin);
         }
 
-        timestamp = now + frame.getDuration().getDurationMs();
+        timestamp = now + frame.getDuration().getMS();
     }
 }

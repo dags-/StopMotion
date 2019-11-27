@@ -1,9 +1,9 @@
 package me.dags.animations.util.recorder;
 
 import com.flowpowered.math.vector.Vector3i;
+import me.dags.pitaya.cache.IdCache;
 import me.dags.pitaya.command.fmt.Fmt;
 import me.dags.pitaya.util.PluginUtils;
-import me.dags.pitaya.util.cache.IdCache;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;

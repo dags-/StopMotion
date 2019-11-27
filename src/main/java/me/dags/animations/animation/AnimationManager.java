@@ -2,8 +2,8 @@ package me.dags.animations.animation;
 
 import me.dags.animations.Animations;
 import me.dags.animations.util.Registry;
-import me.dags.animations.util.duration.Duration;
 import me.dags.pitaya.util.PluginUtils;
+import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.registry.CatalogRegistryModule;
 import org.spongepowered.api.scheduler.Task;
 

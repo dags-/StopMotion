@@ -4,18 +4,19 @@ import me.dags.animations.Animations;
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.Timeline;
 import me.dags.animations.frame.FrameBuilder;
-import me.dags.animations.util.duration.Duration;
 import me.dags.animations.util.recorder.PosRecorder;
+import me.dags.pitaya.cache.Cache;
 import me.dags.pitaya.command.annotation.Command;
 import me.dags.pitaya.command.annotation.Description;
 import me.dags.pitaya.command.annotation.Permission;
 import me.dags.pitaya.command.annotation.Src;
 import me.dags.pitaya.command.fmt.Fmt;
+import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.concurrent.TimeUnit;
 
-public class FrameCommands extends BuilderCommand<FrameBuilder> {
+public class FrameCommands extends Cache<FrameBuilder> {
 
     private final Animations plugin;
 
@@ -84,12 +85,14 @@ public class FrameCommands extends BuilderCommand<FrameBuilder> {
 
     @Command("timeline create <name>")
     @Permission("animation.command.timeline.create")
-    @Description("Save your current list of frames to an animation timeline")
-    public void save(@Src Player player, String name) {
-        drain(player, builder -> {
+    @Description("Create an animation timeline from your current set of frames")
+    public void create(@Src Player player, String name) {
+        drain(player, "You have not created any frames yet").onPass(builder -> {
             Timeline timeline = builder.build(name);
             plugin.getAnimations().register(timeline);
             Fmt.info("Saved animation ").stress(name).tell(player);
+        }).onFail(message -> {
+            Fmt.error("Failed to create timeline: %s", message).tell(player);
         });
     }
 

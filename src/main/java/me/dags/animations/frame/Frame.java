@@ -1,8 +1,8 @@
 package me.dags.animations.frame;
 
 import com.flowpowered.math.vector.Vector3i;
-import me.dags.animations.util.duration.Duration;
-import me.dags.pitaya.util.OptionalValue;
+import me.dags.pitaya.util.duration.Duration;
+import me.dags.pitaya.util.optional.OptionalValue;
 import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;

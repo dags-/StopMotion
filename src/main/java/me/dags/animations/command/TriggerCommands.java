@@ -6,6 +6,7 @@ import me.dags.animations.trigger.Trigger;
 import me.dags.animations.trigger.TriggerBuilder;
 import me.dags.animations.trigger.rule.*;
 import me.dags.animations.util.recorder.PosRecorder;
+import me.dags.pitaya.cache.Cache;
 import me.dags.pitaya.command.annotation.*;
 import me.dags.pitaya.command.fmt.Fmt;
 import org.spongepowered.api.entity.living.player.Player;
@@ -13,7 +14,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
+public class TriggerCommands extends Cache<TriggerBuilder> {
 
     private final Animations plugin;
 
@@ -100,13 +101,15 @@ public class TriggerCommands extends BuilderCommand<TriggerBuilder> {
     @Command("trigger create <name>")
     @Permission("animation.command.trigger.create")
     @Description("Create a trigger using the rules you've just made")
-    public void save(@Src Player player, String name) {
-        drain(player, builder -> {
+    public void create(@Src Player player, String name) {
+        drain(player, "You must create some rules first").onPass(builder -> {
             Trigger named = builder.build(name);
             if (named.isPresent()) {
                 plugin.getTriggers().register(named);
                 Fmt.info("Registered trigger ").stress(named.getName()).tell(player);
             }
+        }).onFail(message -> {
+            Fmt.error("Failed to create trigger: %s", message).tell(player);
         });
     }
 

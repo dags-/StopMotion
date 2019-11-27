@@ -1,11 +1,11 @@
-package me.dags.animations.util.iterator;
+package me.dags.animations.frame.iterator;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class BackwardIterator<T> implements Iterator<T> {
 
     private final List<T> values;
-    private final int start;
 
     private int index;
 
@@ -14,7 +14,6 @@ public class BackwardIterator<T> implements Iterator<T> {
     }
 
     public BackwardIterator(List<T> values, int start) {
-        this.start = start;
         this.values = values;
         this.index = Math.min(start, values.size());
     }
@@ -27,15 +26,5 @@ public class BackwardIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         return values.get(--index);
-    }
-
-    @Override
-    public void reset() {
-        index = start;
-    }
-
-    @Override
-    public Iterator<T> reverse() {
-        return new ForwardIterator<>(values);
     }
 }

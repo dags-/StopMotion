@@ -2,22 +2,13 @@ package me.dags.animations.animation;
 
 import me.dags.animations.frame.Frame;
 import me.dags.animations.util.Translators;
-import me.dags.animations.util.iterator.Direction;
-import me.dags.animations.util.iterator.ForwardIterator;
-import me.dags.animations.util.iterator.Iterator;
-import me.dags.animations.util.worker.FrameWorker;
-import me.dags.animations.util.worker.QueueWorker;
-import me.dags.animations.util.worker.Worker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.DataFormats;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.zip.GZIPInputStream;

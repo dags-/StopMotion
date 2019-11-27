@@ -2,7 +2,7 @@ package me.dags.animations.frame;
 
 import com.google.common.reflect.TypeToken;
 import me.dags.animations.util.Translators;
-import me.dags.animations.util.duration.Duration;
+import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataView;
@@ -24,14 +24,14 @@ public class FrameTranslator implements DataTranslator<Frame> {
     @Override
     public Frame translate(DataView view) throws InvalidDataException {
         Schematic frame = Translators.get(view, SCHEMATIC, Translators.SCHEMATIC);
-        Duration duration = Translators.get(view, DURATION, Translators.DURATION);
+        Duration duration = Translators.get(view, DURATION, Duration.TRANSLATOR);
         return new Frame(frame, duration);
     }
 
     @Override
     public DataContainer translate(Frame frame) throws InvalidDataException {
         return DataContainer.createNew()
-                .set(DURATION, Translators.DURATION.translate(frame.getDuration()))
+                .set(DURATION, Duration.TRANSLATOR.translate(frame.getDuration()))
                 .set(SCHEMATIC, Translators.SCHEMATIC.translate(frame.getSchematic()));
     }
 

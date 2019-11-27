@@ -15,6 +15,7 @@ import me.dags.pitaya.command.CommandBus;
 import me.dags.pitaya.command.fmt.Fmt;
 import me.dags.pitaya.command.fmt.Format;
 import me.dags.pitaya.config.Config;
+import me.dags.pitaya.text.Formats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.api.Sponge;
@@ -56,7 +57,7 @@ public class Animations {
 
     @Listener
     public void init(GameInitializationEvent event) {
-        initFormat();
+        Formats.init(Animations::getDefaultFormat);
 
         Sponge.getRegistry().registerModule(Instance.class, instances);
         Sponge.getRegistry().registerModule(Trigger.class, triggers);
@@ -132,14 +133,6 @@ public class Animations {
 
     public static void log(String message, Object... args) {
         logger.info(message, args);
-    }
-
-    private static void initFormat() {
-        Format global = Fmt.copy();
-        Format current = Fmt.get("animations");
-        if (current.equals(global)) {
-            Fmt.init(getDefaultFormat());
-        }
     }
 
     private static Format getDefaultFormat() {

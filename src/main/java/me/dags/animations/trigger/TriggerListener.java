@@ -3,7 +3,7 @@ package me.dags.animations.trigger;
 import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.Animations;
 import me.dags.animations.instance.Instance;
-import me.dags.animations.util.region.RegionMap;
+import me.dags.pitaya.util.region.RegionMap;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;

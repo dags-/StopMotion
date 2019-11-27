@@ -1,6 +1,6 @@
 package me.dags.animations.animation;
 
-import me.dags.animations.util.duration.Duration;
+import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.CatalogType;
 
 import java.nio.file.Path;
@@ -43,7 +43,7 @@ public class Animation implements CatalogType {
     }
 
     public void refresh() {
-        timeout = System.currentTimeMillis() + duration.getDurationMs();
+        timeout = System.currentTimeMillis() + duration.getMS();
     }
 
     public void expire() {

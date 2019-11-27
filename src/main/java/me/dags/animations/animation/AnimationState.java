@@ -1,16 +1,16 @@
 package me.dags.animations.animation;
 
 import me.dags.animations.frame.Frame;
+import me.dags.animations.frame.iterator.Direction;
 import me.dags.animations.instance.Instance;
-import me.dags.animations.util.iterator.Direction;
-import me.dags.animations.util.iterator.Iterator;
-import me.dags.animations.util.optional.BiOptional;
 import me.dags.animations.util.worker.FrameWorker;
 import me.dags.animations.util.worker.QueueWorker;
 import me.dags.animations.util.worker.Worker;
+import me.dags.pitaya.util.optional.BiOptional;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;

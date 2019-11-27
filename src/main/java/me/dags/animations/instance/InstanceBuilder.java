@@ -3,9 +3,9 @@ package me.dags.animations.instance;
 import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
+import me.dags.animations.frame.iterator.Direction;
 import me.dags.animations.trigger.Trigger;
-import me.dags.animations.util.iterator.Direction;
-import me.dags.animations.util.optional.Result;
+import me.dags.pitaya.util.optional.Result;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 

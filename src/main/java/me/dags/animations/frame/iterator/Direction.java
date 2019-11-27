@@ -1,7 +1,8 @@
-package me.dags.animations.util.iterator;
+package me.dags.animations.frame.iterator;
 
 import me.dags.pitaya.config.Node;
 
+import java.util.Iterator;
 import java.util.List;
 
 public enum Direction {

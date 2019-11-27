@@ -2,7 +2,7 @@ package me.dags.animations.trigger;
 
 import me.dags.animations.trigger.rule.None;
 import me.dags.pitaya.config.Node;
-import me.dags.pitaya.util.OptionalValue;
+import me.dags.pitaya.util.optional.OptionalValue;
 
 public interface Rule extends Node.Value<Rule>, OptionalValue {
 

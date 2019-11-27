@@ -4,7 +4,6 @@ import com.flowpowered.math.vector.Vector3i;
 import com.google.common.collect.ImmutableList;
 import me.dags.animations.animation.AnimationTranslator;
 import me.dags.animations.frame.FrameTranslator;
-import me.dags.animations.util.duration.DurationTranslator;
 import me.dags.pitaya.config.Node;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataQuery;
@@ -14,14 +13,12 @@ import org.spongepowered.api.data.persistence.DataTranslators;
 import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.world.schematic.Schematic;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Translators {
 
     public static final FrameTranslator FRAME = new FrameTranslator();
-    public static final DurationTranslator DURATION = new DurationTranslator();
     public static final AnimationTranslator ANIMATION = new AnimationTranslator();
     public static final DataTranslator<Schematic> SCHEMATIC = DataTranslators.SCHEMATIC;
 

@@ -5,7 +5,8 @@ import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
 import me.dags.animations.instance.InstanceBuilder;
 import me.dags.animations.trigger.Trigger;
-import me.dags.animations.util.iterator.Direction;
+import me.dags.animations.frame.iterator.Direction;
+import me.dags.pitaya.cache.Cache;
 import me.dags.pitaya.command.annotation.Command;
 import me.dags.pitaya.command.annotation.Description;
 import me.dags.pitaya.command.annotation.Permission;
@@ -15,7 +16,7 @@ import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.concurrent.TimeUnit;
 
-public class InstanceCommands extends BuilderCommand<InstanceBuilder> {
+public class InstanceCommands extends Cache<InstanceBuilder> {
 
     private final Animations plugin;
 

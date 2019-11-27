@@ -1,5 +1,6 @@
-package me.dags.animations.util.iterator;
+package me.dags.animations.frame.iterator;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class ForwardIterator<T> implements Iterator<T> {
@@ -29,15 +30,5 @@ public class ForwardIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         return values.get(++index);
-    }
-
-    @Override
-    public void reset() {
-        index = start;
-    }
-
-    @Override
-    public Iterator<T> reverse() {
-        return new BackwardIterator<>(values);
     }
 }

@@ -1,8 +1,6 @@
 package me.dags.animations.util.worker;
 
-import me.dags.animations.util.iterator.ForwardIterator;
-import me.dags.animations.util.iterator.Iterator;
-
+import java.util.Iterator;
 import java.util.List;
 
 public class QueueWorker implements Worker {
@@ -10,8 +8,8 @@ public class QueueWorker implements Worker {
     private final Iterator<Worker> iterator;
     private Worker current = null;
 
-    public QueueWorker(List<Worker> iterator) {
-        this(new ForwardIterator<>(iterator));
+    public QueueWorker(List<Worker> queue) {
+        this(queue.iterator());
     }
 
     public QueueWorker(Iterator<Worker> iterator) {
