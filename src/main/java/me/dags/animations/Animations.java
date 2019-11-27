@@ -12,7 +12,6 @@ import me.dags.animations.trigger.Trigger;
 import me.dags.animations.trigger.TriggerListener;
 import me.dags.animations.trigger.TriggerManager;
 import me.dags.pitaya.command.CommandBus;
-import me.dags.pitaya.command.fmt.Fmt;
 import me.dags.pitaya.command.fmt.Format;
 import me.dags.pitaya.config.Config;
 import me.dags.pitaya.text.Formats;
