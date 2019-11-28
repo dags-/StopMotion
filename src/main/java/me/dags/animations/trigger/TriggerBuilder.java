@@ -4,6 +4,7 @@ import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.trigger.rule.And;
 import me.dags.animations.trigger.rule.Distance;
 import me.dags.animations.trigger.rule.Interact;
+import me.dags.animations.trigger.rule.Rule;
 import me.dags.animations.util.recorder.PosRecord;
 
 import java.util.LinkedList;

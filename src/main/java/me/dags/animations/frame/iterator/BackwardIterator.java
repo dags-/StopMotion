@@ -10,7 +10,7 @@ public class BackwardIterator<T> implements Iterator<T> {
     private int index;
 
     public BackwardIterator(List<T> values) {
-        this(values, values.size() - 1);
+        this(values, values.size());
     }
 
     public BackwardIterator(List<T> values, int start) {

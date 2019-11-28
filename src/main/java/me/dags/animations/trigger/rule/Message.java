@@ -1,8 +1,6 @@
 package me.dags.animations.trigger.rule;
 
 import me.dags.animations.trigger.Context;
-import me.dags.animations.trigger.Rule;
-import me.dags.animations.trigger.RuleType;
 import me.dags.pitaya.command.element.function.Filter;
 import me.dags.pitaya.config.Node;
 
@@ -32,6 +30,9 @@ public class Message implements Rule {
 
     @Override
     public boolean test(Context context) {
+        if (context.type != getType()) {
+            return false;
+        }
         return !message.isEmpty() && Filter.EQUALS_IGNORE_CASE.test(context.message, message);
     }
 

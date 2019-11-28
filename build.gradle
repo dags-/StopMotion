@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     compile "org.spongepowered:spongeapi:${spongeAPI}-${spongeChannel}"
-    shadow "com.github.dags-:Pitaya:0.0.9"
+    shadow "com.github.dags-:Pitaya:0.0.10"
 }
 
 shadowJar {

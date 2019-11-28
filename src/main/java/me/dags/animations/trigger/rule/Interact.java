@@ -2,8 +2,6 @@ package me.dags.animations.trigger.rule;
 
 import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.trigger.Context;
-import me.dags.animations.trigger.Rule;
-import me.dags.animations.trigger.RuleType;
 import me.dags.animations.util.Translators;
 import me.dags.pitaya.config.Node;
 
@@ -19,7 +17,10 @@ public class Interact implements Rule {
 
     @Override
     public boolean test(Context context) {
-        return above(context.position, min) && below(context.position, max);
+        if (context.type != getType()) {
+            return false;
+        }
+        return above(context.clicked, min) && below(context.clicked, max);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class Interact implements Rule {
     public void toNode(Node node) {
         Rule.super.toNode(node);
         Translators.vec3i(node.node("min"), min);
-        Translators.vec3i(node.node("min"), max);
+        Translators.vec3i(node.node("max"), max);
     }
 
     @Override

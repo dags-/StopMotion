@@ -7,7 +7,7 @@ import me.dags.animations.animation.AnimationMode;
 import me.dags.animations.animation.AnimationState;
 import me.dags.animations.frame.iterator.Direction;
 import me.dags.animations.trigger.Trigger;
-import me.dags.animations.util.worker.Worker;
+import me.dags.animations.worker.Worker;
 import me.dags.pitaya.util.region.Positioned;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.Sponge;
@@ -27,7 +27,7 @@ public class Instance implements CatalogType, Positioned {
     private final List<Trigger> triggers;
     private final List<Direction> timeline;
 
-    private transient final AnimationState state = new AnimationState();
+    private transient final AnimationState state;
 
     public Instance(InstanceBuilder builder) {
         this.name = builder.name;
@@ -37,6 +37,7 @@ public class Instance implements CatalogType, Positioned {
         this.mode = builder.mode;
         this.triggers = ImmutableList.copyOf(builder.triggers);
         this.timeline = ImmutableList.copyOf(builder.directions);
+        this.state = new AnimationState(builder.state);
     }
 
     @Override
@@ -65,6 +66,10 @@ public class Instance implements CatalogType, Positioned {
 
     public Animation getAnimation() {
         return animation;
+    }
+
+    public int getState() {
+        return state.getState();
     }
 
     public AnimationMode getAnimationMode() {

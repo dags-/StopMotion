@@ -44,11 +44,12 @@ public class Animations {
     private final TriggerManager triggers;
     private final InstanceManager instances;
     private final AnimationManager animations;
-    private final PlaybackManager playback = new PlaybackManager();
+    private final PlaybackManager playback;
     private final Map<UUID, TriggerListener> listeners = new HashMap<>();
 
     @Inject
     public Animations(@ConfigDir(sharedRoot = false) Path dir) {
+        playback = new PlaybackManager(this);
         animations = new AnimationManager(dir.resolve("animations"));
         triggers = new TriggerManager(Config.must(dir, "triggers.conf"));
         instances = new InstanceManager(Config.must(dir, "instances.conf"));

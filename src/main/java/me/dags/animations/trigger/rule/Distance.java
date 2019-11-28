@@ -2,8 +2,6 @@ package me.dags.animations.trigger.rule;
 
 import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.trigger.Context;
-import me.dags.animations.trigger.Rule;
-import me.dags.animations.trigger.RuleType;
 import me.dags.animations.util.Translators;
 import me.dags.pitaya.config.Node;
 

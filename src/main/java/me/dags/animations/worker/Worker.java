@@ -1,4 +1,4 @@
-package me.dags.animations.util.worker;
+package me.dags.animations.worker;
 
 public interface Worker {
 

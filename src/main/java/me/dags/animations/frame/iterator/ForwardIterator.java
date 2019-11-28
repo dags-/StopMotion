@@ -7,16 +7,14 @@ public class ForwardIterator<T> implements Iterator<T> {
 
     private final List<T> values;
     private final int max;
-    private final int start;
 
     private int index;
 
     public ForwardIterator(List<T> values) {
-        this(values, 0);
+        this(values, -1);
     }
 
     public ForwardIterator(List<T> values, int start) {
-        this.start = start;
         this.values = values;
         this.max = values.size() - 1;
         this.index = Math.max(-1, start - 1);

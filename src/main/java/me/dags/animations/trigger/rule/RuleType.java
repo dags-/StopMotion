@@ -1,14 +1,12 @@
-package me.dags.animations.trigger;
+package me.dags.animations.trigger.rule;
 
 import com.flowpowered.math.vector.Vector3i;
-import me.dags.animations.trigger.rule.*;
 import me.dags.pitaya.config.Node;
 
 import java.util.Collections;
 
 public enum RuleType {
     NONE(Rule.NONE),
-    NAMED(new Trigger("named", new None())),
     AND(new And(Collections.emptyList())),
     MESSAGE(new Message("")),
     TIME(new Time(0L, 0L)),

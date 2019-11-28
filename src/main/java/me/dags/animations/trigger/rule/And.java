@@ -1,8 +1,6 @@
 package me.dags.animations.trigger.rule;
 
 import me.dags.animations.trigger.Context;
-import me.dags.animations.trigger.Rule;
-import me.dags.animations.trigger.RuleType;
 import me.dags.pitaya.config.Node;
 
 import java.util.List;

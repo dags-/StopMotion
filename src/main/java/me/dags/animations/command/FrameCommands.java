@@ -83,7 +83,7 @@ public class FrameCommands extends Cache<FrameBuilder> {
         Fmt.info("Undid ").stress(count).tell(player);
     }
 
-    @Command("timeline create <name>")
+    @Command("frame save <name>")
     @Permission("animation.command.timeline.create")
     @Description("Create an animation timeline from your current set of frames")
     public void create(@Src Player player, String name) {
@@ -96,7 +96,7 @@ public class FrameCommands extends Cache<FrameBuilder> {
         });
     }
 
-    @Command("timeline delete <name>")
+    @Command("frame delete <name>")
     @Permission("animation.command.frame.delete")
     @Description("Delete the given animation frames")
     public void delete(@Src Player player, Animation animation) {

@@ -3,9 +3,9 @@ package me.dags.animations.command;
 import me.dags.animations.Animations;
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
+import me.dags.animations.frame.iterator.Direction;
 import me.dags.animations.instance.InstanceBuilder;
 import me.dags.animations.trigger.Trigger;
-import me.dags.animations.frame.iterator.Direction;
 import me.dags.pitaya.cache.Cache;
 import me.dags.pitaya.command.annotation.Command;
 import me.dags.pitaya.command.annotation.Description;
@@ -85,7 +85,7 @@ public class InstanceCommands extends Cache<InstanceBuilder> {
         Fmt.info("Deleted animation ").stress(animation.getId()).tell(player);
     }
 
-    @Command("animations reload")
+    @Command("animation|anim reload")
     @Permission("animation.command.animations.reload")
     @Description("Reload the animations plugin")
     public void reload(@Src Player player) {

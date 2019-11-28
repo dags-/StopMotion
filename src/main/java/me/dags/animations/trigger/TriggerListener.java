@@ -3,6 +3,7 @@ package me.dags.animations.trigger;
 import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.Animations;
 import me.dags.animations.instance.Instance;
+import me.dags.animations.trigger.rule.RuleType;
 import me.dags.pitaya.util.region.RegionMap;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -14,13 +15,14 @@ import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.world.Locatable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class TriggerListener {
 
     private final UUID world;
     private final Animations plugin;
-    private final RegionMap<Instance> regions = new RegionMap<>(7);
+    private final RegionMap<Instance> regions = new RegionMap<>(6);
 
     public TriggerListener(Animations plugin, UUID world, List<Instance> instances) {
         Animations.log("Created trigger listener for instances: {}", instances.size());
@@ -35,17 +37,8 @@ public class TriggerListener {
     @Listener(order = Order.PRE)
     public void onChat(MessageChannelEvent.Chat event, @Root Player player) {
         if (isWorld(player)) {
-            Context context = new Context(event, player);
+            Context context = new Context(event, player, RuleType.MESSAGE);
             context.message = event.getRawMessage().toPlain();
-            test(context, true);
-        }
-    }
-
-    @Listener(order = Order.PRE)
-    public void onClick(InteractBlockEvent event, @Root Player player) {
-        if (isWorld(event.getTargetBlock().getWorldUniqueId())) {
-            Context context = new Context(event, player);
-            context.clicked = event.getTargetBlock().getPosition();
             test(context, true);
         }
     }
@@ -58,8 +51,26 @@ public class TriggerListener {
             if (from.equals(to)) {
                 return;
             }
-            Context context = new Context(event, player);
+            Context context = new Context(event, player, RuleType.DISTANCE);
             test(context, false);
+        }
+    }
+
+    @Listener(order = Order.PRE)
+    public void onPrimary(InteractBlockEvent.Primary.MainHand event, @Root Player player) {
+        onInteract(event, player);
+    }
+
+    @Listener(order = Order.PRE)
+    public void onSecondary(InteractBlockEvent.Secondary.MainHand event, @Root Player player) {
+        onInteract(event, player);
+    }
+
+    private void onInteract(InteractBlockEvent event, Player player) {
+        if (isWorld(event.getTargetBlock().getWorldUniqueId())) {
+            Context context = new Context(event, player, RuleType.INTERACT);
+            context.clicked = event.getTargetBlock().getPosition();
+            test(context, true);
         }
     }
 
@@ -73,10 +84,10 @@ public class TriggerListener {
 
     private void test(Context context, boolean cancel) {
         regions.visit(context.position, 1, instance -> {
-            for (Rule trigger : instance.getTriggers()) {
+            for (Trigger trigger : instance.getTriggers()) {
                 if (trigger.test(context)) {
                     context.event.setCancelled(cancel);
-                    plugin.getPlaybackManager().play(instance);
+                    plugin.getPlaybackManager().submit(instance);
                     return;
                 }
             }

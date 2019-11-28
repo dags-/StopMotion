@@ -2,10 +2,9 @@ package me.dags.animations.instance;
 
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
-import me.dags.animations.trigger.Trigger;
-import me.dags.animations.util.Registry;
-import me.dags.animations.util.Translators;
 import me.dags.animations.frame.iterator.Direction;
+import me.dags.animations.trigger.Trigger;
+import me.dags.animations.util.Translators;
 import me.dags.pitaya.config.Config;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.registry.NodeRegistry;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class InstanceManager extends NodeRegistry<Instance> {
 
     public InstanceManager(Config storage) {
-        super(storage, storage);
+        super(storage);
     }
 
     @Override
@@ -28,6 +27,7 @@ public class InstanceManager extends NodeRegistry<Instance> {
         node.set("world", value.getWorld());
         Translators.vec3i(node.node("origin"), value.getOrigin());
         node.set("animation", value.getAnimation().getId());
+        node.set("state", value.getState());
         node.set("mode", value.getAnimationMode().toString());
         node.set("triggers", value.getTriggers().stream().map(Trigger::getId).collect(Collectors.toList()));
         node.set("timeline", value.getDirections().stream().map(Direction::toString).collect(Collectors.toList()));
@@ -40,6 +40,7 @@ public class InstanceManager extends NodeRegistry<Instance> {
             builder.animation = animation;
             builder.name = node.get("name", "");
             builder.world = node.get("world", "");
+            builder.state = node.get("state", 0);
             builder.origin = Translators.vec3i(node.node("origin"));
             builder.triggers = getList(node.node("triggers"));
             builder.directions = node.node("timeline").getList(Direction::deserialize);

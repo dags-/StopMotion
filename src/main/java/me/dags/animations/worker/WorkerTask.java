@@ -1,6 +1,5 @@
-package me.dags.animations.util.worker;
+package me.dags.animations.worker;
 
-import me.dags.pitaya.util.PluginUtils;
 import org.spongepowered.api.scheduler.Task;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -8,26 +7,19 @@ import java.util.function.Consumer;
 
 public class WorkerTask implements Consumer<Task> {
 
-    private final String name;
     private final Worker worker;
-    private final Consumer<String> finisher;
+    private final Runnable callback;
     private final AtomicBoolean cancelled = new AtomicBoolean(false);
 
-    public WorkerTask(String name, Worker worker, Consumer<String> finisher) {
-        this.name = name;
+    public WorkerTask(Worker worker, Runnable callback) {
         this.worker = worker;
-        this.finisher = finisher;
-    }
-
-    public void cancel() {
-        cancelled.set(true);
+        this.callback = callback;
     }
 
     @Override
     public void accept(Task task) {
         if (cancelled.get()) {
-            task.cancel();
-            finisher.accept(name);
+            dispose(task);
             return;
         }
 
@@ -36,17 +28,20 @@ public class WorkerTask implements Consumer<Task> {
             if (worker.hasWork(now)) {
                 worker.work(now);
             } else {
-                task.cancel();
-                finisher.accept(name);
+                dispose(task);
             }
         } catch (Throwable t) {
             t.printStackTrace();
-            task.cancel();
-            finisher.accept(name);
+            dispose(task);
         }
     }
 
-    public void start() {
-        Task.builder().intervalTicks(1).delayTicks(1).execute(this).submit(PluginUtils.getCurrentPluginInstance());
+    public void cancel() {
+        cancelled.set(true);
+    }
+
+    private void dispose(Task task) {
+        task.cancel();
+        callback.run();
     }
 }

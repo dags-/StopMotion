@@ -8,7 +8,10 @@ import org.spongepowered.api.registry.CatalogRegistryModule;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public abstract class Registry<T extends CatalogType> implements CatalogRegistryModule<T> {
 

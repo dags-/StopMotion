@@ -9,7 +9,7 @@ import java.util.Optional;
 public class TriggerManager extends NodeRegistry<Trigger> {
 
     public TriggerManager(Config storage) {
-        super(storage, storage);
+        super(storage);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class TriggerManager extends NodeRegistry<Trigger> {
     }
 
     @Override
-    protected Optional<Trigger> deserialize(String s, Node node) {
+    protected Optional<Trigger> deserialize(String name, Node node) {
         Trigger trigger = Trigger.NONE.fromNode(node);
         if (trigger.isAbsent()) {
             return Optional.empty();

@@ -1,14 +1,16 @@
 package me.dags.animations.frame;
 
 import com.flowpowered.math.vector.Vector3i;
+import me.dags.animations.worker.Timed;
 import me.dags.pitaya.util.duration.Duration;
 import me.dags.pitaya.util.optional.OptionalValue;
 import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.schematic.Schematic;
 
-public class Frame implements OptionalValue {
+public class Frame implements OptionalValue, Timed {
 
     public static final Frame EMPTY = new Frame(null, null);
 
@@ -22,6 +24,11 @@ public class Frame implements OptionalValue {
 
     public Duration getDuration() {
         return duration;
+    }
+
+    @Override
+    public long getDurationMS() {
+        return getDuration().getMS();
     }
 
     public Schematic getSchematic() {

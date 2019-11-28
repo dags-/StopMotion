@@ -1,4 +1,4 @@
-package me.dags.animations.util.worker;
+package me.dags.animations.worker;
 
 import java.util.Iterator;
 import java.util.List;

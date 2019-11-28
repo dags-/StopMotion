@@ -1,6 +1,6 @@
-package me.dags.animations.trigger;
+package me.dags.animations.trigger.rule;
 
-import me.dags.animations.trigger.rule.None;
+import me.dags.animations.trigger.Context;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.util.optional.OptionalValue;
 
