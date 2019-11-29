@@ -1,10 +1,12 @@
 package me.dags.animations.instance;
 
+import me.dags.animations.Animations;
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
-import me.dags.animations.frame.iterator.Direction;
 import me.dags.animations.trigger.Trigger;
+import me.dags.animations.util.ClassUtils;
 import me.dags.animations.util.Translators;
+import me.dags.animations.util.iterator.Direction;
 import me.dags.pitaya.config.Config;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.registry.NodeRegistry;
@@ -22,6 +24,12 @@ public class InstanceManager extends NodeRegistry<Instance> {
     }
 
     @Override
+    public void load() {
+        super.load();
+        Animations.log("Registry load complete. Registry: {}, Size: {}", ClassUtils.getTypeName(this), registry.size());
+    }
+
+    @Override
     protected void serialize(Node node, Instance value) {
         node.set("name", value.getId());
         node.set("world", value.getWorld());
@@ -30,7 +38,7 @@ public class InstanceManager extends NodeRegistry<Instance> {
         node.set("state", value.getState());
         node.set("mode", value.getAnimationMode().toString());
         node.set("triggers", value.getTriggers().stream().map(Trigger::getId).collect(Collectors.toList()));
-        node.set("timeline", value.getDirections().stream().map(Direction::toString).collect(Collectors.toList()));
+        node.set("directions", value.getDirections().stream().map(Direction::toString).collect(Collectors.toList()));
     }
 
     @Override
@@ -42,14 +50,14 @@ public class InstanceManager extends NodeRegistry<Instance> {
             builder.world = node.get("world", "");
             builder.state = node.get("state", 0);
             builder.origin = Translators.vec3i(node.node("origin"));
-            builder.triggers = getList(node.node("triggers"));
-            builder.directions = node.node("timeline").getList(Direction::deserialize);
+            builder.triggers = getTriggerList(node.node("triggers"));
             builder.mode = AnimationMode.valueOf(node.get("mode", ""));
+            builder.directions = node.node("directions").getList(Direction::deserialize);
             return new Instance(builder);
         });
     }
 
-    private static List<Trigger> getList(Node node) {
+    private static List<Trigger> getTriggerList(Node node) {
         List<Trigger> list = new LinkedList<>();
         node.iterate(value -> Sponge.getRegistry().getType(Trigger.class, value.get("")).ifPresent(list::add));
         return list;

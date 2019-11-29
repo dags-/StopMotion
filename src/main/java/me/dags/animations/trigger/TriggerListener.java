@@ -15,7 +15,6 @@ import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.world.Locatable;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public class TriggerListener {
@@ -37,7 +36,7 @@ public class TriggerListener {
     @Listener(order = Order.PRE)
     public void onChat(MessageChannelEvent.Chat event, @Root Player player) {
         if (isWorld(player)) {
-            Context context = new Context(event, player, RuleType.MESSAGE);
+            Context context = new Context(RuleType.MESSAGE, event, player);
             context.message = event.getRawMessage().toPlain();
             test(context, true);
         }
@@ -51,7 +50,7 @@ public class TriggerListener {
             if (from.equals(to)) {
                 return;
             }
-            Context context = new Context(event, player, RuleType.DISTANCE);
+            Context context = new Context(RuleType.DISTANCE, event, player);
             test(context, false);
         }
     }
@@ -68,7 +67,7 @@ public class TriggerListener {
 
     private void onInteract(InteractBlockEvent event, Player player) {
         if (isWorld(event.getTargetBlock().getWorldUniqueId())) {
-            Context context = new Context(event, player, RuleType.INTERACT);
+            Context context = new Context(RuleType.INTERACT, event, player);
             context.clicked = event.getTargetBlock().getPosition();
             test(context, true);
         }

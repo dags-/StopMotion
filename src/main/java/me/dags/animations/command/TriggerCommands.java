@@ -30,7 +30,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
         PosRecorder.create(player, must(player).pos()).ifPresent(recorder -> Fmt.info("Created new wand").tell(player));
     }
 
-    @Command("rule message <message...>")
+    @Command("trigger add message <message...>")
     @Permission("animation.command.rule.message")
     @Description("Create a rule that listens for the given message in chat")
     public void message(@Src Player player, @Join String message) {
@@ -38,7 +38,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
         Fmt.info("Added new message rule").tell(player);
     }
 
-    @Command("rule permission <name>")
+    @Command("trigger add permission <name>")
     @Permission("animation.command.rule.permission")
     @Description("Create a rule that checks for a permission node")
     public void permission(@Src Player player, String name) {
@@ -46,7 +46,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
         Fmt.info("Added new permission rule").tell(player);
     }
 
-    @Command("rule distance <radius>")
+    @Command("trigger add distance <radius>")
     @Permission("animation.command.rule.distance")
     @Description("Create a rule that checks proximity to given position")
     public void distance(@Src Player player, int radius) {
@@ -60,7 +60,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
         distance(player, player.getLocation().getBlockPosition(), radius);
     }
 
-    @Command("rule distance <position> <radius>")
+    @Command("trigger add distance <position> <radius>")
     @Permission("animation.command.rule.distance")
     @Description("Create a rule that checks proximity to given position")
     public void distance(@Src Player player, Vector3i position, int radius) {
@@ -68,7 +68,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
         Fmt.info("Added new distance rule").tell(player);
     }
 
-    @Command("rule time <min> <max>")
+    @Command("trigger add time <min> <max>")
     @Permission("animation.command.rule.time")
     @Description("Create a rule that checks for a min and max time")
     public void time(@Src Player player, long min, long max) {
@@ -76,7 +76,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
         Fmt.info("Added new time rule").tell(player);
     }
 
-    @Command("rule interact")
+    @Command("trigger add interact")
     @Permission("animation.command.rule.interact")
     @Description("Create a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player) {
@@ -90,7 +90,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
         Fmt.error("You must specify two points for this type of trigger").tell(player);
     }
 
-    @Command("rule interact <pos1> <pos2>")
+    @Command("trigger add interact <pos1> <pos2>")
     @Permission("animation.command.rule.interact")
     @Description("Create a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player, Vector3i pos1, Vector3i pos2) {

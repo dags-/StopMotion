@@ -5,7 +5,6 @@ import me.dags.animations.worker.Timed;
 import me.dags.pitaya.util.duration.Duration;
 import me.dags.pitaya.util.optional.OptionalValue;
 import org.spongepowered.api.block.BlockState;
-import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.schematic.Schematic;

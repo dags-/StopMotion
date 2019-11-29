@@ -37,7 +37,7 @@ public class AnimationTranslator implements org.spongepowered.api.data.persisten
 
     @Override
     public String getId() {
-        return "animation";
+        return getName();
     }
 
     @Override

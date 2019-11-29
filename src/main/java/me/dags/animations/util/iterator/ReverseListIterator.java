@@ -1,19 +1,19 @@
-package me.dags.animations.frame.iterator;
+package me.dags.animations.util.iterator;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class BackwardIterator<T> implements Iterator<T> {
+public class ReverseListIterator<T> implements Iterator<T> {
 
     private final List<T> values;
 
     private int index;
 
-    public BackwardIterator(List<T> values) {
+    public ReverseListIterator(List<T> values) {
         this(values, values.size());
     }
 
-    public BackwardIterator(List<T> values, int start) {
+    public ReverseListIterator(List<T> values, int start) {
         this.values = values;
         this.index = Math.min(start, values.size());
     }

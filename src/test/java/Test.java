@@ -1,4 +1,4 @@
-import me.dags.animations.frame.iterator.Direction;
+import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.worker.*;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.scheduler.Task;
@@ -66,7 +66,7 @@ public class Test {
         }
     }
 
-    private static class TestWorker<T extends Timed> extends IterateWorker<T> {
+    private static class TestWorker<T extends Timed> extends IteraterWorker<T> {
 
         private TestWorker(Iterator<T> iterator) {
             super(iterator);

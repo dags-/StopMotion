@@ -1,7 +1,7 @@
 package me.dags.animations.animation;
 
 import me.dags.animations.Animations;
-import me.dags.animations.util.Registry;
+import me.dags.animations.util.ClassUtils;
 import me.dags.pitaya.util.PluginUtils;
 import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.registry.CatalogRegistryModule;
@@ -76,7 +76,7 @@ public class AnimationManager implements CatalogRegistryModule<Animation> {
             e.printStackTrace();
         }
 
-        Animations.log("Registry load complete. Registry: {}, Size: {}", Registry.getTypeName(this), registry.size());
+        Animations.log("Registry load complete. Registry: {}, Size: {}", ClassUtils.getTypeName(this), registry.size());
     }
 
     public void register(Timeline animation) {

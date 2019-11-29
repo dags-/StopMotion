@@ -1,8 +1,8 @@
 package me.dags.animations.animation;
 
 import me.dags.animations.frame.Frame;
-import me.dags.animations.frame.iterator.Direction;
 import me.dags.animations.instance.Instance;
+import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.worker.FrameWorker;
 import me.dags.animations.worker.QueueWorker;
 import me.dags.animations.worker.Worker;

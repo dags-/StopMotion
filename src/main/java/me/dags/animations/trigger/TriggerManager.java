@@ -1,5 +1,7 @@
 package me.dags.animations.trigger;
 
+import me.dags.animations.Animations;
+import me.dags.animations.util.ClassUtils;
 import me.dags.pitaya.config.Config;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.registry.NodeRegistry;
@@ -10,6 +12,12 @@ public class TriggerManager extends NodeRegistry<Trigger> {
 
     public TriggerManager(Config storage) {
         super(storage);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+        Animations.log("Registry load complete. Registry: {}, Size: {}", ClassUtils.getTypeName(this), registry.size());
     }
 
     @Override

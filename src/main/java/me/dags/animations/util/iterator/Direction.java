@@ -1,8 +1,7 @@
-package me.dags.animations.frame.iterator;
+package me.dags.animations.util.iterator;
 
 import me.dags.pitaya.config.Node;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,13 +9,13 @@ public enum Direction {
     FORWARD {
         @Override
         public <T> Iterator<T> iterate(List<T> list) {
-            return new ForwardIterator<>(list);
+            return new ListIterator<>(list);
         }
     },
     BACKWARD {
         @Override
         public <T> Iterator<T> iterate(List<T> list) {
-            return new BackwardIterator<>(list);
+            return new ReverseListIterator<>(list);
         }
     }
     ;

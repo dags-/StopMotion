@@ -1,20 +1,20 @@
-package me.dags.animations.frame.iterator;
+package me.dags.animations.util.iterator;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class ForwardIterator<T> implements Iterator<T> {
+public class ListIterator<T> implements Iterator<T> {
 
     private final List<T> values;
     private final int max;
 
     private int index;
 
-    public ForwardIterator(List<T> values) {
+    public ListIterator(List<T> values) {
         this(values, -1);
     }
 
-    public ForwardIterator(List<T> values, int start) {
+    public ListIterator(List<T> values, int start) {
         this.values = values;
         this.max = values.size() - 1;
         this.index = Math.max(-1, start - 1);
