@@ -38,7 +38,7 @@ public class FrameBuilder {
             if (frame != null) {
                 Vector3i position = frame.getSchematic().getBlockMin();
                 Location<World> location = new Location<>(world, position);
-                frame.apply(location);
+                frame.applyKeyFrame(location);
             }
 
             if (count-- < 0) {

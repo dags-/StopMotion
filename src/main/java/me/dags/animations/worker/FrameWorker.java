@@ -17,11 +17,11 @@ public class FrameWorker extends IterateWorker<Frame> {
 
     @Override
     protected void apply(Frame frame) {
-        frame.apply(origin);
+        frame.applyKeyFrame(origin);
     }
 
     @Override
     protected void applyTransient(Frame frame) {
-        frame.applyTransient(origin);
+        frame.applyTransientFrame(origin);
     }
 }

@@ -5,6 +5,7 @@ import me.dags.animations.worker.Timed;
 import me.dags.pitaya.util.duration.Duration;
 import me.dags.pitaya.util.optional.OptionalValue;
 import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.world.BlockChangeFlags;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.schematic.Schematic;
@@ -35,21 +36,12 @@ public class Frame implements OptionalValue, Timed {
         return schematic;
     }
 
-    public void apply(Location<World> location) {
-        World world = location.getExtent();
-        Vector3i origin = location.getBlockPosition();
-        schematic.getBlockWorker().iterate((volume, dx, dy, dz) -> {
-            int x = origin.getX() + dx;
-            int y = origin.getY() + dy;
-            int z = origin.getZ() + dz;
-            BlockState state = volume.getBlock(dx, dy, dz);
-            world.resetBlockChange(x, y, z);
-            world.setBlock(x, y, z, state);
-        });
-        schematic.getTileEntityArchetypes().forEach((pos, tile) -> tile.apply(location.add(pos)));
+    public void applyKeyFrame(Location<World> location) {
+        clearTransientFrame(location);
+        schematic.apply(location, BlockChangeFlags.NONE);
     }
 
-    public void applyTransient(Location<World> location) {
+    public void applyTransientFrame(Location<World> location) {
         World world = location.getExtent();
         Vector3i origin = location.getBlockPosition();
         schematic.getBlockWorker().iterate((volume, dx, dy, dz) -> {
@@ -61,7 +53,7 @@ public class Frame implements OptionalValue, Timed {
         });
     }
 
-    public void reset(Location<World> location) {
+    private void clearTransientFrame(Location<World> location) {
         World world = location.getExtent();
         Vector3i origin = location.getBlockPosition();
         schematic.getBlockWorker().iterate((volume, dx, dy, dz) -> {
