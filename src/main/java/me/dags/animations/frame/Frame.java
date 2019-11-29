@@ -46,6 +46,7 @@ public class Frame implements OptionalValue, Timed {
             world.resetBlockChange(x, y, z);
             world.setBlock(x, y, z, state);
         });
+        schematic.getTileEntityArchetypes().forEach((pos, tile) -> tile.apply(location.add(pos)));
     }
 
     public void applyTransient(Location<World> location) {
