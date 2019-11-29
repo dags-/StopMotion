@@ -1,7 +1,6 @@
 package me.dags.animations.animation;
 
 import me.dags.animations.frame.Frame;
-import me.dags.animations.util.Translators;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.DataFormats;
 
@@ -38,7 +37,7 @@ public class Timeline {
     public static Optional<Timeline> load(Path path) {
         try (InputStream stream = new BufferedInputStream(new GZIPInputStream(Files.newInputStream(path)))) {
             DataView dataView = DataFormats.NBT.readFrom(stream);
-            Timeline timeline = Translators.ANIMATION.translate(dataView);
+            Timeline timeline = Animation.TRANSLATOR.translate(dataView);
             return Optional.of(timeline);
         } catch (Throwable t) {
             t.printStackTrace();
@@ -48,7 +47,7 @@ public class Timeline {
 
     public static void save(Timeline animation, Path path) {
         try (OutputStream stream = new BufferedOutputStream(new GZIPOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE)))) {
-            DataView dataView = Translators.ANIMATION.translate(animation);
+            DataView dataView = Animation.TRANSLATOR.translate(animation);
             DataFormats.NBT.writeTo(stream, dataView);
         } catch (Throwable t) {
             t.printStackTrace();

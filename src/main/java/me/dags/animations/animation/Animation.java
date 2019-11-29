@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public class Animation implements CatalogType {
 
+    public static final AnimationTranslator TRANSLATOR = new AnimationTranslator();
+
     private final Path path;
     private final String name;
     private final Duration duration;

@@ -12,6 +12,7 @@ import org.spongepowered.api.world.schematic.Schematic;
 public class Frame implements OptionalValue, Timed {
 
     public static final Frame EMPTY = new Frame(null, null);
+    public static final FrameTranslator TRANSLATOR = new FrameTranslator();
 
     private final Schematic schematic;
     private final Duration duration;

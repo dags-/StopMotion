@@ -2,7 +2,7 @@ package me.dags.animations.animation;
 
 import com.google.common.reflect.TypeToken;
 import me.dags.animations.frame.Frame;
-import me.dags.animations.util.Translators;
+import me.dags.pitaya.util.Translators;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataView;
@@ -24,7 +24,7 @@ public class AnimationTranslator implements org.spongepowered.api.data.persisten
     @Override
     public Timeline translate(DataView view) throws InvalidDataException {
         String name = Translators.getString(view, NAME);
-        List<Frame> frames = Translators.getList(view, FRAMES, Translators.FRAME);
+        List<Frame> frames = Translators.getList(view, FRAMES, Frame.TRANSLATOR);
         return new Timeline(name, frames);
     }
 
@@ -32,7 +32,7 @@ public class AnimationTranslator implements org.spongepowered.api.data.persisten
     public DataContainer translate(Timeline animation) throws InvalidDataException {
         return DataContainer.createNew()
                 .set(NAME, animation.getName())
-                .set(FRAMES, Translators.toList(animation.getFrames(), Translators.FRAME));
+                .set(FRAMES, Translators.toList(animation.getFrames(), Frame.TRANSLATOR));
     }
 
     @Override

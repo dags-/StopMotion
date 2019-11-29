@@ -5,11 +5,11 @@ import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
 import me.dags.animations.trigger.Trigger;
 import me.dags.animations.util.ClassUtils;
-import me.dags.animations.util.Translators;
 import me.dags.animations.util.iterator.Direction;
 import me.dags.pitaya.config.Config;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.registry.NodeRegistry;
+import me.dags.pitaya.util.Translators;
 import org.spongepowered.api.Sponge;
 
 import java.util.LinkedList;
