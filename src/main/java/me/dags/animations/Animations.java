@@ -59,8 +59,8 @@ public class Animations {
     public void init(GameInitializationEvent event) {
         Formats.init(Animations::getDefaultFormat);
 
-        Sponge.getRegistry().registerModule(Instance.class, instances);
         Sponge.getRegistry().registerModule(Trigger.class, triggers);
+        Sponge.getRegistry().registerModule(Instance.class, instances);
         Sponge.getRegistry().registerModule(Animation.class, animations);
 
         CommandBus.create()

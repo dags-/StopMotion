@@ -42,16 +42,16 @@ public class PlaybackManager {
         tasks.forEach(WorkerTask::cancel);
     }
 
-    private void start(Consumer<Task> task) {
-        Task.builder().delayTicks(1).intervalTicks(1).execute(task).submit(plugin);
-    }
-
-    private void remove(String taskId) {
+    private synchronized void remove(String taskId) {
         // remove from the worker
         workers.remove(taskId);
 
         // re-registering the instance will trigger a write to file, which will save the
         // instance's state (needed for push-pull animations)
         plugin.getInstances().getById(taskId).ifPresent(plugin.getInstances()::register);
+    }
+
+    private void start(Consumer<Task> task) {
+        Task.builder().delayTicks(1).intervalTicks(1).execute(task).submit(plugin);
     }
 }
