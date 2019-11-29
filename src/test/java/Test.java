@@ -66,7 +66,7 @@ public class Test {
         }
     }
 
-    private static class TestWorker<T extends Timed> extends IteraterWorker<T> {
+    private static class TestWorker<T extends Timed> extends IterateWorker<T> {
 
         private TestWorker(Iterator<T> iterator) {
             super(iterator);

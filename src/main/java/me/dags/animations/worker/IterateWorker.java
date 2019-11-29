@@ -2,7 +2,7 @@ package me.dags.animations.worker;
 
 import java.util.Iterator;
 
-public abstract class IteraterWorker<T extends Timed> implements Worker {
+public abstract class IterateWorker<T extends Timed> implements Worker {
 
     private final Iterator<T> iterator;
 
@@ -10,7 +10,7 @@ public abstract class IteraterWorker<T extends Timed> implements Worker {
     private long timestamp = 0L;
     private boolean first = true;
 
-    public IteraterWorker(Iterator<T> iterator) {
+    public IterateWorker(Iterator<T> iterator) {
         this.iterator = iterator;
     }
 

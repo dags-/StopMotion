@@ -6,7 +6,7 @@ import org.spongepowered.api.world.World;
 
 import java.util.Iterator;
 
-public class FrameWorker extends IteraterWorker<Frame> {
+public class FrameWorker extends IterateWorker<Frame> {
 
     private final Location<World> origin;
 
