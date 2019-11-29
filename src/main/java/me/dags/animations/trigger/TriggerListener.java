@@ -29,7 +29,7 @@ public class TriggerListener {
         this.plugin = plugin;
         for (Instance instance : instances) {
             Animations.debug("Adding instance triggers for: {}", instance.getName());
-            regions.add(instance, 1);
+            regions.add(instance, Trigger.MAX_RADIUS);
         }
     }
 
@@ -82,7 +82,7 @@ public class TriggerListener {
     }
 
     private void test(Context context, boolean cancel) {
-        regions.visit(context.position, 1, instance -> {
+        regions.visit(context.position, Trigger.MAX_RADIUS, instance -> {
             for (Trigger trigger : instance.getTriggers()) {
                 if (trigger.test(context)) {
                     context.event.setCancelled(cancel);

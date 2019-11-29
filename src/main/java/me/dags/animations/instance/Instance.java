@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
 import me.dags.animations.animation.AnimationState;
+import me.dags.animations.animation.Timeline;
 import me.dags.animations.trigger.Trigger;
 import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.worker.Worker;
@@ -94,5 +95,9 @@ public class Instance implements CatalogType, Positioned {
 
     public Optional<Worker> getWorker() {
         return state.nextWorker(this);
+    }
+
+    private Optional<Vector3i> getCenter() {
+        return animation.getTimeline().flatMap(Timeline::getSize).map(size -> origin.add(size.div(2)));
     }
 }

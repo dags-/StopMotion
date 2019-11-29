@@ -1,5 +1,6 @@
 package me.dags.animations.animation;
 
+import com.flowpowered.math.vector.Vector3i;
 import me.dags.animations.frame.Frame;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.DataFormats;
@@ -32,6 +33,29 @@ public class Timeline {
 
     public List<Frame> getFrames() {
         return frames;
+    }
+
+    public Optional<Vector3i> getSize() {
+        Vector3i min = null;
+        Vector3i max = null;
+        for (Frame frame : getFrames()) {
+            Vector3i fmin = frame.getSchematic().getBlockMin();
+            Vector3i fmax = frame.getSchematic().getBlockMax();
+            if (min == null) {
+                min = fmin;
+            } else {
+                min = min.min(fmin);
+            }
+            if (max == null) {
+                max = fmax;
+            } else {
+                max = max.max(fmax);
+            }
+        }
+        if (min == null || max == null) {
+            return Optional.empty();
+        }
+        return Optional.of(max.sub(min));
     }
 
     public static Optional<Timeline> load(Path path) {

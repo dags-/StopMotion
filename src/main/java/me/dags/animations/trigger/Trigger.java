@@ -8,6 +8,7 @@ import org.spongepowered.api.CatalogType;
 
 public class Trigger implements OptionalValue, CatalogType, Node.Value<Trigger> {
 
+    public static final int MAX_RADIUS = 128;
     static final Trigger NONE = new Trigger("none", Rule.NONE);
 
     private final String name;
