@@ -123,7 +123,7 @@ public class Animations {
         // register listener for each world, assuming the world exists
         for (Map.Entry<String, List<Instance>> entry : instances.entrySet()) {
             Sponge.getServer().getWorld(entry.getKey()).ifPresent(world -> {
-                log("Registering trigger listener for world: {}", world.getName());
+                debug("Registering trigger listener for world: {}", world.getName());
                 TriggerListener listener = new TriggerListener(this, world.getUniqueId(), entry.getValue());
                 Sponge.getEventManager().registerListeners(this, listener);
                 listeners.put(world.getUniqueId(), listener);
@@ -135,13 +135,18 @@ public class Animations {
         logger.info(message, args);
     }
 
+    public static void debug(String message, Object... args) {
+        logger.debug(message, args);
+    }
+
+
     private static Format getDefaultFormat() {
         return Format.builder()
-                .info(TextColors.BLUE)
-                .stress(TextColors.YELLOW)
-                .error(TextColors.RED)
-                .warn(TextColors.DARK_RED)
-                .subdued(TextStyles.ITALIC)
+                .warn(TextColors.RED)
+                .info(TextColors.YELLOW)
+                .stress(TextColors.DARK_AQUA)
+                .error(TextColors.RED, TextStyles.ITALIC)
+                .subdued(TextColors.YELLOW, TextStyles.ITALIC)
                 .build();
     }
 }

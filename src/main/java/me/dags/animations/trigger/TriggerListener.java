@@ -24,11 +24,11 @@ public class TriggerListener {
     private final RegionMap<Instance> regions = new RegionMap<>(6);
 
     public TriggerListener(Animations plugin, UUID world, List<Instance> instances) {
-        Animations.log("Created trigger listener for instances: {}", instances.size());
+        Animations.debug("Created trigger listener for instances: {}", instances.size());
         this.world = world;
         this.plugin = plugin;
         for (Instance instance : instances) {
-            Animations.log("Adding instance triggers for: {}", instance.getName());
+            Animations.debug("Adding instance triggers for: {}", instance.getName());
             regions.add(instance, 1);
         }
     }
