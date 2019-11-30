@@ -1,10 +1,12 @@
 package me.dags.animations.animation;
 
+import me.dags.animations.Animations;
+import me.dags.pitaya.task.Promise;
 import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.CatalogType;
 
 import java.nio.file.Path;
-import java.util.Optional;
+import java.util.concurrent.Callable;
 
 public class Animation implements CatalogType {
 
@@ -13,6 +15,7 @@ public class Animation implements CatalogType {
     private final Path path;
     private final String name;
     private final Duration duration;
+    private final Object lock = new Object();
 
     private long timeout = 0L;
     private Timeline reference = null;
@@ -45,24 +48,35 @@ public class Animation implements CatalogType {
     }
 
     public void refresh() {
-        timeout = System.currentTimeMillis() + duration.getMS();
+        synchronized (lock) {
+            timeout = System.currentTimeMillis() + duration.getMS();
+        }
     }
 
     public void expire() {
-        reference = null;
+        synchronized (lock) {
+            reference = null;
+        }
     }
 
     public boolean hasExpired(long now) {
         return now > timeout;
     }
 
-    public Optional<Timeline> getTimeline() {
+    public Promise<Timeline> getTimeline() {
         refresh();
-        if (reference == null) {
-            Optional<Timeline> animation = Timeline.load(path);
-            animation.ifPresent(a -> reference = a);
-            return animation;
-        }
-        return Optional.of(reference);
+        return Promise.of(getOrLoad());
+    }
+
+    private Callable<Timeline> getOrLoad() {
+        return () -> {
+            synchronized (lock) {
+                if (reference == null) {
+                    Animations.debug("Loading: {}, Thread: {}", path, Thread.currentThread());
+                    reference = Timeline.load(path).orElseThrow(() -> new AnimationException("Failed to load " + path));
+                }
+                return reference;
+            }
+        };
     }
 }

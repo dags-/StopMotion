@@ -5,10 +5,10 @@ import com.google.common.collect.ImmutableList;
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
 import me.dags.animations.animation.AnimationState;
-import me.dags.animations.animation.Timeline;
 import me.dags.animations.trigger.Trigger;
 import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.worker.Worker;
+import me.dags.pitaya.task.Promise;
 import me.dags.pitaya.util.region.Positioned;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.Sponge;
@@ -17,6 +17,7 @@ import org.spongepowered.api.world.World;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Instance implements CatalogType, Positioned {
 
@@ -27,6 +28,7 @@ public class Instance implements CatalogType, Positioned {
     private final AnimationMode mode;
     private final List<Trigger> triggers;
     private final List<Direction> directions;
+    private final AtomicBoolean lock = new AtomicBoolean(false);
 
     private transient final AnimationState state;
 
@@ -81,6 +83,14 @@ public class Instance implements CatalogType, Positioned {
         return origin;
     }
 
+    public boolean isLocked() {
+        return lock.get();
+    }
+
+    public void setLocked(boolean locked) {
+        lock.set(locked);
+    }
+
     public Optional<Location<World>> getLocation() {
         return Sponge.getServer().getWorld(getWorld()).map(world -> world.getLocation(getOrigin()));
     }
@@ -93,11 +103,7 @@ public class Instance implements CatalogType, Positioned {
         return directions;
     }
 
-    public Optional<Worker> getWorker() {
+    public Promise<Worker> getWorker() {
         return state.nextWorker(this);
-    }
-
-    private Optional<Vector3i> getCenter() {
-        return animation.getTimeline().flatMap(Timeline::getSize).map(size -> origin.add(size.div(2)));
     }
 }

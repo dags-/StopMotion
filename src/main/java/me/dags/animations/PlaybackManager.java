@@ -21,8 +21,15 @@ public class PlaybackManager {
 
     public synchronized void submit(Instance instance) {
         final String taskId = instance.getId();
-        if (!workers.containsKey(taskId)) {
-            instance.getWorker().ifPresent(worker -> {
+        if (!instance.isLocked() && !workers.containsKey(taskId)) {
+            // lock the instance from further invocations until it has either failed or successfully loaded
+            instance.setLocked(true);
+
+            instance.getWorker().handle((t, e) -> {
+                e.printStackTrace();
+                instance.setLocked(false);
+            }).run(worker -> {
+                instance.setLocked(false);
                 WorkerTask task = new WorkerTask(worker, () -> remove(taskId));
                 workers.put(instance.getId(), task);
                 start(task);

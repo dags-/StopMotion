@@ -6,14 +6,13 @@ import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.worker.FrameWorker;
 import me.dags.animations.worker.QueueWorker;
 import me.dags.animations.worker.Worker;
-import me.dags.pitaya.util.optional.BiOptional;
+import me.dags.pitaya.task.Promise;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AnimationState {
@@ -28,8 +27,9 @@ public class AnimationState {
         return state.get();
     }
 
-    public Optional<Worker> nextWorker(Instance instance) {
-        return BiOptional.of(instance.getLocation(), instance.getAnimation().getTimeline()).map((origin, timeline) -> {
+    public Promise<Worker> nextWorker(Instance instance) {
+        return instance.getAnimation().getTimeline().then(timeline -> {
+            Location<World> origin = instance.getLocation().orElseThrow(() -> new AnimationException("origin not valid"));
             if (instance.getAnimationMode() == AnimationMode.PUSH_PULL) {
                 int stateValue = state.get();
                 if (stateValue == 0) {
