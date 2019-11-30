@@ -65,9 +65,9 @@ public class InstanceCommands extends Cache<InstanceBuilder> {
         Fmt.info("Set timeline").tell(player);
     }
 
-    @Command("animation|anim create <name>")
-    @Permission("animation.command.animation.create")
-    @Description("Create an animation using the current configuration")
+    @Command("animation|anim save <name>")
+    @Permission("animation.command.animation.save")
+    @Description("Save an animation using the current configuration")
     public void save(@Src Player player, String name) {
         must(player).build(name).onPass(instance -> {
             plugin.getInstances().register(instance);

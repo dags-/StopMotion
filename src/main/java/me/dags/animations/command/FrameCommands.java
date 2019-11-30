@@ -75,14 +75,6 @@ public class FrameCommands extends Cache<FrameBuilder> {
         Fmt.info("Added frame: #").stress(builder.frames.size()).tell(player);
     }
 
-    @Command("frame undo <count>")
-    @Permission("animation.command.frame.undo")
-    @Description("Undo and discard a number of frames")
-    public void undo(@Src Player player, int count) {
-        must(player).undo(player.getWorld(), count);
-        Fmt.info("Undid ").stress(count).tell(player);
-    }
-
     @Command("frame save <name>")
     @Permission("animation.command.timeline.create")
     @Description("Create an animation timeline from your current set of frames")

@@ -32,7 +32,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
 
     @Command("trigger add message <message...>")
     @Permission("animation.command.rule.message")
-    @Description("Create a rule that listens for the given message in chat")
+    @Description("Add a rule that listens for the given message in chat")
     public void message(@Src Player player, @Join String message) {
         must(player).add(new Message(message));
         Fmt.info("Added new message rule").tell(player);
@@ -40,7 +40,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
 
     @Command("trigger add permission <name>")
     @Permission("animation.command.rule.permission")
-    @Description("Create a rule that checks for a permission node")
+    @Description("Add a rule that checks for a permission node")
     public void permission(@Src Player player, String name) {
         must(player).add(new Perm(name));
         Fmt.info("Added new permission rule").tell(player);
@@ -48,7 +48,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
 
     @Command("trigger add distance <radius>")
     @Permission("animation.command.rule.distance")
-    @Description("Create a rule that checks proximity to given position")
+    @Description("Add a rule that checks proximity to given position")
     public void distance(@Src Player player, int radius) {
         Optional<PosRecorder> recorder = PosRecorder.lookup(player);
         if (recorder.isPresent()) {
@@ -62,7 +62,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
 
     @Command("trigger add distance <position> <radius>")
     @Permission("animation.command.rule.distance")
-    @Description("Create a rule that checks proximity to given position")
+    @Description("Add a rule that checks proximity to given position")
     public void distance(@Src Player player, Vector3i position, int radius) {
         must(player).add(new Distance(position, radius));
         Fmt.info("Added new distance rule").tell(player);
@@ -70,7 +70,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
 
     @Command("trigger add time <min> <max>")
     @Permission("animation.command.rule.time")
-    @Description("Create a rule that checks for a min and max time")
+    @Description("Add a rule that checks for a min and max time")
     public void time(@Src Player player, long min, long max) {
         must(player).add(new Time(min, max));
         Fmt.info("Added new time rule").tell(player);
@@ -78,7 +78,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
 
     @Command("trigger add interact")
     @Permission("animation.command.rule.interact")
-    @Description("Create a rule that checks interactions with blocks in a certain area")
+    @Description("Add a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player) {
         Optional<PosRecorder> recorder = PosRecorder.lookup(player);
         if (recorder.isPresent()) {
@@ -92,16 +92,16 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
 
     @Command("trigger add interact <pos1> <pos2>")
     @Permission("animation.command.rule.interact")
-    @Description("Create a rule that checks interactions with blocks in a certain area")
+    @Description("Add a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player, Vector3i pos1, Vector3i pos2) {
         must(player).add(new Interact(pos1, pos2));
         Fmt.info("Added interaction rule").tell(player);
     }
 
-    @Command("trigger create <name>")
-    @Permission("animation.command.trigger.create")
-    @Description("Create a trigger using the rules you've just made")
-    public void create(@Src Player player, String name) {
+    @Command("trigger save <name>")
+    @Permission("animation.command.trigger.save")
+    @Description("Save the current set of rules as a trigger")
+    public void save(@Src Player player, String name) {
         drain(player, "You must create some rules first").onPass(builder -> {
             Trigger named = builder.build(name);
             if (named.isPresent()) {
