@@ -16,11 +16,11 @@ import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.concurrent.TimeUnit;
 
-public class InstanceCommands extends Cache<InstanceBuilder> {
+public class AnimationCommands extends Cache<InstanceBuilder> {
 
     private final Animations plugin;
 
-    public InstanceCommands(Animations plugin) {
+    public AnimationCommands(Animations plugin) {
         super(5, TimeUnit.MINUTES, InstanceBuilder::new);
         this.plugin = plugin;
     }
@@ -70,7 +70,7 @@ public class InstanceCommands extends Cache<InstanceBuilder> {
     @Description("Save an animation using the current configuration")
     public void save(@Src Player player, String name) {
         must(player).build(name).onPass(instance -> {
-            plugin.getInstances().register(instance);
+            plugin.getAnimations().register(instance);
             Fmt.info("Successfully created animation ").stress(instance).tell(player);
         }).onFail(error -> {
             Fmt.error("Failed to create animation: %s", error).tell(player);

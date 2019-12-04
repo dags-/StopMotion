@@ -11,20 +11,19 @@ public class PosListener {
 
     @Listener(order = Order.PRE)
     public void onPrimary(InteractBlockEvent.Primary.MainHand event, @Root Player player) {
-        PosRecorder.get(player).ifPresent(recorder -> {
-            String world = player.getWorld().getName();
+        PosRecorder.getRecorder(player).onPass(recorder -> {
             Vector3i position = event.getTargetBlock().getPosition();
-            recorder.record(player, PosRecorder.Type.PRIMARY, world, position);
+            recorder.record(player, PosRecorder.Type.PRIMARY, position);
             event.setCancelled(true);
         });
     }
 
     @Listener(order = Order.PRE)
     public void onSecondary(InteractBlockEvent.Secondary.MainHand event, @Root Player player) {
-        PosRecorder.get(player).ifPresent(recorder -> {
+        PosRecorder.getRecorder(player).onPass(recorder -> {
             String world = player.getWorld().getName();
             Vector3i position = event.getTargetBlock().getPosition();
-            recorder.record(player, PosRecorder.Type.SECONDARY, world, position);
+            recorder.record(player, PosRecorder.Type.SECONDARY, position);
             event.setCancelled(true);
         });
     }

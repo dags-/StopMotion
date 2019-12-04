@@ -2,6 +2,7 @@ package me.dags.animations.trigger.rule;
 
 import me.dags.animations.trigger.Context;
 import me.dags.pitaya.config.Node;
+import org.spongepowered.api.world.World;
 
 public class Time implements Rule {
 
@@ -23,7 +24,14 @@ public class Time implements Rule {
 
     @Override
     public boolean test(Context context) {
-        long time = context.world.getProperties().getWorldTime();
+        return test(context.world);
+    }
+
+    public boolean test(World world) {
+        return test(world.getProperties().getWorldTime());
+    }
+
+    public boolean test(long time) {
         if (max < min) {
             return time >= min || time <= max;
         }

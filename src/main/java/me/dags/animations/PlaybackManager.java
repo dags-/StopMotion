@@ -55,7 +55,7 @@ public class PlaybackManager {
 
         // re-registering the instance will trigger a write to file, which will save the
         // instance's state (needed for push-pull animations)
-        plugin.getInstances().getById(taskId).ifPresent(plugin.getInstances()::register);
+        plugin.getAnimations().getById(taskId).ifPresent(plugin.getAnimations()::register);
     }
 
     private void start(Consumer<Task> task) {

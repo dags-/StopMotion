@@ -11,7 +11,6 @@ import me.dags.pitaya.command.annotation.*;
 import me.dags.pitaya.command.fmt.Fmt;
 import org.spongepowered.api.entity.living.player.Player;
 
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class TriggerCommands extends Cache<TriggerBuilder> {
@@ -21,13 +20,6 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     public TriggerCommands(Animations plugin) {
         super(5, TimeUnit.MINUTES, TriggerBuilder::new);
         this.plugin = plugin;
-    }
-
-    @Command("trigger wand")
-    @Permission("animation.command.rule.wand")
-    @Description("Create a position selection tool to create triggers with")
-    public void wand(@Src Player player) {
-        PosRecorder.create(player, must(player).pos()).ifPresent(recorder -> Fmt.info("Created new wand").tell(player));
     }
 
     @Command("trigger add message <message...>")
@@ -50,14 +42,12 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     @Permission("animation.command.rule.distance")
     @Description("Add a rule that checks proximity to given position")
     public void distance(@Src Player player, int radius) {
-        Optional<PosRecorder> recorder = PosRecorder.lookup(player);
-        if (recorder.isPresent()) {
-            if (must(player).distance(radius)) {
-                Fmt.info("Added distance rule").tell(player);
-                return;
-            }
-        }
-        distance(player, player.getLocation().getBlockPosition(), radius);
+        PosRecorder.getRecorder(player).onPass(recorder -> {
+            Vector3i pos = recorder.getPos1().orElse(player.getLocation().getBlockPosition());
+            distance(player, pos, radius);
+        }).onFail(message -> {
+            Fmt.error(message).tell(player);
+        });
     }
 
     @Command("trigger add distance <position> <radius>")
@@ -80,14 +70,12 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     @Permission("animation.command.rule.interact")
     @Description("Add a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player) {
-        Optional<PosRecorder> recorder = PosRecorder.lookup(player);
-        if (recorder.isPresent()) {
-            if (must(player).interact()) {
-                Fmt.info("Added interaction rule").tell(player);
-                return;
-            }
-        }
-        Fmt.error("You must specify two points for this type of trigger").tell(player);
+        PosRecorder.getSelection(player).ifPresent((pos1, pos2) -> {
+            must(player).add(new Interact(pos1, pos2));
+            Fmt.info("Added interaction rule").tell(player);
+        }).ifAbsent(() -> {
+            Fmt.error("You must specify two points for this type of trigger").tell(player);
+        });
     }
 
     @Command("trigger add interact <pos1> <pos2>")

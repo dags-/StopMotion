@@ -24,4 +24,12 @@ public class Context {
         this.world = player.getWorld();
         this.position = player.getLocation().getBlockPosition();
     }
+
+    public Context(World world) {
+        this.world = world;
+        this.player = null;
+        this.type = RuleType.NONE;
+        this.position = Vector3i.ZERO;
+        this.event = null;
+    }
 }

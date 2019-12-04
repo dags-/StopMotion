@@ -2,6 +2,7 @@ package me.dags.animations.animation;
 
 import me.dags.animations.Animations;
 import me.dags.animations.util.ClassUtils;
+import me.dags.pitaya.task.Promise;
 import me.dags.pitaya.util.PluginUtils;
 import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.registry.CatalogRegistryModule;
@@ -81,8 +82,8 @@ public class AnimationManager implements CatalogRegistryModule<Animation> {
 
     public void register(Timeline animation) {
         Path path = directory.resolve(animation.getName() + ".nbt");
-        Timeline.save(animation, path);
         registry.put(animation.getName(), new Animation(path, animation, expiration));
+        Task.builder().async().execute(() -> Timeline.save(animation, path)).submit(PluginUtils.getCurrentPluginInstance());
     }
 
     private void tick() {

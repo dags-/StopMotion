@@ -15,11 +15,11 @@ import java.util.List;
 
 public class InstanceBuilder {
 
+    public int state = 0;
     public String name;
     public String world;
     public Vector3i origin;
     public Animation animation;
-    public int state = 0;
     public AnimationMode mode = AnimationMode.SINGLE;
     public List<Trigger> triggers = new LinkedList<>();
     public List<Direction> directions = new LinkedList<>();

@@ -26,11 +26,11 @@ public class Animation implements CatalogType {
         this.duration = duration;
     }
 
-    public Animation(Path path, Timeline animation, Duration duration) {
+    public Animation(Path path, Timeline timeline, Duration duration) {
         this.path = path;
         this.duration = duration;
-        this.reference = animation;
-        this.name = animation.getName();
+        this.reference = timeline;
+        this.name = timeline.getName();
     }
 
     @Override

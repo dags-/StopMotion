@@ -4,7 +4,7 @@ import com.flowpowered.math.vector.Vector3i;
 import com.google.common.collect.ImmutableList;
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationMode;
-import me.dags.animations.animation.AnimationState;
+import me.dags.animations.entity.EntityInstance;
 import me.dags.animations.trigger.Trigger;
 import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.worker.Worker;
@@ -30,7 +30,7 @@ public class Instance implements CatalogType, Positioned {
     private final List<Direction> directions;
     private final AtomicBoolean lock = new AtomicBoolean(false);
 
-    private transient final AnimationState state;
+    private transient final InstanceState state;
 
     public Instance(InstanceBuilder builder) {
         this.name = builder.name;
@@ -38,7 +38,7 @@ public class Instance implements CatalogType, Positioned {
         this.origin = builder.origin;
         this.animation = builder.animation;
         this.mode = builder.mode;
-        this.state = new AnimationState(builder.state);
+        this.state = new InstanceState(builder.state);
         this.triggers = ImmutableList.copyOf(builder.triggers);
         this.directions = ImmutableList.copyOf(builder.directions);
     }
@@ -89,6 +89,10 @@ public class Instance implements CatalogType, Positioned {
 
     public void setLocked(boolean locked) {
         lock.set(locked);
+    }
+
+    public void attachEntity(EntityInstance entityInstance) {
+        state.addEntity(entityInstance);
     }
 
     public Optional<Location<World>> getLocation() {
