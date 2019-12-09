@@ -3,6 +3,7 @@ package me.dags.motion.command;
 import me.dags.motion.StopMotion;
 import me.dags.motion.entity.EntityInstance;
 import me.dags.motion.entity.EntityInstanceBuilder;
+import me.dags.motion.instance.Instance;
 import me.dags.motion.trigger.rule.Time;
 import me.dags.motion.util.recorder.PosRecorder;
 import me.dags.pitaya.cache.Cache;
@@ -36,13 +37,20 @@ public class EntityCommands extends Cache<EntityInstanceBuilder> {
         Fmt.info("Set time rule min=").stress(min).info(", max=").stress(max).tell(player);
     }
 
+    @Command("entity|ent link <animation>")
+    @Permission("stopmotion.command.entity.link")
+    @Description("Link the entity animation to an animation")
+    public void link(@Src Player player, Instance instance) {
+        must(player).link = instance.getId();
+        Fmt.info("Linked entity to animation").stress(instance.getName()).tell(player);
+    }
+
     @Command("entity|ent select")
     @Permission("stopmotion.command.entity.select")
     @Description("Add all entities between your two selected points to the entity animation")
     public void select(@Src Player player) {
         PosRecorder.getSelection(player).ifPresent((pos1, pos2) -> {
             EntityInstanceBuilder builder = must(player);
-
             Set<Entity> entities = player.getWorld().getIntersectingEntities(new AABB(pos1, pos2));
             for (Entity entity : entities) {
                 EntityArchetype archetype = entity.createArchetype();

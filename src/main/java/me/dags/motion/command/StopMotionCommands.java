@@ -7,6 +7,7 @@ import me.dags.pitaya.command.annotation.Description;
 import me.dags.pitaya.command.annotation.Permission;
 import me.dags.pitaya.command.annotation.Src;
 import me.dags.pitaya.command.fmt.Fmt;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 
 public class StopMotionCommands {
@@ -53,8 +54,8 @@ public class StopMotionCommands {
     @Command("stopmotion|sm reload")
     @Permission("stopmotion.command.reload")
     @Description("Reload the animations plugin")
-    public void reload(@Src Player player) {
+    public void reload(@Src CommandSource source) {
         plugin.reload(null);
-        Fmt.info("StopMotion reloaded").tell(player);
+        Fmt.info("StopMotion reloaded").tell(source);
     }
 }
