@@ -5,16 +5,16 @@ plugins {
 }
 
 group "me.dags"
-version "0.0.1-ALPHA-2"
+version "0.0.1-ALPHA-1"
 def spongeAPI = "7.2.0"
 def spongeChannel = "SNAPSHOT"
 
 sponge {
-    plugin.id = "animations"
+    plugin.id = "stopmotion"
     plugin.meta {
-        name = "Animations"
+        name = "StopMotion"
         version = rootProject.version
-        description = "A simple portal plugin"
+        description = "A stop-frame animation plugin"
     }
 }
 
