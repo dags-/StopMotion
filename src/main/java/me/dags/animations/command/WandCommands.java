@@ -11,21 +11,18 @@ import org.spongepowered.api.entity.living.player.Player;
 public class WandCommands {
 
     @Command("animation|anim wand")
-    @Permission("animation.command.wand.create")
+    @Permission("animations.command.wand.create")
     @Description("Bind a new selection wand to your currently held item")
     public void create(@Src Player player) {
-        PosRecorder.create(player);
-    }
-
-    @Command("animation|anim wand")
-    @Permission("animation.command.wand.clear")
-    @Description("Clear your wand selection")
-    public void clear(@Src Player player) {
-        PosRecorder.create(player);
+        PosRecorder.create(player).onPass(r -> {
+            Fmt.info("Created new selection wand").tell(player);
+        }).onFail(message -> {
+            Fmt.error(message).tell(player);
+        });
     }
 
     @Command("animation|anim pos1")
-    @Permission("animation.command.wand.pos")
+    @Permission("animations.command.wand.pos")
     @Description("Set your current position as pos1 of your selection")
     public void pos1(@Src Player player) {
         PosRecorder.getRecorder(player).onPass(recorder -> {
@@ -36,7 +33,7 @@ public class WandCommands {
     }
 
     @Command("animation|anim pos2")
-    @Permission("animation.command.wand.pos")
+    @Permission("animations.command.wand.pos")
     @Description("Set your current position as pos2 of your selection")
     public void pos2(@Src Player player) {
         PosRecorder.getRecorder(player).onPass(recorder -> {

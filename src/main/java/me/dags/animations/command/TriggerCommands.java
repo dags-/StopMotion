@@ -23,7 +23,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger add message <message...>")
-    @Permission("animation.command.rule.message")
+    @Permission("animations.command.rule.message")
     @Description("Add a rule that listens for the given message in chat")
     public void message(@Src Player player, @Join String message) {
         must(player).add(new Message(message));
@@ -31,7 +31,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger add permission <name>")
-    @Permission("animation.command.rule.permission")
+    @Permission("animations.command.rule.permission")
     @Description("Add a rule that checks for a permission node")
     public void permission(@Src Player player, String name) {
         must(player).add(new Perm(name));
@@ -39,7 +39,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger add distance <radius>")
-    @Permission("animation.command.rule.distance")
+    @Permission("animations.command.rule.distance")
     @Description("Add a rule that checks proximity to given position")
     public void distance(@Src Player player, int radius) {
         PosRecorder.getRecorder(player).onPass(recorder -> {
@@ -51,7 +51,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger add distance <position> <radius>")
-    @Permission("animation.command.rule.distance")
+    @Permission("animations.command.rule.distance")
     @Description("Add a rule that checks proximity to given position")
     public void distance(@Src Player player, Vector3i position, int radius) {
         must(player).add(new Distance(position, radius));
@@ -59,7 +59,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger add time <min> <max>")
-    @Permission("animation.command.rule.time")
+    @Permission("animations.command.rule.time")
     @Description("Add a rule that checks for a min and max time")
     public void time(@Src Player player, long min, long max) {
         must(player).add(new Time(min, max));
@@ -67,7 +67,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger add interact")
-    @Permission("animation.command.rule.interact")
+    @Permission("animations.command.rule.interact")
     @Description("Add a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player) {
         PosRecorder.getSelection(player).ifPresent((pos1, pos2) -> {
@@ -79,7 +79,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger add interact <pos1> <pos2>")
-    @Permission("animation.command.rule.interact")
+    @Permission("animations.command.rule.interact")
     @Description("Add a rule that checks interactions with blocks in a certain area")
     public void interact(@Src Player player, Vector3i pos1, Vector3i pos2) {
         must(player).add(new Interact(pos1, pos2));
@@ -87,7 +87,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger save <name>")
-    @Permission("animation.command.trigger.save")
+    @Permission("animations.command.trigger.save")
     @Description("Save the current set of rules as a trigger")
     public void save(@Src Player player, String name) {
         drain(player, "You must create some rules first").onPass(builder -> {
@@ -102,7 +102,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     }
 
     @Command("trigger delete <name>")
-    @Permission("animation.command.trigger.delete")
+    @Permission("animations.command.trigger.delete")
     @Description("Delete the given trigger")
     public void delete(@Src Player player, Trigger trigger) {
         plugin.getTriggers().delete(trigger.getId());

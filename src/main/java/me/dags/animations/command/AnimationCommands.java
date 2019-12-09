@@ -26,7 +26,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     }
 
     @Command("animation|anim origin")
-    @Permission("animation.command.animation.origin")
+    @Permission("animations.command.animation.origin")
     @Description("Set the origin (past position) for the animation")
     public void origin(@Src Player player) {
         must(player).origin(player.getLocation());
@@ -34,7 +34,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     }
 
     @Command("animation|anim timeline <timeline>")
-    @Permission("animation.command.animation.timeline")
+    @Permission("animations.command.animation.timeline")
     @Description("Set the timeline to play at this location")
     public void timeline(@Src Player player, Animation animation) {
         must(player).animation = animation;
@@ -42,7 +42,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     }
 
     @Command("animation|anim trigger <trigger...>")
-    @Permission("animation.command.animation.trigger")
+    @Permission("animations.command.animation.trigger")
     @Description("Set the triggers that cause the animation to play")
     public void triggers(@Src Player player, Trigger... triggers) {
         must(player).trigger(triggers);
@@ -50,7 +50,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     }
 
     @Command("animation|anim mode <mode>")
-    @Permission("animation.command.animation.mode")
+    @Permission("animations.command.animation.mode")
     @Description("Set the playback mode for that the animation")
     public void mode(@Src Player player, AnimationMode mode) {
         must(player).mode = mode;
@@ -58,7 +58,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     }
 
     @Command("animation|anim direction <directions...>")
-    @Permission("animation.command.animation.direction")
+    @Permission("animations.command.animation.direction")
     @Description("Set the directions that the animation will play in")
     public void direction(@Src Player player, Direction... directions) {
         must(player).add(directions);
@@ -66,7 +66,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     }
 
     @Command("animation|anim save <name>")
-    @Permission("animation.command.animation.save")
+    @Permission("animations.command.animation.save")
     @Description("Save an animation using the current configuration")
     public void save(@Src Player player, String name) {
         must(player).build(name).onPass(instance -> {
@@ -78,7 +78,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     }
 
     @Command("animation|anim delete <name>")
-    @Permission("animation.command.animation.delete")
+    @Permission("animations.command.animation.delete")
     @Description("Delete the given animation")
     public void delete(@Src Player player, Animation animation) {
         plugin.getTriggers().delete(animation.getId());
@@ -86,7 +86,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     }
 
     @Command("animation|anim reload")
-    @Permission("animation.command.animations.reload")
+    @Permission("animations.command.animations.reload")
     @Description("Reload the animations plugin")
     public void reload(@Src Player player) {
         plugin.reload(null);

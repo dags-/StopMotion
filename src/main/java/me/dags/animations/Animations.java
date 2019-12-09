@@ -3,14 +3,12 @@ package me.dags.animations;
 import com.google.inject.Inject;
 import me.dags.animations.animation.Animation;
 import me.dags.animations.animation.AnimationManager;
-import me.dags.animations.command.TimelineCommands;
-import me.dags.animations.command.AnimationCommands;
-import me.dags.animations.command.TriggerCommands;
-import me.dags.animations.command.WandCommands;
+import me.dags.animations.command.*;
+import me.dags.animations.entity.EntityInstance;
 import me.dags.animations.entity.EntityManager;
+import me.dags.animations.entity.TimedEntityTask;
 import me.dags.animations.instance.Instance;
 import me.dags.animations.instance.InstanceManager;
-import me.dags.animations.entity.TimedEntityTask;
 import me.dags.animations.trigger.Trigger;
 import me.dags.animations.trigger.TriggerListener;
 import me.dags.animations.trigger.TriggerManager;
@@ -67,11 +65,13 @@ public class Animations {
         Sponge.getRegistry().registerModule(Trigger.class, triggers);
         Sponge.getRegistry().registerModule(Instance.class, animations);
         Sponge.getRegistry().registerModule(Animation.class, timelines);
+        Sponge.getRegistry().registerModule(EntityInstance.class, entities);
 
         CommandBus.create()
                 .register(new AnimationCommands(this))
                 .register(new TimelineCommands(this))
                 .register(new TriggerCommands(this))
+                .register(new EntityCommands(this))
                 .register(new WandCommands())
                 .submit();
     }
@@ -84,6 +84,7 @@ public class Animations {
 
     @Listener
     public void reload(GameReloadEvent event) {
+        entities.load();
         triggers.load();
         entities.load();
         timelines.load();

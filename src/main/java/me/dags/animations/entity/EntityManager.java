@@ -1,18 +1,23 @@
 package me.dags.animations.entity;
 
 import com.flowpowered.math.vector.Vector3d;
+import me.dags.animations.Animations;
 import me.dags.animations.instance.Instance;
 import me.dags.animations.trigger.rule.Rule;
 import me.dags.animations.trigger.rule.RuleType;
 import me.dags.animations.trigger.rule.Time;
+import me.dags.animations.util.ClassUtils;
 import me.dags.pitaya.config.Config;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.registry.NodeRegistry;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.DataTranslators;
 import org.spongepowered.api.entity.EntityArchetype;
+import org.spongepowered.api.entity.EntityType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +26,12 @@ public class EntityManager extends NodeRegistry<EntityInstance> {
 
     public EntityManager(Config config) {
         super(config);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+        Animations.log("Registry load complete. Registry: {}, Size: {}", ClassUtils.getTypeName(this), registry.size());
     }
 
     public void attachEntities() {
@@ -49,7 +60,7 @@ public class EntityManager extends NodeRegistry<EntityInstance> {
         builder.world = node.get("world", "");
         builder.rule = rule(node.node("rule"));
         builder.origin = vec(node.node("origin"));
-        builder.entities = entities(node.node("entity"));
+        builder.entities = entities(node.node("entities"));
         builder.state = uuid(node.node("state"));
         if (builder.entities.isEmpty()) {
             return Optional.empty();
@@ -62,7 +73,7 @@ public class EntityManager extends NodeRegistry<EntityInstance> {
     }
 
     private static Time rule(Node node) {
-        return (Time) RuleType.TIME.serializer().fromNode(node.node("rule"));
+        return (Time) RuleType.TIME.serializer().fromNode(node);
     }
 
     private static void vec(Node node, Vector3d vec) {
@@ -79,19 +90,29 @@ public class EntityManager extends NodeRegistry<EntityInstance> {
     }
 
     private static void entities(Node node, List<EntityArchetype> entities) {
-        node.set(entities.stream()
-                .map(archetype -> DataTranslators.CONFIGURATION_NODE.translate(archetype.toContainer()))
-                .map(SimpleCommentedConfigurationNode.root()::setValue)
-                .collect(Collectors.toList()));
+        node.set(entities.stream().map(EntityManager::entity).collect(Collectors.toList()));
     }
 
     private static List<EntityArchetype> entities(Node node) {
         List<EntityArchetype> list = new LinkedList<>();
-        node.iterate(n -> {
-            DataView view = DataTranslators.CONFIGURATION_NODE.translate(n.backing());
-            EntityArchetype.builder().build(view).ifPresent(list::add);
-        });
+        node.iterate(n -> entity(n).ifPresent(list::add));
         return list;
+    }
+
+    private static Optional<EntityArchetype> entity(Node node) {
+        return Sponge.getRegistry().getType(EntityType.class, node.get("type", "")).map(type -> {
+            ConfigurationNode data = node.node("data").backing();
+            DataView view = DataTranslators.CONFIGURATION_NODE.translate(data);
+            return EntityArchetype.builder().type(type).entityData(view).build();
+        });
+    }
+
+    private static CommentedConfigurationNode entity(EntityArchetype archetype) {
+        CommentedConfigurationNode backing = SimpleCommentedConfigurationNode.root();
+        ConfigurationNode data = DataTranslators.CONFIGURATION_NODE.translate(archetype.getEntityData());
+        backing.getNode("type").setValue(archetype.getType().getId());
+        backing.getNode("data").setValue(data);
+        return backing;
     }
 
     private static void uuid(Node node, Collection<UUID> uuid) {

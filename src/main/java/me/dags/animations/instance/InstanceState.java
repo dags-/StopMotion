@@ -5,7 +5,6 @@ import me.dags.animations.animation.AnimationMode;
 import me.dags.animations.animation.Timeline;
 import me.dags.animations.entity.EntityInstance;
 import me.dags.animations.frame.Frame;
-import me.dags.animations.instance.Instance;
 import me.dags.animations.util.iterator.Direction;
 import me.dags.animations.worker.*;
 import me.dags.pitaya.task.Promise;

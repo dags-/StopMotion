@@ -26,21 +26,21 @@ public class TimelineCommands extends Cache<FrameBuilder> {
     }
 
     @Command("timeline|til add <ticks>")
-    @Permission("animation.command.timeline.add")
+    @Permission("animations.command.timeline.add")
     @Description("Add the selected frame to the timeline")
     public void add(@Src Player player) {
         add(player, 1);
     }
 
     @Command("timeline|til add <ticks>")
-    @Permission("animation.command.timeline.add")
+    @Permission("animations.command.timeline.add")
     @Description("Add the selected frame to the timeline with the given duration")
     public void add(@Src Player player, int ticks) {
         add(player, ticks * 50, TimeUnit.MILLISECONDS);
     }
 
     @Command("timeline|til add <duration> <unit>")
-    @Permission("animation.command.timeline.add")
+    @Permission("animations.command.timeline.add")
     @Description("Add the selected frame to the timeline with the given duration")
     public void add(@Src Player player, int duration, TimeUnit unit) {
         PosRecorder.getSelection(player).ifPresent((pos1, pos2) -> {
@@ -53,7 +53,7 @@ public class TimelineCommands extends Cache<FrameBuilder> {
     }
 
     @Command("timeline|til save <name>")
-    @Permission("animation.command.timeline.save")
+    @Permission("animations.command.timeline.save")
     @Description("Save the timeline to file")
     public void save(@Src Player player, String name) {
         drain(player, "You have not created any frames yet").onPass(builder -> {
@@ -66,7 +66,7 @@ public class TimelineCommands extends Cache<FrameBuilder> {
     }
 
     @Command("timeline|til delete <name>")
-    @Permission("animation.command.timeline.delete")
+    @Permission("animations.command.timeline.delete")
     @Description("Delete the given timeline")
     public void delete(@Src Player player, Animation animation) {
         plugin.getTimelines().delete(animation.getId());
