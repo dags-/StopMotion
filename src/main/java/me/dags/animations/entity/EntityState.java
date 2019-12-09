@@ -20,11 +20,11 @@ public class EntityState {
 
     public synchronized boolean apply(Location<World> location, List<EntityArchetype> entities) {
         if (lock.get()) {
-            Animations.debug("Apply - Locked");
+            Animations.debug("Cannot Apply - Locked");
             return false;
         }
         if (!ids.isEmpty()) {
-            Animations.debug("Apply - Already present");
+            Animations.debug("Cannot Apply - Already present");
             return false;
         }
         try (CauseStackManager.StackFrame frame = Sponge.getCauseStackManager().pushCauseFrame()) {
@@ -41,11 +41,11 @@ public class EntityState {
 
     public synchronized boolean remove(Location<World> location) {
         if (lock.get()) {
-            Animations.debug("Remove - Locked");
+            Animations.debug("Cannot Remove - Locked");
             return false;
         }
         if (ids.isEmpty()) {
-            Animations.debug("Remove - Nothing to remove");
+            Animations.debug("Cannot Remove - Nothing to remove");
             return false;
         }
         Animations.debug("Removing entities");
