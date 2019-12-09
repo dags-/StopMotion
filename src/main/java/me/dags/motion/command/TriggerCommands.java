@@ -103,7 +103,7 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
 
     @Command("trigger delete <name>")
     @Permission("stopmotion.command.trigger.delete")
-    @Description("Delete the given trigger")
+    @Description("Delete an existing trigger")
     public void delete(@Src Player player, Trigger trigger) {
         plugin.getTriggers().delete(trigger.getId());
         Fmt.info("Deleted trigger ").stress(trigger.getId()).tell(player);

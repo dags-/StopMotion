@@ -14,6 +14,7 @@ import me.dags.pitaya.command.annotation.Src;
 import me.dags.pitaya.command.fmt.Fmt;
 import org.spongepowered.api.entity.living.player.Player;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class AnimationCommands extends Cache<InstanceBuilder> {
@@ -35,10 +36,10 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
 
     @Command("animation|anim timeline <timeline>")
     @Permission("stopmotion.command.animation.timeline")
-    @Description("Set the timeline to play at this location")
+    @Description("Set the timeline to be used in this animation")
     public void timeline(@Src Player player, Animation animation) {
         must(player).animation = animation;
-        Fmt.info("Set animation ").stress(animation.getName()).tell(player);
+        Fmt.info("Set the animation timeline to ").stress(animation.getName()).tell(player);
     }
 
     @Command("animation|anim trigger <trigger...>")
@@ -46,15 +47,15 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     @Description("Set the triggers that cause the animation to play")
     public void triggers(@Src Player player, Trigger... triggers) {
         must(player).trigger(triggers);
-        Fmt.info("Set animation triggers").tell(player);
+        Fmt.info("Set the animation triggers").tell(player);
     }
 
     @Command("animation|anim mode <mode>")
     @Permission("stopmotion.command.animation.mode")
-    @Description("Set the playback mode for that the animation")
+    @Description("Set the playback mode for the animation")
     public void mode(@Src Player player, AnimationMode mode) {
         must(player).mode = mode;
-        Fmt.info("Set mode ").stress(mode).tell(player);
+        Fmt.info("Set playback mode to ").stress(mode).tell(player);
     }
 
     @Command("animation|anim direction <directions...>")
@@ -62,7 +63,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     @Description("Set the directions that the animation will play in")
     public void direction(@Src Player player, Direction... directions) {
         must(player).add(directions);
-        Fmt.info("Set timeline").tell(player);
+        Fmt.info("Set the playback directions to ").stress(Arrays.asList(directions)).tell(player);
     }
 
     @Command("animation|anim save <name>")
@@ -71,7 +72,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     public void save(@Src Player player, String name) {
         must(player).build(name).onPass(instance -> {
             plugin.getAnimations().register(instance);
-            Fmt.info("Successfully created animation ").stress(instance).tell(player);
+            Fmt.info("Successfully saved animation ").stress(instance).tell(player);
         }).onFail(error -> {
             Fmt.error("Failed to create animation: %s", error).tell(player);
         });

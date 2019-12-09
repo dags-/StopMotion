@@ -59,7 +59,7 @@ public class TimelineCommands extends Cache<FrameBuilder> {
         drain(player, "You have not created any frames yet").onPass(builder -> {
             Timeline timeline = builder.build(name);
             plugin.getTimelines().register(timeline);
-            Fmt.info("Saved animation ").stress(name).tell(player);
+            Fmt.info("Saved timeline ").stress(name).tell(player);
         }).onFail(message -> {
             Fmt.error("Failed to create timeline: %s", message).tell(player);
         });
@@ -67,9 +67,9 @@ public class TimelineCommands extends Cache<FrameBuilder> {
 
     @Command("timeline|til delete <name>")
     @Permission("stopmotion.command.timeline.delete")
-    @Description("Delete the given timeline")
+    @Description("Delete an existing timeline")
     public void delete(@Src Player player, Animation animation) {
         plugin.getTimelines().delete(animation.getId());
-        Fmt.info("Deleted animation ").stress(animation.getId()).tell(player);
+        Fmt.info("Deleted timeline ").stress(animation.getId()).tell(player);
     }
 }
