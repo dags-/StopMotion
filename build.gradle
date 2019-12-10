@@ -1,6 +1,7 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "4.0.2"
     id "org.spongepowered.plugin" version "0.8.1"
+    id "maven"
     id "java"
 }
 
@@ -37,3 +38,4 @@ shadowJar {
 }
 
 build.dependsOn(shadowJar)
+install.dependsOn(shadowJar)
