@@ -36,6 +36,6 @@ public class Perm implements Rule {
 
     @Override
     public String toString() {
-        return "Permission{node=" + node + "}";
+        return "node=" + node;
     }
 }

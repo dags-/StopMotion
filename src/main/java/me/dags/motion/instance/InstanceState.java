@@ -2,11 +2,15 @@ package me.dags.motion.instance;
 
 import me.dags.motion.animation.AnimationException;
 import me.dags.motion.animation.AnimationMode;
-import me.dags.motion.animation.Timeline;
-import me.dags.motion.entity.EntityInstance;
+import me.dags.motion.attachment.Attachment;
+import me.dags.motion.attachment.AttachmentAddWorker;
+import me.dags.motion.attachment.AttachmentRemoveWorker;
 import me.dags.motion.frame.Frame;
+import me.dags.motion.frame.Timeline;
 import me.dags.motion.util.iterator.Direction;
-import me.dags.motion.worker.*;
+import me.dags.motion.worker.FrameWorker;
+import me.dags.motion.worker.QueueWorker;
+import me.dags.motion.worker.Worker;
 import me.dags.pitaya.task.Promise;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -19,14 +23,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class InstanceState {
 
     private final AtomicInteger state = new AtomicInteger(0);
-    private final List<EntityInstance> linkedEntities = new LinkedList<>();
+    private final List<Attachment> attachments = new LinkedList<>();
 
     public InstanceState(int state) {
         this.state.set(state);
     }
 
-    public synchronized void addEntity(EntityInstance instance) {
-        linkedEntities.add(instance);
+    public synchronized void attach(Attachment attachment) {
+        attachments.add(attachment);
     }
 
     public int getState() {
@@ -53,21 +57,21 @@ public class InstanceState {
 
     private synchronized Worker single(Location<World> origin, Instance instance, Timeline timeline) {
         List<Worker> workers = new LinkedList<>();
-        List<EntityInstance> entities = new LinkedList<>(linkedEntities);
+        List<Attachment> attachments = new LinkedList<>(this.attachments);
         // remove linked entities at start of animation
-        workers.add(new EntityRemovalWorker(entities));
+        workers.add(new AttachmentRemoveWorker(attachments));
         // added the frames
         forwards(origin, timeline, instance.getDirections(), workers);
         // re-apply the linked entities at end of animation
-        workers.add(new EntityPlaceWorker(entities));
+        workers.add(new AttachmentAddWorker(attachments));
         return new QueueWorker(workers);
     }
 
     private Worker push(Location<World> origin, Instance instance, Timeline timeline) {
         List<Worker> workers = new LinkedList<>();
-        List<EntityInstance> entities = new LinkedList<>(linkedEntities);
+        List<Attachment> attachments = new LinkedList<>(this.attachments);
         // remove linked entities at start of animation
-        workers.add(new EntityRemovalWorker(entities));
+        workers.add(new AttachmentRemoveWorker(attachments));
         // added the frames
         forwards(origin, timeline, instance.getDirections(), workers);
         return new QueueWorker(workers);
@@ -75,11 +79,11 @@ public class InstanceState {
 
     private Worker pull(Location<World> origin, Instance instance, Timeline timeline) {
         List<Worker> workers = new LinkedList<>();
-        List<EntityInstance> entities = new LinkedList<>(linkedEntities);
+        List<Attachment> attachments = new LinkedList<>(this.attachments);
         // added the frames
         backwards(origin, timeline, instance.getDirections(), workers);
         // re-apply the linked entities at end of animation
-        workers.add(new EntityPlaceWorker(entities));
+        workers.add(new AttachmentAddWorker(attachments));
         return new QueueWorker(workers);
     }
 

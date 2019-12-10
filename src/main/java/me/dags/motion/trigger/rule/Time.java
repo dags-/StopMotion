@@ -16,10 +16,7 @@ public class Time implements Rule {
 
     @Override
     public String toString() {
-        return "Time{"
-                + "min=" + min
-                + ", max=" + max
-                + "}";
+        return "min=" + min + ", max=" + max;
     }
 
     @Override

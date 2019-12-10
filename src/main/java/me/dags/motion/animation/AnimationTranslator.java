@@ -2,6 +2,7 @@ package me.dags.motion.animation;
 
 import com.google.common.reflect.TypeToken;
 import me.dags.motion.frame.Frame;
+import me.dags.motion.frame.Timeline;
 import me.dags.pitaya.util.Translators;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataQuery;

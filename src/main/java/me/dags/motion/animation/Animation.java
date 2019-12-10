@@ -1,6 +1,7 @@
 package me.dags.motion.animation;
 
 import me.dags.motion.StopMotion;
+import me.dags.motion.frame.Timeline;
 import me.dags.pitaya.task.Promise;
 import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.CatalogType;

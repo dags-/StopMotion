@@ -2,7 +2,6 @@ package me.dags.motion.frame;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.collect.ImmutableList;
-import me.dags.motion.animation.Timeline;
 import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;

@@ -3,10 +3,10 @@ package me.dags.motion;
 import com.google.inject.Inject;
 import me.dags.motion.animation.Animation;
 import me.dags.motion.animation.AnimationManager;
-import me.dags.motion.command.*;
-import me.dags.motion.entity.EntityInstance;
-import me.dags.motion.entity.EntityManager;
-import me.dags.motion.entity.TimedEntityTask;
+import me.dags.motion.command.AnimationCommands;
+import me.dags.motion.command.StopMotionCommands;
+import me.dags.motion.command.TimelineCommands;
+import me.dags.motion.command.TriggerCommands;
 import me.dags.motion.instance.Instance;
 import me.dags.motion.instance.InstanceManager;
 import me.dags.motion.trigger.Trigger;
@@ -42,7 +42,6 @@ public class StopMotion {
 
     private static final Logger logger = LoggerFactory.getLogger("StopMotion");
 
-    private final EntityManager entities;
     private final TriggerManager triggers;
     private final PlaybackManager playback;
     private final InstanceManager animations;
@@ -53,7 +52,6 @@ public class StopMotion {
     public StopMotion(@ConfigDir(sharedRoot = false) Path dir) {
         playback = new PlaybackManager(this);
         timelines = new AnimationManager(dir.resolve("timelines"));
-        entities = new EntityManager(Config.must(dir, "entities.conf"));
         triggers = new TriggerManager(Config.must(dir, "triggers.conf"));
         animations = new InstanceManager(Config.must(dir, "animations.conf"));
     }
@@ -65,13 +63,11 @@ public class StopMotion {
         Sponge.getRegistry().registerModule(Trigger.class, triggers);
         Sponge.getRegistry().registerModule(Instance.class, animations);
         Sponge.getRegistry().registerModule(Animation.class, timelines);
-        Sponge.getRegistry().registerModule(EntityInstance.class, entities);
 
         CommandBus.create()
                 .register(new AnimationCommands(this))
                 .register(new TimelineCommands(this))
                 .register(new TriggerCommands(this))
-                .register(new EntityCommands(this))
                 .register(new StopMotionCommands(this))
                 .submit();
     }
@@ -79,17 +75,13 @@ public class StopMotion {
     @Listener
     public void started(GameStartedServerEvent event) {
         reload(null);
-        new TimedEntityTask(this).start();
     }
 
     @Listener
     public void reload(GameReloadEvent event) {
-        entities.load();
         triggers.load();
-        entities.load();
         timelines.load();
         animations.load();
-        entities.attachEntities();
         refreshListeners();
     }
 
@@ -105,10 +97,6 @@ public class StopMotion {
     @Listener
     public void stop(GameStoppingEvent event) {
         getPlaybackManager().cancelAll();
-    }
-
-    public EntityManager getEntities() {
-        return entities;
     }
 
     public TriggerManager getTriggers() {

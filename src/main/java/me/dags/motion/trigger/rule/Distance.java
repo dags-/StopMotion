@@ -44,9 +44,6 @@ public class Distance implements Rule {
 
     @Override
     public String toString() {
-        return "Distance{"
-                + "position=" + position
-                + ", radius=" + radius
-                + "}";
+        return "position=" + position + ", radius=" + radius;
     }
 }

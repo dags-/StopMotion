@@ -4,7 +4,7 @@ import com.flowpowered.math.vector.Vector3i;
 import com.google.common.collect.ImmutableList;
 import me.dags.motion.animation.Animation;
 import me.dags.motion.animation.AnimationMode;
-import me.dags.motion.entity.EntityInstance;
+import me.dags.motion.attachment.Attachment;
 import me.dags.motion.trigger.Trigger;
 import me.dags.motion.util.iterator.Direction;
 import me.dags.motion.worker.Worker;
@@ -91,8 +91,8 @@ public class Instance implements CatalogType, Positioned {
         lock.set(locked);
     }
 
-    public void attachEntity(EntityInstance entityInstance) {
-        state.addEntity(entityInstance);
+    public void attach(Attachment entityInstance) {
+        state.attach(entityInstance);
     }
 
     public Optional<Location<World>> getLocation() {

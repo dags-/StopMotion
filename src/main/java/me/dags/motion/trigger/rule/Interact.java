@@ -45,10 +45,7 @@ public class Interact implements Rule {
 
     @Override
     public String toString() {
-        return "Interact{"
-                + "min=" + min
-                + ", max=" + max
-                + "}";
+        return "min=" + min + ", max=" + max;
     }
 
     private static boolean above(Vector3i pos, Vector3i min) {

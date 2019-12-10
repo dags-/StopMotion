@@ -1,6 +1,7 @@
 package me.dags.motion.animation;
 
 import me.dags.motion.StopMotion;
+import me.dags.motion.frame.Timeline;
 import me.dags.motion.util.ClassUtils;
 import me.dags.pitaya.util.PluginUtils;
 import me.dags.pitaya.util.duration.Duration;

@@ -2,8 +2,8 @@ package me.dags.motion.command;
 
 import me.dags.motion.StopMotion;
 import me.dags.motion.animation.Animation;
-import me.dags.motion.animation.Timeline;
 import me.dags.motion.frame.FrameBuilder;
+import me.dags.motion.frame.Timeline;
 import me.dags.motion.util.recorder.PosRecorder;
 import me.dags.pitaya.cache.Cache;
 import me.dags.pitaya.command.annotation.Command;

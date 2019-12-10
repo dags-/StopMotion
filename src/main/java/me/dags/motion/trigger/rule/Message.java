@@ -38,6 +38,6 @@ public class Message implements Rule {
 
     @Override
     public String toString() {
-        return "Message{message=" + message + "}";
+        return "message=" + message;
     }
 }
