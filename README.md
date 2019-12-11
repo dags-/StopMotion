@@ -1,34 +1,74 @@
 # Animations
 
-### Quickstart
+## Usage Walkthrough
 
-#### Step 1. Create an animation timeline
+#### Terminology
 
-The timeline is a series of frames that play one after another, making up the animation.
+- FRAME - a snapshot of blocks/entities/tile-entities that is placed during the animation for a given duration
+- TIMELINE - a uniquely named ordered list of FRAMES
+- RULE - a condition that is tested when determining whether an ANIMATION should play or not
+- TRIGGER - a uniquely named list of RULES which must all be active for an ANIMATION to play
+- ANIMATION - combines a TIMELINE and one or more TRIGGERS, and is configured to play somewhere in the world
 
-1. `/frame pos1` & `/frame pos2` - Selects two corners of the frame
-2. `/frame add 1` - Records the frame and sets the duration to 1 tick (Repeat as necessary)
-3. `/frame save example` - Create a timeline from the recorded frames, called `"example"`
+#### Usage Overview
 
-#### Step 2. Create an animation trigger
+The process of setting up an animation consists of:
+- 1. Building a series of frames & saving them as a timeline
+- 2. Building a set of rules & saving them as a trigger
+- 3. Building the animation by specifying a timeline, trigger(s), a paste position (origin), the animation 'mode', and
+ the animation direction(s)
 
-Triggers are used to determine when an animation should start playing, & consist of 1 or more rules.
+#### Step 1. Create a Timeline
 
-Different rule types can be combined to create a specific set of circumstances for the animation to play.
+- 1. Bind a selection wand to the item you're holding using `/sm wand`
+- 2. Select 2 points (left & right click respectively) that contain the area you want to save as a frame
+- 3. Add the frame to your timeline using `/timeline add <duration>` - **NOTE** the frame will be pasted relative to the position you are standing when using the command, much like WorldEdit's copy/paste behaviour.
+- 4. Repeat the above steps for each frame you want to add to the timeline
+- 5. Save the timeline using `/timeline save <timeline_name>`
 
-In this example, we want want the words "open sesame" to trigger the animation, but only when we're with 25 blocks
- of the animation position.
+#### Step 2. Create a Trigger
 
-1. `/trigger add distance 50 65 50 25` - Creates a distance rule using `Position(50, 65, 50)` & `Radius(25)`
-2. `/trigger add message open sesame` - Creates a message rule using `Message("open sesame")`
-3. `/trigger save sesame` - Creates a trigger combining the above two rules, with the name `"sesame"`
+- 1. Add a rule to the trigger using `/trigger add ...` (see the section on triggers for each sub-command)
+- 2. Save the trigger using `/trigger save <trigger_name>`
 
-#### Step 3. Create an animation instance
+#### Step 3. Create the Animation
 
-An animation instance combines the timeline created in step 1, and the trigger(s) created in step 2.
-1. `/anim origin 50 65 50` - Sets the paste position for the animation at `Position(50, 65, 50)`
-2. `/anim animation example` - Set the animation to the `"example"` animation created in step 1
-3. `/anim trigger sesame` - Add the `"sesame"` trigger created in step 2
-4. `/anim direction FORWARD BACKWARD` - Set the animation to play forward once, then backward once
-5. `/anim save magic_door` - Create an animation instance with the name `"magic_door"`
-6. `/anim reload` - Reload the animations plugin so that the new animation becomes active
+- 1. Set timeline that should be used with `/anim timeline <timeline_name>`
+- 2. Add one or more triggers using `/anim trigger <trigger_name>`
+- 3. Set the paste position to your current location using `/anim origin`
+- 4. Set the 'mode' for the animation with `/anim mode <mode>`
+- 5. Set the direction(s) that the frames should play in `/anim direction <direction(s)>`
+- 6. Save the animation using `/anim save <animation_name>`
+
+#### 4. Reload the StopMotion Plugin & Test
+
+Newly created animations will not become active until the StopMotion plugin has been reloaded.  
+
+Use `/sm reload` then try make the animation play by satisfying the trigger that you set up in step 2
+
+## Documentation
+
+#### Rules & Triggers
+
+When creating a trigger, every rule that you add to it must be active for the trigger itself to be active.
+
+An animation can have one or more triggers. If the animation is given multiple triggers, only one trigger needs to be active to cause the animation to play.
+
+- `/trigger add message <message>` - listen to chat for the `<message>` in order to activate the rule
+- `/trigger add distance <radius>` - a player must be within the `<radius>` of your position (at the time of running the command) in order to activate the rule
+- `/trigger add time <min> <max>` - the world time must be within the provided bounds in order to activate the rule
+- `/trigger add interact` - a player must interact with a block within your current selection (using the selection wand) in order to active the rule
+- `/trigger add permission <node>` - a player must have the permission `stopmotion.rule.<node>` to be able to activate the rule
+
+#### Animation Mode & Direction
+
+Directions:
+- FORWARDS - the timeline will play in the order that frames were added to it
+- BACKWARDS - the timeline will play in reverse order
+
+When creating an animation you can specify more than one direction for the timeline to play in during the animation.  
+For example, you can create a timeline of a door opening and use the command `/anim direction FORWARDS BACKWARDS` to have the door close during the second half of the animation.
+
+Animation Modes:
+- SINGLE - in this mode, the animation will play through it's timeline in the same way each time it is triggered
+- PUSH_PULL - in this mode, the animation will play through it's timeline normally when it is first triggered, but the next time it will play in reverse

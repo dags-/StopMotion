@@ -10,7 +10,7 @@ public class Perm implements Rule {
 
     public Perm(String name) {
         this.name = name;
-        this.node = "animation.rule." + name;
+        this.node = "stopmotion.rule." + name;
     }
 
     @Override
