@@ -90,7 +90,8 @@ public class TriggerCommands extends Cache<TriggerBuilder> {
     @Permission("stopmotion.command.trigger.save")
     @Description("Save the current set of rules as a trigger")
     public void save(@Src Player player, String name) {
-        drain(player, "You must create some rules first").flatMap(builder -> builder.build(name)).onPass(trigger -> {
+        must(player).build(name).onPass(trigger -> {
+            drain(player, "");
             plugin.getTriggers().register(trigger);
             Fmt.info("Registered trigger ").stress(trigger.getName()).tell(player);
         }).onFail(message -> {

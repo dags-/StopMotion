@@ -70,7 +70,8 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     @Permission("stopmotion.command.animation.save")
     @Description("Save an animation using the current configuration")
     public void save(@Src Player player, String name) {
-        drain(player, "You are not currently building an animation").flatMap(b -> b.build(name)).onPass(instance -> {
+        must(player).build(name).onPass(instance -> {
+            drain(player, "");
             plugin.getAnimations().register(instance);
             Fmt.info("Successfully saved animation ").stress(instance).tell(player);
         }).onFail(error -> {
