@@ -1,9 +1,9 @@
 package me.dags.stopmotion.frame;
 
 import com.flowpowered.math.vector.Vector3i;
-import me.dags.stopmotion.worker.Timed;
 import me.dags.pitaya.util.duration.Duration;
 import me.dags.pitaya.util.optional.OptionalValue;
+import me.dags.stopmotion.worker.Timed;
 import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.world.BlockChangeFlags;
 import org.spongepowered.api.world.Location;

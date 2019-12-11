@@ -1,9 +1,9 @@
 package me.dags.stopmotion.animation;
 
-import me.dags.stopmotion.StopMotion;
-import me.dags.stopmotion.frame.Timeline;
 import me.dags.pitaya.task.Promise;
 import me.dags.pitaya.util.duration.Duration;
+import me.dags.stopmotion.StopMotion;
+import me.dags.stopmotion.frame.Timeline;
 import org.spongepowered.api.CatalogType;
 
 import java.nio.file.Path;

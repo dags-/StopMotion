@@ -1,8 +1,8 @@
 package me.dags.stopmotion.trigger.rule;
 
-import me.dags.stopmotion.trigger.Context;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.util.optional.OptionalValue;
+import me.dags.stopmotion.trigger.Context;
 
 public interface Rule extends Node.Value<Rule>, OptionalValue {
 

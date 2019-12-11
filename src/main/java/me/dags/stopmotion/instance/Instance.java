@@ -2,14 +2,14 @@ package me.dags.stopmotion.instance;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.collect.ImmutableList;
+import me.dags.pitaya.task.Promise;
+import me.dags.pitaya.util.region.Positioned;
 import me.dags.stopmotion.animation.Animation;
 import me.dags.stopmotion.animation.AnimationMode;
 import me.dags.stopmotion.attachment.Attachment;
 import me.dags.stopmotion.trigger.Trigger;
 import me.dags.stopmotion.util.iterator.Direction;
 import me.dags.stopmotion.worker.Worker;
-import me.dags.pitaya.task.Promise;
-import me.dags.pitaya.util.region.Positioned;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.world.Location;

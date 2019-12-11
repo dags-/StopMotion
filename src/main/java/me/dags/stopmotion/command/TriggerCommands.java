@@ -1,14 +1,14 @@
 package me.dags.stopmotion.command;
 
 import com.flowpowered.math.vector.Vector3i;
+import me.dags.pitaya.cache.Cache;
+import me.dags.pitaya.command.annotation.*;
+import me.dags.pitaya.command.fmt.Fmt;
+import me.dags.pitaya.util.pos.PosRecorder;
 import me.dags.stopmotion.StopMotion;
 import me.dags.stopmotion.trigger.Trigger;
 import me.dags.stopmotion.trigger.TriggerBuilder;
 import me.dags.stopmotion.trigger.rule.*;
-import me.dags.stopmotion.util.recorder.PosRecorder;
-import me.dags.pitaya.cache.Cache;
-import me.dags.pitaya.command.annotation.*;
-import me.dags.pitaya.command.fmt.Fmt;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.concurrent.TimeUnit;

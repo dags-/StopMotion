@@ -1,10 +1,10 @@
 package me.dags.stopmotion.trigger;
 
 import com.flowpowered.math.vector.Vector3i;
+import me.dags.pitaya.util.region.RegionMap;
 import me.dags.stopmotion.StopMotion;
 import me.dags.stopmotion.instance.Instance;
 import me.dags.stopmotion.trigger.rule.RuleType;
-import me.dags.pitaya.util.region.RegionMap;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;

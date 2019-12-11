@@ -1,12 +1,12 @@
 package me.dags.stopmotion.command;
 
-import me.dags.stopmotion.StopMotion;
-import me.dags.stopmotion.util.recorder.PosRecorder;
 import me.dags.pitaya.command.annotation.Command;
 import me.dags.pitaya.command.annotation.Description;
 import me.dags.pitaya.command.annotation.Permission;
 import me.dags.pitaya.command.annotation.Src;
 import me.dags.pitaya.command.fmt.Fmt;
+import me.dags.pitaya.util.pos.PosRecorder;
+import me.dags.stopmotion.StopMotion;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 

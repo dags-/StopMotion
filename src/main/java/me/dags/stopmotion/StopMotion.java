@@ -1,6 +1,10 @@
 package me.dags.stopmotion;
 
 import com.google.inject.Inject;
+import me.dags.pitaya.command.CommandBus;
+import me.dags.pitaya.command.fmt.Format;
+import me.dags.pitaya.config.Config;
+import me.dags.pitaya.text.Formats;
 import me.dags.stopmotion.animation.Animation;
 import me.dags.stopmotion.animation.AnimationManager;
 import me.dags.stopmotion.command.AnimationCommands;
@@ -12,10 +16,6 @@ import me.dags.stopmotion.instance.InstanceManager;
 import me.dags.stopmotion.trigger.Trigger;
 import me.dags.stopmotion.trigger.TriggerListener;
 import me.dags.stopmotion.trigger.TriggerManager;
-import me.dags.pitaya.command.CommandBus;
-import me.dags.pitaya.command.fmt.Format;
-import me.dags.pitaya.config.Config;
-import me.dags.pitaya.text.Formats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.api.Sponge;

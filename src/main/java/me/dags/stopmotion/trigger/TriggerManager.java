@@ -1,10 +1,10 @@
 package me.dags.stopmotion.trigger;
 
-import me.dags.stopmotion.StopMotion;
-import me.dags.stopmotion.util.ClassUtils;
 import me.dags.pitaya.config.Config;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.registry.NodeRegistry;
+import me.dags.stopmotion.StopMotion;
+import me.dags.stopmotion.util.ClassUtils;
 
 import java.util.Optional;
 

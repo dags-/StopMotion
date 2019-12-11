@@ -1,17 +1,17 @@
 package me.dags.stopmotion.command;
 
-import me.dags.stopmotion.StopMotion;
-import me.dags.stopmotion.animation.Animation;
-import me.dags.stopmotion.animation.AnimationMode;
-import me.dags.stopmotion.instance.InstanceBuilder;
-import me.dags.stopmotion.trigger.Trigger;
-import me.dags.stopmotion.util.iterator.Direction;
 import me.dags.pitaya.cache.Cache;
 import me.dags.pitaya.command.annotation.Command;
 import me.dags.pitaya.command.annotation.Description;
 import me.dags.pitaya.command.annotation.Permission;
 import me.dags.pitaya.command.annotation.Src;
 import me.dags.pitaya.command.fmt.Fmt;
+import me.dags.stopmotion.StopMotion;
+import me.dags.stopmotion.animation.Animation;
+import me.dags.stopmotion.animation.AnimationMode;
+import me.dags.stopmotion.instance.InstanceBuilder;
+import me.dags.stopmotion.trigger.Trigger;
+import me.dags.stopmotion.util.iterator.Direction;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.Arrays;

@@ -1,11 +1,11 @@
 package me.dags.stopmotion.instance;
 
 import com.flowpowered.math.vector.Vector3i;
+import me.dags.pitaya.util.optional.Result;
 import me.dags.stopmotion.animation.Animation;
 import me.dags.stopmotion.animation.AnimationMode;
 import me.dags.stopmotion.trigger.Trigger;
 import me.dags.stopmotion.util.iterator.Direction;
-import me.dags.pitaya.util.optional.Result;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 

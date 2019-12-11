@@ -1,9 +1,9 @@
 package me.dags.stopmotion.animation;
 
 import com.google.common.reflect.TypeToken;
+import me.dags.pitaya.util.Translators;
 import me.dags.stopmotion.frame.Frame;
 import me.dags.stopmotion.frame.Timeline;
-import me.dags.pitaya.util.Translators;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataView;

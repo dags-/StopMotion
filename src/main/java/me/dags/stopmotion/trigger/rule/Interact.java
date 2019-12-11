@@ -1,9 +1,9 @@
 package me.dags.stopmotion.trigger.rule;
 
 import com.flowpowered.math.vector.Vector3i;
-import me.dags.stopmotion.trigger.Context;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.util.Translators;
+import me.dags.stopmotion.trigger.Context;
 
 public class Interact implements Rule {
 

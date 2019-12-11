@@ -1,9 +1,5 @@
 package me.dags.stopmotion.command;
 
-import me.dags.stopmotion.StopMotion;
-import me.dags.stopmotion.animation.Animation;
-import me.dags.stopmotion.frame.TimelineBuilder;
-import me.dags.stopmotion.util.recorder.PosRecorder;
 import me.dags.pitaya.cache.Cache;
 import me.dags.pitaya.command.annotation.Command;
 import me.dags.pitaya.command.annotation.Description;
@@ -11,6 +7,10 @@ import me.dags.pitaya.command.annotation.Permission;
 import me.dags.pitaya.command.annotation.Src;
 import me.dags.pitaya.command.fmt.Fmt;
 import me.dags.pitaya.util.duration.Duration;
+import me.dags.pitaya.util.pos.PosRecorder;
+import me.dags.stopmotion.StopMotion;
+import me.dags.stopmotion.animation.Animation;
+import me.dags.stopmotion.frame.TimelineBuilder;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.concurrent.TimeUnit;

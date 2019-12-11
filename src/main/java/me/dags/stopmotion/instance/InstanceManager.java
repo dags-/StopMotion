@@ -1,15 +1,15 @@
 package me.dags.stopmotion.instance;
 
+import me.dags.pitaya.config.Config;
+import me.dags.pitaya.config.Node;
+import me.dags.pitaya.registry.NodeRegistry;
+import me.dags.pitaya.util.Translators;
 import me.dags.stopmotion.StopMotion;
 import me.dags.stopmotion.animation.Animation;
 import me.dags.stopmotion.animation.AnimationMode;
 import me.dags.stopmotion.trigger.Trigger;
 import me.dags.stopmotion.util.ClassUtils;
 import me.dags.stopmotion.util.iterator.Direction;
-import me.dags.pitaya.config.Config;
-import me.dags.pitaya.config.Node;
-import me.dags.pitaya.registry.NodeRegistry;
-import me.dags.pitaya.util.Translators;
 import org.spongepowered.api.Sponge;
 
 import java.util.LinkedList;

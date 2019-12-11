@@ -1,7 +1,7 @@
 package me.dags.stopmotion.trigger.rule;
 
-import me.dags.stopmotion.trigger.Context;
 import me.dags.pitaya.config.Node;
+import me.dags.stopmotion.trigger.Context;
 
 import java.util.List;
 

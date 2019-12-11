@@ -1,10 +1,10 @@
 package me.dags.stopmotion.animation;
 
+import me.dags.pitaya.util.PluginUtils;
+import me.dags.pitaya.util.duration.Duration;
 import me.dags.stopmotion.StopMotion;
 import me.dags.stopmotion.frame.Timeline;
 import me.dags.stopmotion.util.ClassUtils;
-import me.dags.pitaya.util.PluginUtils;
-import me.dags.pitaya.util.duration.Duration;
 import org.spongepowered.api.registry.CatalogRegistryModule;
 import org.spongepowered.api.scheduler.Task;
 

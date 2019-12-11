@@ -1,8 +1,8 @@
 package me.dags.stopmotion.trigger;
 
+import me.dags.pitaya.util.optional.Result;
 import me.dags.stopmotion.trigger.rule.And;
 import me.dags.stopmotion.trigger.rule.Rule;
-import me.dags.pitaya.util.optional.Result;
 
 import java.util.LinkedList;
 

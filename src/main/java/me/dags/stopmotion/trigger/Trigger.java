@@ -1,9 +1,9 @@
 package me.dags.stopmotion.trigger;
 
-import me.dags.stopmotion.trigger.rule.Rule;
-import me.dags.stopmotion.trigger.rule.RuleType;
 import me.dags.pitaya.config.Node;
 import me.dags.pitaya.util.optional.OptionalValue;
+import me.dags.stopmotion.trigger.rule.Rule;
+import me.dags.stopmotion.trigger.rule.RuleType;
 import org.spongepowered.api.CatalogType;
 
 public class Trigger implements OptionalValue, CatalogType, Node.Value<Trigger> {

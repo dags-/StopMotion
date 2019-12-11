@@ -1,5 +1,6 @@
 package me.dags.stopmotion.instance;
 
+import me.dags.pitaya.task.Promise;
 import me.dags.stopmotion.animation.AnimationException;
 import me.dags.stopmotion.animation.AnimationMode;
 import me.dags.stopmotion.attachment.Attachment;
@@ -10,7 +11,6 @@ import me.dags.stopmotion.util.iterator.Direction;
 import me.dags.stopmotion.worker.FrameWorker;
 import me.dags.stopmotion.worker.QueueWorker;
 import me.dags.stopmotion.worker.Worker;
-import me.dags.pitaya.task.Promise;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
