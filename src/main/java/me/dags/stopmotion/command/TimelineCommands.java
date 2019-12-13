@@ -35,20 +35,49 @@ public class TimelineCommands extends Cache<TimelineBuilder> {
     @Permission("stopmotion.command.timeline.add")
     @Description("Add the selected frame to the timeline with the given duration")
     public void add(@Src Player player, int ticks) {
-        add(player, ticks * 50, TimeUnit.MILLISECONDS);
-    }
-
-    @Command("timeline|til add <duration> <unit>")
-    @Permission("stopmotion.command.timeline.add")
-    @Description("Add the selected frame to the timeline with the given duration")
-    public void add(@Src Player player, int duration, TimeUnit unit) {
         PosRecorder.getSelection(player).ifPresent((pos1, pos2) -> {
             TimelineBuilder builder = must(player);
-            builder.add(player.getLocation(), pos1, pos2, new Duration(duration, unit));
+            builder.add(player.getLocation(), pos1, pos2, new Duration(ticks * 50, TimeUnit.MILLISECONDS));
             Fmt.info("Added frame: #").stress(builder.frames.size()).tell(player);
         }).ifAbsent(() -> {
             Fmt.error("You must first select the frame you want to add").tell(player);
         });
+    }
+
+    @Command("timeline|til replace <frame_number>")
+    @Permission("stopmotion.command.timeline.replace")
+    @Description("Replace an existing frame with your current selection")
+    public void replace(@Src Player player, int frame) {
+        replace(player, frame, 1);
+    }
+
+    @Command("timeline|til replace <frame_number> <ticks>")
+    @Permission("stopmotion.command.timeline.replace")
+    @Description("Replace an existing frame with your current selection")
+    public void replace(@Src Player player, int frame, int ticks) {
+        PosRecorder.getSelection(player).ifPresent((pos1, pos2) -> {
+            TimelineBuilder builder = must(player);
+            if (frame < 1 || frame > builder.frames.size()) {
+                Fmt.error("Frame number out of range: ").stress("%s-%s", 1, builder.frames.size()).tell(player);
+                return;
+            }
+            builder.set(frame - 1, player.getLocation(), pos1, pos2, new Duration(ticks * 50, TimeUnit.MILLISECONDS));
+            Fmt.info("Set frame: #").stress(builder.frames.size()).tell(player);
+        }).ifAbsent(() -> {
+            Fmt.error("You must first select the frame you want to add").tell(player);
+        });
+    }
+
+    @Command("timeline|til save")
+    @Permission("stopmotion.command.timeline.save")
+    @Description("Save your edits to an existing timeline")
+    public void save(@Src Player player) {
+        TimelineBuilder builder = must(player);
+        if (builder.name.isEmpty()) {
+            Fmt.error("You must specify a name for this timeline").tell(player);
+            return;
+        }
+        save(player, builder.name);
     }
 
     @Command("timeline|til save <name>")
@@ -75,7 +104,24 @@ public class TimelineCommands extends Cache<TimelineBuilder> {
         });
     }
 
-    @Command("timeline|til delete <name>")
+    @Command("timeline|til edit <timeline>")
+    @Permission("stopmotion.command.timeline.edit")
+    @Description("Load an existing timeline to be edited")
+    public void edit(@Src Player player, Animation animation) {
+        animation.getTimeline().handle((t, e) -> {
+            if (e != null) {
+                Fmt.error(e.getMessage()).tell(player);
+                e.printStackTrace();
+            }
+        }).run(timeline -> {
+            TimelineBuilder builder = must(player);
+            builder.name = animation.getName();
+            builder.frames.addAll(timeline.getFrames());
+            Fmt.info("You are now editing timeline ").stress(animation.getName()).tell(player);
+        });
+    }
+
+    @Command("timeline|til delete <timeline>")
     @Permission("stopmotion.command.timeline.delete")
     @Description("Delete an existing timeline")
     public void delete(@Src Player player, Animation animation) {

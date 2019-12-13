@@ -13,7 +13,13 @@ import java.util.LinkedList;
 
 public class TimelineBuilder {
 
+    public String name = "";
     public final LinkedList<Frame> frames = new LinkedList<>();
+
+    public void set(int index, Location<World> origin, Vector3i pos1, Vector3i pos2, Duration duration) {
+        Schematic schematic = SchemHelper.createLocal(origin, pos1, pos2);
+        frames.set(index, new Frame(schematic, duration));
+    }
 
     public void add(Location<World> origin, Vector3i pos1, Vector3i pos2, Duration duration) {
         Schematic schematic = SchemHelper.createLocal(origin, pos1, pos2);
