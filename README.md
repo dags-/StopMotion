@@ -1,8 +1,6 @@
 # StopMotion
 
-## Usage Walkthrough
-
-#### Terminology
+### Terminology
 
 - FRAME - a snapshot of blocks/entities/tile-entities that is placed during the animation for a given duration
 - TIMELINE - a uniquely named ordered list of FRAMES
@@ -10,13 +8,15 @@
 - TRIGGER - a uniquely named list of RULES which must all be active for an ANIMATION to play
 - ANIMATION - combines a TIMELINE and one or more TRIGGERS, and is configured to play somewhere in the world
 
-#### Usage Overview
+### Overview
 
 The process of setting up an animation consists of:
 1. Building a series of frames & saving them as a timeline
 2. Building a set of rules & saving them as a trigger
 3. Building the animation by specifying a timeline, trigger(s), a paste position (origin), the animation 'mode', and
  the animation direction(s)
+
+### Quick Start
 
 #### Step 1. Create a Timeline
 
@@ -46,7 +46,7 @@ Newly created animations will not become active until the StopMotion plugin has 
 
 Use `/sm reload` then try make the animation play by satisfying the trigger that you set up in step 2
 
-## Documentation
+### Documentation
 
 #### Rules & Triggers
 
@@ -70,5 +70,5 @@ When creating an animation you can specify more than one direction for the timel
 For example, you can create a timeline of a door opening and use the command `/anim direction FORWARDS BACKWARDS` to have the door close during the second half of the animation.
 
 Animation Modes:
-- SINGLE - in this mode, the animation will play through it's timeline in the same way each time it is triggered
-- PUSH_PULL - in this mode, the animation will play through it's timeline normally when it is first triggered, but the next time it will play in reverse
+- SINGLE - the animation will play through it's timeline in the same manner each time it is triggered
+- PUSH_PULL - the animation will alternate between a 'push' and 'pull' playback mode each time it is triggered, where the 'pull' mode plays the animation in reverse
