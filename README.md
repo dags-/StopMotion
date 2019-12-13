@@ -71,4 +71,4 @@ For example, you can create a timeline of a door opening and use the command `/a
 
 Animation Modes:
 - SINGLE - the animation will play through it's timeline in the same manner each time it is triggered
-- PUSH_PULL - the animation will alternate between a 'push' and 'pull' playback mode each time it is triggered, where the 'pull' mode plays the animation in reverse
+- PUSH_PULL - the animation will alternate between a 'push' and 'pull' playback mode each time it is triggered (where the 'pull' mode plays the animation in reverse)
