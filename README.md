@@ -63,12 +63,12 @@ An animation can have one or more triggers. If the animation is given multiple t
 #### Animation Mode & Direction
 
 Directions:
-- FORWARDS - the timeline will play in the order that frames were added to it
-- BACKWARDS - the timeline will play in reverse order
+- `FORWARDS` - the timeline will play in the order that frames were added to it
+- `BACKWARDS` - the timeline will play in reverse order
 
 When creating an animation you can specify more than one direction for the timeline to play in during the animation.  
 For example, you can create a timeline of a door opening and use the command `/anim direction FORWARDS BACKWARDS` to have the door close during the second half of the animation.
 
 Animation Modes:
-- SINGLE - the animation will play through it's timeline in the same manner each time it is triggered
-- PUSH_PULL - the animation will alternate between a 'push' and 'pull' playback mode each time it is triggered (where the 'pull' mode plays the animation in reverse) - useful for doors that should open on the first trigger and close again on the second trigger
+- `SINGLE` - the animation will play through it's timeline in the same manner each time it is triggered
+- `PUSH_PULL` - the animation will alternate between a 'push' and 'pull' playback mode each time it is triggered (where the 'pull' mode plays the animation in reverse) - useful for doors that should open on the first trigger and close again on the second trigger
