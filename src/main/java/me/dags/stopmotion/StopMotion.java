@@ -141,7 +141,6 @@ public class StopMotion {
         logger.debug(message, args);
     }
 
-
     private static Format getDefaultFormat() {
         return Format.builder()
                 .warn(TextColors.RED)
