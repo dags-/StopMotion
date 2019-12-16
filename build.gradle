@@ -15,7 +15,7 @@ sponge {
     plugin.meta {
         name = "StopMotion"
         version = rootProject.version
-        description = "A stop-frame animation plugin"
+        description = "A stop-motion animation plugin"
     }
 }
 
