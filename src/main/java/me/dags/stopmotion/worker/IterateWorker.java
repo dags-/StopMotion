@@ -53,6 +53,10 @@ public abstract class IterateWorker<T extends Timed> implements Worker {
         timestamp = now + task.getDurationMS();
     }
 
+    protected boolean isFirst() {
+        return first;
+    }
+
     protected abstract void apply(T t);
 
     protected abstract void applyTransient(T t);

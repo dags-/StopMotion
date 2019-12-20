@@ -91,8 +91,8 @@ public class Instance implements CatalogType, Positioned {
         lock.set(locked);
     }
 
-    public void attach(Attachment entityInstance) {
-        state.attach(entityInstance);
+    public void attach(Attachment attachment) {
+        state.attach(attachment);
     }
 
     public Optional<Location<World>> getLocation() {
