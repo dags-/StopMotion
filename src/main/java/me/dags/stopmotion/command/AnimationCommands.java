@@ -73,7 +73,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
         must(player).build(name).onPass(instance -> {
             drain(player, "");
             plugin.getAnimations().register(instance);
-            Fmt.info("Successfully saved animation ").stress(instance).tell(player);
+            Fmt.info("Successfully saved animation ").stress(instance.getName()).tell(player);
         }).onFail(error -> {
             Fmt.error(error).tell(player);
         });

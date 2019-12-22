@@ -5,6 +5,7 @@ import me.dags.pitaya.util.optional.Result;
 import me.dags.stopmotion.animation.Animation;
 import me.dags.stopmotion.animation.AnimationMode;
 import me.dags.stopmotion.trigger.Trigger;
+import me.dags.stopmotion.util.NameUtils;
 import me.dags.stopmotion.util.iterator.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -55,6 +56,7 @@ public class InstanceBuilder {
         if (directions == null || directions.isEmpty()) {
             directions = Collections.singletonList(Direction.FORWARD);
         }
+        name = NameUtils.sanitize(name);
         return Result.pass(new Instance(name.toLowerCase(), this));
     }
 }

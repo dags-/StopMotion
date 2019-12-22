@@ -84,10 +84,10 @@ public class TimelineCommands extends Cache<TimelineBuilder> {
     @Permission("stopmotion.command.timeline.save")
     @Description("Save the timeline to file")
     public void save(@Src Player player, String name) {
-        must(player).build(name).onPass(timeline -> {
+        must(player).build(name.toLowerCase()).onPass(timeline -> {
             drain(player, "");
             plugin.getTimelines().register(timeline);
-            Fmt.info("Saved timeline ").stress(name).tell(player);
+            Fmt.info("Saved timeline ").stress(timeline.getName()).tell(player);
         }).onFail(message -> {
             Fmt.error(message).tell(player);
         });

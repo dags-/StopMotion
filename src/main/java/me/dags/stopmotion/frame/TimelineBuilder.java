@@ -6,6 +6,7 @@ import me.dags.pitaya.schematic.PitSchematic;
 import me.dags.pitaya.schematic.SchemUtils;
 import me.dags.pitaya.util.duration.Duration;
 import me.dags.pitaya.util.optional.Result;
+import me.dags.stopmotion.util.NameUtils;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -27,6 +28,7 @@ public class TimelineBuilder {
     }
 
     public Result<Timeline, String> build(String name) {
+        name = NameUtils.sanitize(name);
         if (frames.isEmpty()) {
             return Result.fail("No frames have been added to the timeline");
         }
