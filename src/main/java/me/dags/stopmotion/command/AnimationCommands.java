@@ -94,7 +94,7 @@ public class AnimationCommands extends Cache<InstanceBuilder> {
     @Permission("stopmotion.command.animation.delete")
     @Description("Delete the given animation")
     public void delete(@Src Player player, Animation animation) {
-        plugin.getTriggers().delete(animation.getId());
+        plugin.getAnimations().delete(animation.getId());
         Fmt.info("Deleted animation ").stress(animation.getId()).tell(player);
     }
 }
