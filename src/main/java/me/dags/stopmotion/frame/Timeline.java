@@ -1,8 +1,10 @@
 package me.dags.stopmotion.frame;
 
+import com.flowpowered.math.vector.Vector3i;
 import me.dags.stopmotion.animation.Animation;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.DataFormats;
+import org.spongepowered.api.util.Tuple;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -32,6 +34,28 @@ public class Timeline {
 
     public List<Frame> getFrames() {
         return frames;
+    }
+
+    public Tuple<Vector3i, Vector3i> getBounds() {
+        Vector3i min = Vector3i.ZERO;
+        Vector3i max = Vector3i.ZERO;
+        for (Frame frame : frames) {
+            Vector3i mn = frame.getSchematic().getBlockMin();
+            Vector3i mx = frame.getSchematic().getBlockMax();
+
+            if (min == Vector3i.ZERO) {
+                min = mn;
+            } else {
+                min = min.min(mn);
+            }
+
+            if (max == Vector3i.ZERO) {
+                max = mx;
+            } else {
+                max = max.max(mx);
+            }
+        }
+        return Tuple.of(min, max);
     }
 
     public static Optional<Timeline> load(Path path) {

@@ -10,7 +10,9 @@ import me.dags.pitaya.util.duration.Duration;
 import me.dags.pitaya.util.pos.PosRecorder;
 import me.dags.stopmotion.StopMotion;
 import me.dags.stopmotion.animation.Animation;
+import me.dags.stopmotion.frame.Tester;
 import me.dags.stopmotion.frame.TimelineBuilder;
+import me.dags.stopmotion.worker.Worker;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.concurrent.TimeUnit;
@@ -65,6 +67,25 @@ public class TimelineCommands extends Cache<TimelineBuilder> {
             Fmt.info("Set frame: #").stress(builder.frames.size()).tell(player);
         }).ifAbsent(() -> {
             Fmt.error("You must first select the frame you want to add").tell(player);
+        });
+    }
+
+    @Command("timeline|til test")
+    @Permission("stopmotion.command.timeline.test")
+    @Description("Play the timeline at your current location")
+    public void test(@Src Player player) {
+        TimelineBuilder builder = must(player);
+        if (builder.frames.isEmpty()) {
+            Fmt.error("You have not added any frames to the timeline yet").tell(player);
+            return;
+        }
+        builder.build("test").onPass(timeline -> {
+            Tester tester = new Tester(player, timeline);
+            Worker worker = tester.getWorker(player.getLocation());
+            Fmt.info("Testing the timeline at your location...").tell(player);
+            plugin.getPlaybackManager().submit(tester.getTaskId(), worker);
+        }).onFail(s -> {
+            Fmt.error("Unable to create the timeline: %s", s).tell(player);
         });
     }
 

@@ -1,6 +1,7 @@
 package me.dags.stopmotion;
 
 import me.dags.stopmotion.instance.Instance;
+import me.dags.stopmotion.worker.Worker;
 import me.dags.stopmotion.worker.WorkerTask;
 import org.spongepowered.api.scheduler.Task;
 
@@ -31,9 +32,17 @@ public class PlaybackManager {
             }).run(worker -> {
                 instance.setLocked(false);
                 WorkerTask task = new WorkerTask(worker, () -> remove(taskId));
-                workers.put(instance.getId(), task);
+                workers.put(taskId, task);
                 start(task);
             });
+        }
+    }
+
+    public synchronized void submit(String taskId, Worker worker) {
+        if (!workers.containsKey(taskId)) {
+            WorkerTask task = new WorkerTask(worker, () -> remove(taskId));
+            workers.put(taskId, task);
+            start(task);
         }
     }
 
