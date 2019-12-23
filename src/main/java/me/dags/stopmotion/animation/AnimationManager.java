@@ -4,7 +4,6 @@ import me.dags.pitaya.util.PluginUtils;
 import me.dags.pitaya.util.duration.Duration;
 import me.dags.stopmotion.StopMotion;
 import me.dags.stopmotion.frame.Timeline;
-import me.dags.stopmotion.util.ClassUtils;
 import org.spongepowered.api.registry.CatalogRegistryModule;
 import org.spongepowered.api.scheduler.Task;
 
@@ -77,7 +76,7 @@ public class AnimationManager implements CatalogRegistryModule<Animation> {
             e.printStackTrace();
         }
 
-        StopMotion.log("Registry load complete. Registry: {}, Size: {}", ClassUtils.getTypeName(this), registry.size());
+        StopMotion.log("Registry load complete. Registry: Timelines, Size: {}", registry.size());
     }
 
     public void register(Timeline animation) {

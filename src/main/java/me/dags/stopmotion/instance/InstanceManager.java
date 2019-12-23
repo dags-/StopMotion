@@ -8,7 +8,7 @@ import me.dags.stopmotion.StopMotion;
 import me.dags.stopmotion.animation.Animation;
 import me.dags.stopmotion.animation.AnimationMode;
 import me.dags.stopmotion.trigger.Trigger;
-import me.dags.stopmotion.util.ClassUtils;
+import me.dags.stopmotion.util.NamedRegistry;
 import me.dags.stopmotion.util.iterator.Direction;
 import org.spongepowered.api.Sponge;
 
@@ -17,16 +17,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class InstanceManager extends NodeRegistry<Instance> {
+public class InstanceManager extends NamedRegistry<Instance> {
 
     public InstanceManager(Config storage) {
-        super(storage);
-    }
-
-    @Override
-    public void load() {
-        super.load();
-        StopMotion.log("Registry load complete. Registry: {}, Size: {}", ClassUtils.getTypeName(this), registry.size());
+        super("Animations", storage);
     }
 
     @Override

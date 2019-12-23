@@ -2,22 +2,14 @@ package me.dags.stopmotion.trigger;
 
 import me.dags.pitaya.config.Config;
 import me.dags.pitaya.config.Node;
-import me.dags.pitaya.registry.NodeRegistry;
-import me.dags.stopmotion.StopMotion;
-import me.dags.stopmotion.util.ClassUtils;
+import me.dags.stopmotion.util.NamedRegistry;
 
 import java.util.Optional;
 
-public class TriggerManager extends NodeRegistry<Trigger> {
+public class TriggerManager extends NamedRegistry<Trigger> {
 
     public TriggerManager(Config storage) {
-        super(storage);
-    }
-
-    @Override
-    public void load() {
-        super.load();
-        StopMotion.log("Registry load complete. Registry: {}, Size: {}", ClassUtils.getTypeName(this), registry.size());
+        super("Triggers", storage);
     }
 
     @Override

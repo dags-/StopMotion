@@ -65,10 +65,10 @@ public class StopMotion {
         Sponge.getRegistry().registerModule(Animation.class, timelines);
 
         CommandBus.create()
+                .register(new StopMotionCommands(this))
                 .register(new AnimationCommands(this))
                 .register(new TimelineCommands(this))
                 .register(new TriggerCommands(this))
-                .register(new StopMotionCommands(this))
                 .submit();
     }
 
@@ -125,7 +125,7 @@ public class StopMotion {
         // register listener for each world, assuming the world exists
         for (Map.Entry<String, List<Instance>> entry : instances.entrySet()) {
             Sponge.getServer().getWorld(entry.getKey()).ifPresent(world -> {
-                debug("Registering trigger listener for world: {}", world.getName());
+                StopMotion.debug("Registering trigger listener for world: {}", world.getName());
                 TriggerListener listener = new TriggerListener(this, world.getUniqueId(), entry.getValue());
                 Sponge.getEventManager().registerListeners(this, listener);
                 listeners.put(world.getUniqueId(), listener);
