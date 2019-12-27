@@ -1,7 +1,6 @@
 package me.dags.stopmotion.frame;
 
 import com.flowpowered.math.vector.Vector3i;
-import me.dags.pitaya.command.fmt.Fmt;
 import me.dags.pitaya.schematic.SchemUtils;
 import me.dags.pitaya.util.duration.Duration;
 import me.dags.stopmotion.worker.DelayWorker;
@@ -41,16 +40,9 @@ public class Tester {
     }
 
     private Worker getWorker(Location<World> origin, Schematic schematic) {
+        Worker delay = new DelayWorker(() -> {}, Duration.secs(1));
         Worker frames = new FrameWorker(origin, timeline.getFrames().iterator());
-        Worker restore = new DelayWorker(restore(origin, schematic), Duration.secs(5));
-        return new QueueWorker(Arrays.asList(frames, restore));
-    }
-
-    private Runnable restore(Location<World> origin, Schematic schematic) {
-        return () -> {
-            Fmt.subdued("Restoring world...").tell(owner);
-            schematic.apply(origin, BlockChangeFlags.NONE);
-            Fmt.subdued("Restoration complete!").tell(owner);
-        };
+        Worker restore = new DelayWorker(() -> schematic.apply(origin, BlockChangeFlags.NONE), Duration.secs(3));
+        return new QueueWorker(Arrays.asList(delay, frames, restore));
     }
 }
